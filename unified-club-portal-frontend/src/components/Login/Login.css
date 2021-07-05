@@ -1,0 +1,36 @@
+.login_card {
+    width: 300px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
+    position: relative;
+    overflow: hidden;
+    margin: 40px 40px;
+}
+
+.back-blue {
+    width: 160%;
+    height: 600px;
+    position: absolute;
+    display: felx;
+    flex-direction: column;
+    border-radius: 50%;
+}
+
+header {
+    margin: 0 auto;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
+@media (min-width: 768px){
+    .login_card {
+        width: 450px;
+    }
+}
