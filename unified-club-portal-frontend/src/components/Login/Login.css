@@ -20,13 +20,47 @@
     border-radius: 50%;
 }
 
-header {
+header .logo{
+    display: block;
     margin: 0 auto;
+}
+
+header h1 {
+    text-align: center;
 }
 
 .logo {
     width: 100px;
     height: 100px;
+}
+
+form {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+button {
+    width: 100%;
+    padding: 11px 40%;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px 100px 100px 100px;
+    cursor: pointer;
+    transition: all, 240ms ease-in-out;
+    background: rgb(241, 196, 15);
+    background: linear-gradient(
+    58deg,
+    rgb(74, 166, 252) 20%,
+    rgb(7, 83, 247) 100%
+    );
+}
+
+button:hover{
+    filter: brightness(1.03);
 }
 
 @media (min-width: 768px){
