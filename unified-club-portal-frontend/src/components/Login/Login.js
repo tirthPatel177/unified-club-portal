@@ -48,7 +48,7 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        fetch('http://localhost:8000/api/auth1',{
+        fetch('http://localhost:8000/api/login',{
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(loginData)

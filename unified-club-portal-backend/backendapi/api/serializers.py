@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from .models import Book
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
+from django.core import exceptions
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -14,14 +15,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password'
+        fields = ['first_name', 'last_name', 'email', 'password'
                   ]
 
     def validate(self, attrs):
         email = attrs.get('email', '')
+        attrs["username"] = attrs["first_name"]+"_"+attrs["email"]
+        # print("---->", attrs)
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError(
                 {'email': ('Email is already in use')})
+        
         return super().validate(attrs)
 
     def create(self, validated_data):
@@ -68,12 +72,13 @@ class AuthCustomTokenSerializer(serializers.Serializer):
                     msg = _('User account is disabled.')
                     raise exceptions.ValidationError(msg)
             else:
-                msg = _('Unable to log in with provided credentials.')
+                msg = ('Unable to log in with provided credentials.')
                 raise exceptions.ValidationError(msg)
         else:
             msg = _('Must include "email or username" and "password"')
             raise exceptions.ValidationError(msg)
 
         attrs['user'] = user
+        print(attrs)
         return attrs
         

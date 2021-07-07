@@ -12,5 +12,5 @@ urlpatterns = [
     path('', include(router.urls)),
     # url(r'^api/api-token-auth/', obtain_auth_token),
     path('users', UserViewSet.as_view({'get': 'list'})),
-    path('auth1', ObtainAuthToken.as_view())
+    path('login', ObtainAuthToken.as_view())
 ]

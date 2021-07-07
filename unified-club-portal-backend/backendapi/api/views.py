@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from rest_framework import parsers
 from rest_framework import renderers
 from rest_framework.authtoken.models import Token
+from django.core.exceptions import ValidationError
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,6 +20,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
+        # print("--->>>",serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -46,13 +48,19 @@ class ObtainAuthToken(APIView):
     renderer_classes = (renderers.JSONRenderer,)
 
     def post(self, request):
-        serializer = AuthCustomTokenSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
+        try:
+            serializer = AuthCustomTokenSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
 
-        content = {
-            'token': token.key,
-        }
+            content = {
+                'token': token.key,
+            }
 
-        return Response(content)
+            return Response(content)
+        except ValidationError as e:
+            content = {
+                "Credential": e
+            }
+            return Response(content)
