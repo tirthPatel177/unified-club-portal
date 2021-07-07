@@ -107,6 +107,10 @@ p{
     margin-left: 7.5%;
 }
 
+.hidden{
+    visibility: hidden; 
+}
+
 @media (min-width: 768px){
     .login_card {
         width: 450px;
