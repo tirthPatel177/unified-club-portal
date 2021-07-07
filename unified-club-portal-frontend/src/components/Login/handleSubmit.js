@@ -1,10 +1,15 @@
 // API Calling
 
-const handleLogin = () => {
+const handleLogin = (e) => {
+    e.preventDefault();
+    
+    console.log(e);
     console.log("Logging in");
 };
 
-const handleSignup = () => {
+const handleSignup = (e) => {
+    e.preventDefault();
+    console.log(e);
     console.log("Sigging in");
 };
 
