@@ -22,7 +22,7 @@ function Login() {
     });
 
     const [loginData, setLoginData] = useState({
-        email: '',
+        email_or_username: '',
         password: ''
     });
 
@@ -46,8 +46,20 @@ function Login() {
         }
     };
 
-    const handleLogin = () => {
-
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        fetch('http://localhost:8000/api/auth1',{
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(loginData)
+        })
+        .then( data => data.json())
+        .then(
+            data => {
+                console.log(data);
+                localStorage.setItem('token', data.token);
+            }
+        ).catch( error => console.error(error))
     };
 
     const handleSignup = () => {
@@ -138,7 +150,7 @@ function Login() {
                         <>
                     <h2 className="login-message">Welcome Back!</h2>
                     <form>
-                        <input type="email" id="emailLogin" placeholder="Email" onChange={handleChange} name="email" value={loginData.email || ''} />
+                        <input type="email" id="emailLogin" placeholder="Email" onChange={handleChange} name="email_or_username" value={loginData.email_or_username || ''} />
                         
                         <input type="password" id="passwordLogin" placeholder="Password" onChange={handleChange} name="password" value={loginData.password || ''} />
                         <button type='submit' onClick={handleLogin}>
