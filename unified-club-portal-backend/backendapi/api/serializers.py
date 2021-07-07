@@ -48,24 +48,24 @@ def validateEmail( email ):
         return False
 
 class AuthCustomTokenSerializer(serializers.Serializer):
-    email_or_username = serializers.CharField()
+    email = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, attrs):
-        email_or_username = attrs.get('email_or_username')
+        email = attrs.get('email')
         password = attrs.get('password')
 
-        if email_or_username and password:
+        if email and password:
             # Check if user sent email
-            if validateEmail(email_or_username):
+            if validateEmail(email):
                 user_request = get_object_or_404(
                     User,
-                    email=email_or_username,
+                    email=email,
                 )
 
-                email_or_username = user_request.username
+                email = user_request.username
 
-            user = authenticate(username=email_or_username, password=password)
+            user = authenticate(username=email, password=password)
 
             if user:
                 if not user.is_active:

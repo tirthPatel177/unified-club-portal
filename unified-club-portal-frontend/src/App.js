@@ -1,17 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './components/Login/Login';
 
 function App() {
 
-  const user = '';
+  const [user,setUser] = useState('');
 
   return (
     <div className="App">
       {
         !user ? (
-          <Login />
+          <Login user={user} setUser={setUser}/>
         ):( 
           user === 'admin' ? (
             <div className="admin_user">

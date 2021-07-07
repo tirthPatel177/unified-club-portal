@@ -3,7 +3,7 @@ import './Login.css';
 import logo from '../../logo/Unified Club Portal.png';
 import {handleLogin, handleSignup} from './handleSubmit';
 
-function Login() {
+function Login(props) {
     const [activeLogin, setActiveLogin] = useState(true);
     // const [emailLogin, setEmailLogin] = useState('');
     // const [passwordLogin, setPasswordLogin] = useState('');
@@ -11,18 +11,17 @@ function Login() {
     // const [lastnameSignup, setLastnameSignup] = useState('');
     // const [emailSignup, setEmailSignup] = useState('');
     // const [passwordSignup, setPasswordSignup] = useState('');
-    // const [password1, setPassword1] = useState('');
+    const [password1, setPassword1] = useState('');
 
     const [registerData, setRegisterData] = useState({
-        firstname: '', 
-        lastname: '',
+        first_name: '', 
+        last_name: '',
         email: '',
-        password: '',
-        password1: ''
+        password: ''
     });
 
     const [loginData, setLoginData] = useState({
-        email_or_username: '',
+        email: '',
         password: ''
     });
 
@@ -30,7 +29,7 @@ function Login() {
         ()=>{
             console.log("Login", loginData);
             console.log('Signup', registerData);
-            // console.log(Display);
+            console.log("password1", password1);
         }
     );
 
@@ -58,11 +57,30 @@ function Login() {
             data => {
                 console.log(data);
                 localStorage.setItem('token', data.token);
+                props.setUser(data.token);
             }
         ).catch( error => console.error(error))
     };
 
-    const handleSignup = () => {
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        if(password1 !== registerData.password){
+            // Create UI For this
+            console.log("Passwords are not matching!");
+            return;
+        }
+        fetch('http://localhost:8000/api/users',{
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(registerData)
+        })
+        .then( data => data.json())
+        .then(
+            data => {
+                console.log("Success");
+                // localStorage.setItem('token', data.token);
+            }
+        ).catch( error => console.error(error))
 
     };
 
@@ -100,11 +118,11 @@ function Login() {
     //         <h2 className="login-message">Create an account</h2>
     //         <form>
             
-    //             <input type="text" placeholder="First Name" id='firstname' onChange={(e)=>setFirstnameSignup(e.target.value)} name="firstname" value={firstnameSignup || ''}>
+    //             <input type="text" placeholder="First Name" id='first_name' onChange={(e)=>setFirstnameSignup(e.target.value)} name="first_name" value={firstnameSignup || ''}>
     //             </input>
             
             
-    //             <input type="text" placeholder="Last Name" id='lastname' onChange={(e) => setLastnameSignup(e.target.value)} name="lastname" value={lastnameSignup || ''}>
+    //             <input type="text" placeholder="Last Name" id='last_name' onChange={(e) => setLastnameSignup(e.target.value)} name="last_name" value={lastnameSignup || ''}>
     //             </input>
             
             
@@ -150,7 +168,7 @@ function Login() {
                         <>
                     <h2 className="login-message">Welcome Back!</h2>
                     <form>
-                        <input type="email" id="emailLogin" placeholder="Email" onChange={handleChange} name="email_or_username" value={loginData.email_or_username || ''} />
+                        <input type="email" id="emailLogin" placeholder="Email" onChange={handleChange} name="email" value={loginData.email || ''} />
                         
                         <input type="password" id="passwordLogin" placeholder="Password" onChange={handleChange} name="password" value={loginData.password || ''} />
                         <button type='submit' onClick={handleLogin}>
@@ -166,11 +184,11 @@ function Login() {
                     <>
                     <h2 className="login-message">Create an account</h2>
                     <form>
-                        <input type="text" placeholder="First Name" id='firstname' onChange={handleChange} name="firstname" value={registerData.firstname || ''} />
-                        <input type="text" placeholder="Last Name" id='lastname' onChange={handleChange} name="lastname" value={registerData.lastname || ''} />
+                        <input type="text" placeholder="First Name" id='first_name' onChange={handleChange} name="first_name" value={registerData.first_name || ''} />
+                        <input type="text" placeholder="Last Name" id='last_name' onChange={handleChange} name="last_name" value={registerData.last_name || ''} />
                         <input type="email" placeholder="Email" id='emailSignup' onChange={handleChange} name="email" value={registerData.email || ''} />
                         <input type="password" placeholder="Password" id="password" onChange={handleChange} name="password" value={registerData.password || ''} />
-                        <input type="password" placeholder="Enter Password Again" id='password1' onChange={handleChange} name="password1" value={registerData.password1 || ''} />
+                        <input type="password" placeholder="Enter Password Again" id='password1' onChange={(e)=>{setPassword1(e.target.value)}} name="password1" value={password1 || ''} />
                         <button type='submit' onClick={handleSignup}>
                             Sign Up
                         </button>
