@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer
 from rest_framework.response import Response
-from .models import Book
+from .models import Book, Type_of_User
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework import parsers
 from rest_framework import renderers
 from rest_framework.authtoken.models import Token
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -62,5 +62,27 @@ class ObtainAuthToken(APIView):
         except ValidationError as e:
             content = {
                 "Credential": e
+            }
+            return Response(content)
+        
+        
+class get_data_user(APIView):
+    def post(self, request):
+        try:
+            user = Token.objects.get(key=request.POST.get("key", "")).user
+            
+            type_user = Type_of_User.objects.get(author=user)
+            
+            content = {
+                "username":user.username,
+                "email":user.email,
+                "first_name":user.first_name,
+                "last_name":user.last_name,
+                "type_of_user":type_user.type_of_user,
+            }
+            return Response(content)
+        except ObjectDoesNotExist:
+            content = {
+                "Exception" : "User not found"
             }
             return Response(content)
