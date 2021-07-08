@@ -23,6 +23,8 @@ class UserViewSet(viewsets.ModelViewSet):
         # print("--->>>",serializer)
         if serializer.is_valid():
             serializer.save()
+            user = User.objects.get(email = serializer.data["email"])
+            Type_of_User.objects.create(author=user, type_of_user=request.data["type_of_user"])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

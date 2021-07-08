@@ -12,14 +12,16 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255, min_length=4),
     first_name = serializers.CharField(max_length=255, min_length=2)
     last_name = serializers.CharField(max_length=255, min_length=2)
+    type_of_user = serializers.CharField(max_length=50)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password'
+        fields = ['first_name', 'last_name', 'email', 'password', 'type_of_user'
                   ]
 
     def validate(self, attrs):
         email = attrs.get('email', '')
+        del attrs["type_of_user"]
         attrs["username"] = attrs["first_name"]+"_"+attrs["email"]
         # print("---->", attrs)
         if User.objects.filter(email=email).exists():
@@ -29,7 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
         return super().validate(attrs)
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        user = User.objects.create_user(**validated_data)
+        print(user)
+        return user
     
 class BookSerializer(serializers.ModelSerializer):
     class Meta:

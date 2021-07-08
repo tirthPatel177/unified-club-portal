@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import './Login.css';
-import logo from '../../logo/Unified Club Portal.png';
+import logo from '../../Resources/Unified Club Portal.png';
 import {handleLogin, handleSignup} from './handleSubmit';
 
 function Login(props) {
@@ -17,7 +17,8 @@ function Login(props) {
         first_name: '', 
         last_name: '',
         email: '',
-        password: ''
+        password: '',
+        type_of_user: "user"
     });
 
     const [loginData, setLoginData] = useState({
@@ -27,6 +28,7 @@ function Login(props) {
 
     useEffect(
         ()=>{
+            console.log(props.setUser)
             console.log("Login", loginData);
             console.log('Signup', registerData);
             console.log("password1", password1);
@@ -45,6 +47,18 @@ function Login(props) {
         }
     };
 
+    // Temporary
+    const fetchdetails = async (token) => {
+        let formData = new FormData();
+        formData.append("key", token);
+        fetch('http://localhost:8000/api/get_info', {
+            method: "POST",
+            body: formData
+        }).then( data => data.json()).then(
+            data => props.setUser(data.type_of_user)
+        ).catch(e => console.log(e))
+    }
+
     const handleLogin = async (e) => {
         e.preventDefault();
         fetch('http://localhost:8000/api/login',{
@@ -55,9 +69,12 @@ function Login(props) {
         .then( data => data.json())
         .then(
             data => {
-                console.log(data);
+                console.log(data.token);
                 localStorage.setItem('token', data.token);
+                fetchdetails(data.token);
                 props.setUser(data.token);
+                // console.log("hello", props.user);
+
             }
         ).catch( error => console.error(error))
     };
@@ -73,14 +90,13 @@ function Login(props) {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(registerData)
-        })
-        .then( data => data.json())
-        .then(
-            data => {
-                console.log("Success");
-                // localStorage.setItem('token', data.token);
+        }).then( data => data.json()).then(
+            data => {console.log(data)
+            let errorType = Object.keys(data);
+            console.log(errorType[0], errorType);
+                alert(data[errorType[0]])
             }
-        ).catch( error => console.error(error))
+        ) 
 
     };
 

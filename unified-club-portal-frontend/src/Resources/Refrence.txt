@@ -1,0 +1,9 @@
+Nav Bar
+https://www.codavilla.com/posts/react-navbar-tutorial-3-designs
+
+React Router Nav Bar
+https://www.youtube.com/watch?v=D58Lwdd0-xw
+
+Redirecting the user
+https://www.pluralsight.com/guides/how-to-router-redirect-after-login
+

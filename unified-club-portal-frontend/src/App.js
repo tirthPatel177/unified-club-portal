@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './App.css';
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './components/Login/Login';
+import { PrivateRoute } from './Helpers/PrivateRoute';
+import { Dashboard } from './components/HomePage/Dashboard';
 
 function App() {
 
@@ -30,6 +32,12 @@ function App() {
           )
         )
       }
+      {/* <Router>
+      <Switch>
+        <PrivateRoute exact path='/' component={Dashboard}/>
+        <Route exact path='/login' component={Login} user={user} setUser={setUser} />
+      </Switch>
+    </Router> */}
     </div>
   );
 }
