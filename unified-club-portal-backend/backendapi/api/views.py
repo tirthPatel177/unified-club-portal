@@ -31,11 +31,10 @@ class UserViewSet(viewsets.ModelViewSet):
             user = User.objects.get(email = serializer.data["email"])
             Type_of_User.objects.create(author=user, type_of_user=request.data["type_of_user"])
             
-            print(user, user.email)
             user.is_active = False
             user.save()
             token, created = Token.objects.get_or_create(user=user)
-            print(token.key)
+            
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             domain = get_current_site(request).domain
             link = reverse('activate', kwargs={'uidb64':uidb64,'token':token.key})
@@ -46,7 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
             email_send = EmailMessage(
                 email_subject,
                 email_body,
-                "<Enter sender's email>",
+                "Email",
                 [user.email],
             )
             
