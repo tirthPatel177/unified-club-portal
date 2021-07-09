@@ -8,12 +8,17 @@ from .models import Book, Type_of_User
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
-from rest_framework.views import APIView
+from rest_framework.views import APIView, View
 from rest_framework import parsers
 from rest_framework import renderers
 from rest_framework.authtoken.models import Token
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-
+from django.core.mail import EmailMessage
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+from .utils import token_generator
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -25,10 +30,45 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer.save()
             user = User.objects.get(email = serializer.data["email"])
             Type_of_User.objects.create(author=user, type_of_user=request.data["type_of_user"])
+            
+            print(user, user.email)
+            user.is_active = False
+            user.save()
+            token, created = Token.objects.get_or_create(user=user)
+            print(token.key)
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain
+            link = reverse('activate', kwargs={'uidb64':uidb64,'token':token.key})
+            
+            activate_url="http://"+domain+link
+            email_subject = "Activate Your Account"
+            email_body = "Hii "+user.first_name+" "+user.last_name+" , please use the below link for activating your account\n" + activate_url
+            email_send = EmailMessage(
+                email_subject,
+                email_body,
+                "<Enter sender's email>",
+                [user.email],
+            )
+            
+            email_send.send(fail_silently=False)
+                
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+class VerificationView(APIView):    
+    def get(self, request, uidb64, token):
+        data = {
+            "Hello": "World"
+        }
+        user = Token.objects.get(key=token).user
+        
+        user.is_active = True
+        user.save()
+        
+        return Response(data)
     
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
