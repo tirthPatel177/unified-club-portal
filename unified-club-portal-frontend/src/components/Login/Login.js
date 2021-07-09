@@ -2,6 +2,10 @@ import React, {useState, useEffect} from 'react'
 import './Login.css';
 import logo from '../../Resources/Unified Club Portal.png';
 import {handleLogin, handleSignup} from './handleSubmit';
+import MuiAlert from "@material-ui/lab/Alert";
+import {useDispatch, connect, useSelector} from 'react-redux';
+import * as actions from './../../Helpers/actions/actionTypes'
+import { Redirect } from 'react-router-dom';
 
 function Login(props) {
     const [activeLogin, setActiveLogin] = useState(true);
@@ -12,6 +16,9 @@ function Login(props) {
     // const [emailSignup, setEmailSignup] = useState('');
     // const [passwordSignup, setPasswordSignup] = useState('');
     const [password1, setPassword1] = useState('');
+    const [error, setError] = useState("");
+    const dispatch = useDispatch();
+    const type_of_user = useSelector(state => state.type_of_user)
 
     const [registerData, setRegisterData] = useState({
         first_name: '', 
@@ -25,6 +32,7 @@ function Login(props) {
         email: '',
         password: ''
     });
+
 
     useEffect(
         ()=>{
@@ -55,7 +63,12 @@ function Login(props) {
             method: "POST",
             body: formData
         }).then( data => data.json()).then(
-            data => props.setUser(data.type_of_user)
+            data => {
+                dispatch({type: actions.USER_LOGGGED_IN, payload: data})
+                dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
+                // props.setUser(data.type_of_user)
+                
+            }
         ).catch(e => console.log(e))
     }
 
@@ -71,8 +84,9 @@ function Login(props) {
             data => {
                 console.log(data.token);
                 localStorage.setItem('token', data.token);
+                // dispatch({type: actions.USER_LOGGGED_IN, payload: })
                 fetchdetails(data.token);
-                props.setUser(data.token);
+                // props.setUser(data.token);
                 // console.log("hello", props.user);
 
             }
@@ -97,7 +111,7 @@ function Login(props) {
                 alert(data[errorType[0]])
             }
         ) 
-
+        setActiveLogin(!activeLogin);
     };
 
 
@@ -173,7 +187,9 @@ function Login(props) {
 
     return (
         <div className='Login'>
+            { type_of_user ? (<Redirect to='/' />) : null  }
             <div className='login_card'>
+                
                 <header>
                     <img src={logo} alt='unified club portal' className='logo'/>
                     <h1>Unified Club Portal</h1>
@@ -219,5 +235,7 @@ function Login(props) {
         </div>
     )
 }
+
+
 
 export default Login;

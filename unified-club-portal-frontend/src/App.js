@@ -4,16 +4,17 @@ import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './components/Login/Login';
 import { PrivateRoute } from './Helpers/PrivateRoute';
 import { Dashboard } from './components/HomePage/Dashboard';
+import {useSelector} from 'react-redux';
 
 function App() {
 
-  const [user,setUser] = useState('');
+  // const user = useSelector( state => state.type_of_user)
 
   return (
     <div className="App">
-      {
+      {/* {
         !user ? (
-          <Login user={user} setUser={setUser}/>
+          <Login />
         ):( 
           user === 'admin' ? (
             <div className="admin_user">
@@ -31,13 +32,13 @@ function App() {
             )
           )
         )
-      }
-      {/* <Router>
+      } */}
+      <Router>
       <Switch>
         <PrivateRoute exact path='/' component={Dashboard}/>
-        <Route exact path='/login' component={Login} user={user} setUser={setUser} />
+        <Route exact path='/login' component={Login}/>
       </Switch>
-    </Router> */}
+    </Router>
     </div>
   );
 }

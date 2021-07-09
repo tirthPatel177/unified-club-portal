@@ -83,6 +83,5 @@ class AuthCustomTokenSerializer(serializers.Serializer):
             raise exceptions.ValidationError(msg)
 
         attrs['user'] = user
-        print(attrs)
         return attrs
         

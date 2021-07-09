@@ -7,3 +7,8 @@ https://www.youtube.com/watch?v=D58Lwdd0-xw
 Redirecting the user
 https://www.pluralsight.com/guides/how-to-router-redirect-after-login
 
+Multi Type User React
+https://stackoverflow.com/questions/51956834/building-a-multi-view-multi-user-type-react-application/51957122
+
+Role Based Authorization
+https://jasonwatmore.com/post/2019/02/01/react-role-based-authorization-tutorial-with-example
