@@ -1,20 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import './Login.css';
 import logo from '../../Resources/Unified Club Portal.png';
-import {handleLogin, handleSignup} from './handleSubmit';
+// import {handleLogin, handleSignup} from './handleSubmit';
 import MuiAlert from "@material-ui/lab/Alert";
-import {useDispatch, connect, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as actions from './../../Helpers/actions/actionTypes'
 import { Redirect } from 'react-router-dom';
 
 function Login(props) {
     const [activeLogin, setActiveLogin] = useState(true);
-    // const [emailLogin, setEmailLogin] = useState('');
-    // const [passwordLogin, setPasswordLogin] = useState('');
-    // const [firstnameSignup, setFirstnameSignup] = useState('');
-    // const [lastnameSignup, setLastnameSignup] = useState('');
-    // const [emailSignup, setEmailSignup] = useState('');
-    // const [passwordSignup, setPasswordSignup] = useState('');
     const [password1, setPassword1] = useState('');
     const [error, setError] = useState("");
     const dispatch = useDispatch();
@@ -36,7 +30,7 @@ function Login(props) {
 
     useEffect(
         ()=>{
-            console.log(props.setUser)
+            // console.log(props.setUser)
             console.log("Login", loginData);
             console.log('Signup', registerData);
             console.log("password1", password1);

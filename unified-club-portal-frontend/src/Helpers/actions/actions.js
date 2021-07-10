@@ -14,6 +14,13 @@ export const loggedOut = () => {
     }
 }
 
+export const fetchUser = (token) => {
+    return {
+        type: actions.FETCH_USER_DETAILS,
+        payload: token
+    }
+}
+
 // export const IS_USER_LOGGED_IN = () => {
 
 // }

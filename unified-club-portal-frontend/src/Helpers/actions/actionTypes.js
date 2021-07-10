@@ -1,4 +1,5 @@
 export const USER_LOGGGED_IN = "userLoggedIn"
 export const USER_LOGGED_OUT = "userLoggedOut"
 export const SET_USER_TYPE = "SET_USER_TYPE"
+// export const FETCH_USER_DETAILS = "fetch_user_details"
 // export const IS_USER_LOGGED_IN ="auth"
