@@ -92,3 +92,8 @@ class Club_profileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club_profile
         fields = '__all__'
+        
+class Profile_clubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club_profile
+        fields = '__all__'

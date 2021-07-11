@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer
+from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, Profile_clubSerializer
 from rest_framework.response import Response
 from .models import Book, Type_of_User, Club_profile
 from rest_framework import status
@@ -180,6 +180,8 @@ class clubs_all(APIView):
 
 
 class club_data(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
     def get(self, request, club_name):
         
         club_name = club_name.replace('-',' ')
@@ -187,13 +189,12 @@ class club_data(APIView):
         
         clb = Club_profile.objects.get(title=club_name)
         
-        # print(clb.profile_pic)
+        serializer = Profile_clubSerializer(clb)
         
-        cont = {
-            "title" : clb.title,
-            "description" : clb.description,
-            "profile" : str(clb.profile_pic),
-        }
+        # cont = {
+        #     "title" : clb.title,
+        #     "description" : clb.description,
+        #     "profile" : str(clb.profile_pic),
+        # }
         
-        return Response(cont)
-    
+        return Response(serializer.data)
