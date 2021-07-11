@@ -6,19 +6,20 @@ import AdminHome from './AdminHome';
 import ClubHome from './ClubHome';
 import NormalHome from './NormalHome';
 // import { Redirect } from 'react-router';
+import Logout from '../Auth/Logout';
 
 export const Dashboard = () => {
 
     const type_of_user = useSelector(state => state.type_of_user)
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
 
-    const logout = () => {
-        dispatch({type:actions.USER_LOGGED_OUT})
-        dispatch({type:actions.SET_USER_TYPE, payload: ''})
-        localStorage.removeItem('token');
+    // const logout = () => {
+    //     dispatch({type:actions.USER_LOGGED_OUT})
+    //     dispatch({type:actions.SET_USER_TYPE, payload: ''})
+    //     localStorage.removeItem('token');
         
-    };
+    // };
 
     const multiView = (type_of_user) => {
         if(type_of_user === 'admin'){
@@ -37,9 +38,10 @@ export const Dashboard = () => {
             {
                 multiView(type_of_user)
             }
-            <button onClick={logout} >
+            {/* <button onClick={logout} >
                 Logout
-            </button>
+            </button> */}
+            <Logout />
         </div>
     )
 }

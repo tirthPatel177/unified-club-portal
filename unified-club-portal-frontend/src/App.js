@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
-import Login from './components/Login/Login';
+import Login from './components/Auth/Login';
 import { PrivateRoute } from './Helpers/PrivateRoute';
 import { Dashboard } from './components/HomePage/Dashboard';
 import {useSelector, useDispatch} from 'react-redux';

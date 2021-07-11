@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import './Login.css';
 import logo from '../../Resources/Unified Club Portal.png';
 // import {handleLogin, handleSignup} from './handleSubmit';
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
 import {useDispatch, useSelector} from 'react-redux';
-import * as actions from './../../Helpers/actions/actionTypes'
+import * as actions from '../../Helpers/actions/actionTypes'
 import { Redirect } from 'react-router-dom';
 
 function Login(props) {
@@ -28,20 +28,21 @@ function Login(props) {
     });
 
 
-    useEffect(
-        ()=>{
-            // console.log(props.setUser)
-            console.log("Login", loginData);
-            console.log('Signup', registerData);
-            console.log("password1", password1);
-        }
-    );
+
+    // useEffect(
+    //     ()=>{
+    //         // console.log(props.setUser)
+    //         console.log("Login", loginData);
+    //         console.log('Signup', registerData);
+    //         console.log("password1", password1);
+    //     }
+    // );
 
     const handleChange = (e) => {
         e.preventDefault();
         const changename= e.target.name;
         const changevalue = e.target.value;
-        console.log(changename, changevalue, activeLogin);
+        // console.log(changename, changevalue, activeLogin);
         if(activeLogin){
             setLoginData({...loginData, [changename]: changevalue});
         }else{
@@ -76,15 +77,25 @@ function Login(props) {
         .then( data => data.json())
         .then(
             data => {
-                console.log(data.token);
+                if(data.token){
+                    // console.log(data.token);
                 localStorage.setItem('token', data.token);
                 // dispatch({type: actions.USER_LOGGGED_IN, payload: })
                 fetchdetails(data.token);
                 // props.setUser(data.token);
                 // console.log("hello", props.user);
+                }
+                else{
+                    // setError(...data)
+                    console.log(data)
+                    let errorType = Object.keys(data);
+                    setError(data[errorType[0]]);
+                }
 
             }
-        ).catch( error => console.error(error))
+        ).catch( error => {
+            console.log(error[1])
+            setError(error)})
     };
 
     const handleSignup = async (e) => {
@@ -102,7 +113,8 @@ function Login(props) {
             data => {console.log(data)
             let errorType = Object.keys(data);
             console.log(errorType[0], errorType);
-                alert(data[errorType[0]])
+                // alert(data[errorType[0]])
+                setError(data[errorType[0]]);
             }
         ) 
         setActiveLogin(!activeLogin);
@@ -182,6 +194,10 @@ function Login(props) {
     return (
         <div className='Login'>
             { type_of_user ? (<Redirect to='/' />) : null  }
+            {
+                error ? 
+                    <Alert severity="warning" onClose={()=> setError('')}>{ error }</Alert> : null
+            }
             <div className='login_card'>
                 
                 <header>
@@ -197,7 +213,7 @@ function Login(props) {
                         <input type="email" id="emailLogin" placeholder="Email" onChange={handleChange} name="email" value={loginData.email || ''} />
                         
                         <input type="password" id="passwordLogin" placeholder="Password" onChange={handleChange} name="password" value={loginData.password || ''} />
-                        <button type='submit' onClick={handleLogin}>
+                        <button type='submit' onClick={handleLogin} className="login-signup">
                             Login
                         </button>
                     </form>
@@ -215,7 +231,7 @@ function Login(props) {
                         <input type="email" placeholder="Email" id='emailSignup' onChange={handleChange} name="email" value={registerData.email || ''} />
                         <input type="password" placeholder="Password" id="password" onChange={handleChange} name="password" value={registerData.password || ''} />
                         <input type="password" placeholder="Enter Password Again" id='password1' onChange={(e)=>{setPassword1(e.target.value)}} name="password1" value={password1 || ''} />
-                        <button type='submit' onClick={handleSignup}>
+                        <button type='submit' onClick={handleSignup} className="login-signup">
                             Sign Up
                         </button>
                     </form>
