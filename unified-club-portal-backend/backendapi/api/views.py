@@ -60,7 +60,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class VerificationView(APIView):    
     def get(self, request, uidb64, token):
         data = {
-            "Hello": "World"
+            "Account Status": "Activated"
         }
         user = Token.objects.get(key=token).user
         

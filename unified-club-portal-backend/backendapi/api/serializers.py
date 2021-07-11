@@ -71,11 +71,13 @@ class AuthCustomTokenSerializer(serializers.Serializer):
 
             user = authenticate(username=email, password=password)
 
-            if user:
-                if not user.is_active:
-                    msg = _('User account is disabled.')
+            usr = User.objects.get(username=email)
+
+            if usr:
+                if not usr.is_active:
+                    msg = ('Please verify your email!!')
                     raise exceptions.ValidationError(msg)
-            else:
+            if not user:
                 msg = ('Unable to log in with provided credentials.')
                 raise exceptions.ValidationError(msg)
         else:
