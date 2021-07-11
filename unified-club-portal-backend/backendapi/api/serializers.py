@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .models import Book
+from .models import Book, Club_profile
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from django.core import exceptions
@@ -87,3 +87,8 @@ class AuthCustomTokenSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
         
+        
+class Club_profileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club_profile
+        fields = '__all__'

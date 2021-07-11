@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer
+from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer
 from rest_framework.response import Response
 from .models import Book, Type_of_User, Club_profile
 from rest_framework import status
@@ -150,22 +150,32 @@ class club_data_create(APIView):
 
 
 class clubs_all(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
+    # def get(self, request, *args, **kwargs):
+    #     posts = Post.objects.all()
+    #     serializer = PostSerializer(posts, many=True)
+    #     return Response(serializer.data)
+
     def get(self, request):
 
         clubs = Club_profile.objects.all()
         
-        data = []
         
-        for club in clubs:
-            club_data = {
-                "title" : club.title,
-                "description" : club.description,
-                "profile_pic" : str(club.profile_pic)
-            }
+        serializer = Club_profileSerializer(clubs, many=True)
+        
+        return Response(serializer.data)
+        
+        # for club in clubs:
+        #     club_data = {
+        #         "title" : club.title,
+        #         "description" : club.description,
+        #         "profile_pic" : str(club.profile_pic)
+        #     }
             
-            data.append(club_data)
+        #     data.append(club_data)
         
-        return Response(data)
+        # return Response(data)
         
 
 
