@@ -149,13 +149,33 @@ class club_data_create(APIView):
         return Response(cont,status=status.HTTP_201_CREATED)
 
 
+class clubs_all(APIView):
+    def get(self, request):
+
+        clubs = Club_profile.objects.all()
+        
+        data = []
+        
+        for club in clubs:
+            club_data = {
+                "title" : club.title,
+                "description" : club.description,
+                "profile_pic" : str(club.profile_pic)
+            }
+            
+            data.append(club_data)
+        
+        return Response(data)
+        
+
 
 class club_data(APIView):
-    def post(self, request):
-        token = request.data["token"]
-        user = Token.objects.get(key=token).user
+    def get(self, request, club_name):
         
-        clb = Club_profile.objects.get(user=user)
+        club_name = club_name.replace('-',' ')
+
+        
+        clb = Club_profile.objects.get(title=club_name)
         
         # print(clb.profile_pic)
         

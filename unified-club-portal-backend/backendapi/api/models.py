@@ -15,7 +15,7 @@ def upload_path(instance, filename):
 
 class Club_profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=150, unique=True)
     description = models.TextField(max_length=1000)
     profile_pic = models.ImageField(null=False, blank=False, default='default.jpg', upload_to=upload_path)
 
