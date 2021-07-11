@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer
 from rest_framework.response import Response
-from .models import Book, Type_of_User
+from .models import Book, Type_of_User, Club_profile
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -60,7 +60,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class VerificationView(APIView):    
     def get(self, request, uidb64, token):
         data = {
-            "Hello": "World"
+            "Account Status": "Activated"
         }
         user = Token.objects.get(key=token).user
         
@@ -127,3 +127,43 @@ class get_data_user(APIView):
                 "Exception" : "User not found"
             }
             return Response(content)
+        
+class club_data_create(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        title = request.data["title"]
+        desc = request.data["description"]
+        # img = request.data["profile_image"]
+
+        user = Token.objects.get(key=token).user
+
+        
+        
+        Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc))
+        # Club_profile.objects.create(user=user, title=title, description=desc, profile_pic=img)
+        
+        cont = {
+            "status" : "Created Successfully"
+        }
+        
+        return Response(cont,status=status.HTTP_201_CREATED)
+
+
+
+class club_data(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        user = Token.objects.get(key=token).user
+        
+        clb = Club_profile.objects.get(user=user)
+        
+        # print(clb.profile_pic)
+        
+        cont = {
+            "title" : clb.title,
+            "description" : clb.description,
+            "profile" : str(clb.profile_pic),
+        }
+        
+        return Response(cont)
+    
