@@ -89,7 +89,15 @@ function Login(props) {
                     // setError(...data)
                     console.log(data)
                     let errorType = Object.keys(data);
-                    setError(data[errorType[0]]);
+                    if(errorType[0] === 'detail'){
+                        setError(()=>{
+                            let msg = 'User ' + data[errorType[0]]
+                            setError(msg);
+                        })
+                    }else{
+                        setError(data[errorType[0]]);
+                    }
+                    
                 }
 
             }

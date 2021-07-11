@@ -6,7 +6,7 @@ const ClubHome = () => {
     return (
         <div>
             <p>
-                { user.email }
+                { user.first_name }
                 <p> { user.type_of_user } </p>
             </p>
         </div>

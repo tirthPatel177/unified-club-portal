@@ -7,7 +7,9 @@ const NormalHome = () => {
     return (
         <div>
             <p> { user.email }</p>
+            <p> {user.first_name } </p>
             <p> { user.type_of_user } </p>
+            
         </div>
     )
 }
