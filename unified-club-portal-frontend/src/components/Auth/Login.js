@@ -217,7 +217,7 @@ function Login(props) {
                     activeLogin ?
                         <>
                     <h2 className="login-message">Welcome Back!</h2>
-                    <form>
+                    <form className='auth-from'>
                         <input type="email" id="emailLogin" placeholder="Email" onChange={handleChange} name="email" value={loginData.email || ''} />
                         
                         <input type="password" id="passwordLogin" placeholder="Password" onChange={handleChange} name="password" value={loginData.password || ''} />
@@ -233,7 +233,7 @@ function Login(props) {
                     :
                     <>
                     <h2 className="login-message">Create an account</h2>
-                    <form>
+                    <form className='auth-from'>
                         <input type="text" placeholder="First Name" id='first_name' onChange={handleChange} name="first_name" value={registerData.first_name || ''} />
                         <input type="text" placeholder="Last Name" id='last_name' onChange={handleChange} name="last_name" value={registerData.last_name || ''} />
                         <input type="email" placeholder="Email" id='emailSignup' onChange={handleChange} name="email" value={registerData.email || ''} />

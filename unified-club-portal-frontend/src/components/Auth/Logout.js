@@ -1,7 +1,8 @@
-import { Button } from '@material-ui/core'
+// import { Button } from '@material-ui/core'
 import React from 'react'
 import * as actions from './../../Helpers/actions/actionTypes'
 import { useDispatch} from 'react-redux';
+import './Logout.css'
 
 const Logout = () => {
 
@@ -16,9 +17,9 @@ const Logout = () => {
 
     return (
         <div>
-            <Button onClick={logout} variant="contained" color='primary'>
+            <button onClick={logout} className="logout-button">
                 Logout
-            </Button>
+            </button>
         </div>
     )
 }
