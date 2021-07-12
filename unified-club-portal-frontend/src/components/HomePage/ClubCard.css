@@ -1,4 +1,27 @@
-.club-card{
-    background-color: #fff;
-    
+.club-card > a{
+    /* background-color: #fff; */
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    box-shadow: 2px 0.5px rgb(148, 143, 143);
+    border-radius: 5px;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
+.club-card .image-contianer {
+    width: 20%;
+}
+
+.club-card .image-contianer img {
+    width: 50px;
+    height: 50px;
+}
+
+
+
+@media only screen and (max-width: 700px)  {
+    .club-card {
+        width: 70%;
+    }
 }

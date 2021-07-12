@@ -4,14 +4,11 @@ import { Redirect } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import ClubCard from './ClubCard';
 import Navbar from '../NavBar/Navbar';
+import './NormalHome.css'
 
 const NormalHome = () => {
     const user = useSelector(state => state.user)
     const [clubs, setClubs] = useState([]);
-
-    const get_title = (title) => {
-        return title.split(' ').join('-');
-    }
 
     const get_clubs = async () => {
         fetch('http://127.0.0.1:8000/api/clubs_all', {
@@ -26,7 +23,7 @@ const NormalHome = () => {
 
     useEffect(() => {
         get_clubs();
-        // console.log(clubs);
+        console.log(clubs);
     }, [])
 
     const selected_club = (title) => {
@@ -50,9 +47,7 @@ const NormalHome = () => {
             {
                 clubs.map( club => 
                     {
-                        return <a href={'/club-profiles/' + get_title(club.title)} key={club.id}>
-                            <ClubCard clubDetails={club}/>
-                        </a>
+                        return <ClubCard club={club} key={club.id}/>
                     }
                 )
             }

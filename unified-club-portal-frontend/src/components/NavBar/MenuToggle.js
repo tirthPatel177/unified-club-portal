@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import MenuIcon from '@material-ui/icons/Menu';
@@ -8,16 +8,16 @@ const Button = styled.div`
   cursor: pointer;
 `;
 
-const Path = (props) => (
-  <motion.path
-    fill="transparent"
-    strokeLinecap="round"
-    strokeWidth="3"
-    {...props}
-  />
-);
+// const Path = (props) => (
+//   <motion.path
+//     fill="transparent"
+//     strokeLinecap="round"
+//     strokeWidth="3"
+//     {...props}
+//   />
+// );
 
-const transition = { duration: 0.33 };
+// const transition = { duration: 0.33 };
 
 export default function MenuToggle({ toggle, isOpen }) {
   return (

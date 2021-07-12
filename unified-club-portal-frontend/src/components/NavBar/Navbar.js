@@ -37,7 +37,7 @@ const Navbar = () => {
     const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
     return (
         <NavbarContainer>
-            <LeftSection>
+            <LeftSection> 
                 <TitleLogo />
             </LeftSection>
             <MiddleSection>{!isMobile && <NavLinks />}</MiddleSection>
