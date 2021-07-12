@@ -7,20 +7,19 @@
     border-radius: 5px;
     justify-content: flex-start;
     margin: 20px;
+    height: 100px;
 }
 
 .club-card .image-contianer {
     width: 20%;
 }
 
-.club-card .image-contianer img {
-    width: 50px;
-    height: 50px;
+.profile-image {
+    width: 100px;
 }
 
 
-
-@media only screen and (max-width: 700px)  {
+@media only screen and (max-width: 768px)  {
     .club-card {
         width: 70%;
     }

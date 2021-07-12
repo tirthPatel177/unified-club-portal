@@ -87,7 +87,7 @@ header h1 {
 }
 
 .auth-from button:hover{
-    filter: brightness(1.03);
+    filter: brightness(1.23);
 }
 
 .auth-from input {
