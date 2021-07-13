@@ -34,4 +34,4 @@ class Event(models.Model):
 
 class Member(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
-    club_name = models.CharField(max_length=150, unique=True)
+    club_name = models.CharField(max_length=150)
