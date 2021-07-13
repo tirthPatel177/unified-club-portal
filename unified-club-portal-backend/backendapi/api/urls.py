@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from .views import UserViewSet, BookViewSet, ObtainAuthToken, get_data_user, VerificationView, club_data, club_data_create, clubs_all
+from .views import UserViewSet, BookViewSet, ObtainAuthToken, get_data_user, VerificationView, club_data, club_data_create, clubs_all, event_create
 
 router = routers.DefaultRouter()
 router.register('books', BookViewSet)
@@ -16,6 +16,7 @@ urlpatterns = [
     path('get_info', get_data_user.as_view()),
     path('activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
     path('profile_club_create', club_data_create.as_view()),
+    path('event_create', event_create.as_view()),
     path('clubs_all', clubs_all.as_view()),
     path('profile_club/<club_name>', club_data.as_view()),
 ]

@@ -18,7 +18,7 @@ class Club_profile(models.Model):
     title = models.CharField(max_length=150, unique=True)
     description = models.TextField(max_length=1000)
     profile_pic = models.ImageField(null=False, blank=False, default='default.jpg', upload_to=upload_path)
-
+    tag_line = models.CharField(max_length=500, default="")
 
 def upload_path_event(instance, filename):
     return "/".join(['events_imgs', filename])

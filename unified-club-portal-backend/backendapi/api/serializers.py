@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .models import Book, Club_profile
+from .models import Book, Club_profile, Event
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from django.core import exceptions
@@ -92,8 +92,10 @@ class Club_profileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club_profile
         fields = '__all__'
-        
-class Profile_clubSerializer(serializers.ModelSerializer):
+
+
+class EventSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S")
     class Meta:
-        model = Club_profile
+        model = Event
         fields = '__all__'

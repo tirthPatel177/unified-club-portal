@@ -2,9 +2,9 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, Profile_clubSerializer
+from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer
 from rest_framework.response import Response
-from .models import Book, Type_of_User, Club_profile
+from .models import Book, Type_of_User, Club_profile, Event
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -133,14 +133,13 @@ class club_data_create(APIView):
         token = request.data["token"]
         title = request.data["title"]
         desc = request.data["description"]
-        # img = request.data["profile_image"]
+        img = request.data["profile_image"]
+        tag_line = request.data["tag_line"],
+        
 
         user = Token.objects.get(key=token).user
-
         
-        
-        Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc))
-        # Club_profile.objects.create(user=user, title=title, description=desc, profile_pic=img)
+        Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
         
         cont = {
             "status" : "Created Successfully"
@@ -152,30 +151,27 @@ class club_data_create(APIView):
 class clubs_all(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
 
-    # def get(self, request, *args, **kwargs):
-    #     posts = Post.objects.all()
-    #     serializer = PostSerializer(posts, many=True)
-    #     return Response(serializer.data)
 
     def get(self, request):
 
         clubs = Club_profile.objects.all()
         
-        
         serializer = Club_profileSerializer(clubs, many=True)
         
-        return Response(serializer.data)
         
-        # for club in clubs:
-        #     club_data = {
-        #         "title" : club.title,
-        #         "description" : club.description,
-        #         "profile_pic" : str(club.profile_pic)
-        #     }
+        data = []
+        
+        for club in serializer.data:
+            club_data = {
+                "title" : club["title"],
+                "description" : club["description"],
+                "profile" : ("http://127.0.0.1:8000"+club["profile_pic"]),
+                "tag_line" : club["tag_line"],
+            }
             
-        #     data.append(club_data)
+            data.append(club_data)
         
-        # return Response(data)
+        return Response(data)
         
 
 
@@ -185,16 +181,36 @@ class club_data(APIView):
     def get(self, request, club_name):
         
         club_name = club_name.replace('-',' ')
-
         
         clb = Club_profile.objects.get(title=club_name)
         
-        serializer = Profile_clubSerializer(clb)
+        serializer = Club_profileSerializer(clb)
         
-        # cont = {
-        #     "title" : clb.title,
-        #     "description" : clb.description,
-        #     "profile" : str(clb.profile_pic),
-        # }
+        cont = {
+            "title" : serializer.data["title"],
+            "description" : serializer.data["description"],
+            "profile" : ("http://127.0.0.1:8000"+serializer.data["profile_pic"]),
+            "tag_line" : serializer.data["tag_line"],
+        }
         
         return Response(serializer.data)
+    
+    
+class event_create(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        event_title = request.data["event_title"]
+        event_description = request.data["event_description"]
+        # poster = request.data["poster"]
+        date = request.data["date"],
+
+        user = Token.objects.get(key=token).user
+        
+        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0]))
+        # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date))
+        
+        cont = {
+            "status" : "Event Created Successfully"
+        }
+        
+        return Response(cont,status=status.HTTP_201_CREATED)
