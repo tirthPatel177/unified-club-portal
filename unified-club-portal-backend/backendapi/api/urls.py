@@ -2,7 +2,19 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from .views import UserViewSet, BookViewSet, ObtainAuthToken, get_data_user, VerificationView, club_data, club_data_create, clubs_all, event_create
+from .views import (
+    UserViewSet, 
+    BookViewSet, 
+    ObtainAuthToken, 
+    get_data_user, 
+    VerificationView, 
+    club_data, 
+    club_data_create, 
+    clubs_all, 
+    event_create, 
+    events_all,
+    events_club,
+    )
 
 router = routers.DefaultRouter()
 router.register('books', BookViewSet)
@@ -19,4 +31,6 @@ urlpatterns = [
     path('event_create', event_create.as_view()),
     path('clubs_all', clubs_all.as_view()),
     path('profile_club/<club_name>', club_data.as_view()),
+    path('events/<club_name>', events_club.as_view()),
+    path('events_all', events_all.as_view()),
 ]

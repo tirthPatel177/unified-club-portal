@@ -199,7 +199,7 @@ class club_data(APIView):
             "tag_line" : serializer.data["tag_line"],
         }
         
-        return Response(serializer.data)
+        return Response(cont)
     
     
 class event_create(APIView):
@@ -220,3 +220,57 @@ class event_create(APIView):
         }
         
         return Response(cont,status=status.HTTP_201_CREATED)
+    
+class events_all(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
+
+    def get(self, request):
+
+        events = Event.objects.all()
+        
+        serializer = EventSerializer(events, many=True)
+        
+        
+        data = []
+        
+        for event in serializer.data:
+            event_data = {
+                "event_title" : event["event_title"],
+                "event_description" : event["event_description"],
+                "poster" : ("http://127.0.0.1:8000"+event["poster"]),
+                "date" : event["date"],
+            }
+            
+            data.append(event_data)
+        
+        return Response(data)
+    
+    
+class events_club(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
+    def get(self, request, club_name):
+        
+        club_name = club_name.replace('-',' ')
+        
+        user = Club_profile.objects.get(title=club_name).user
+        
+        events = Event.objects.filter(user=user)
+        
+        serializer = EventSerializer(events, many=True)
+
+        data = []
+        
+        for event in serializer.data:
+            event_data = {
+                "event_title" : event["event_title"],
+                "event_description" : event["event_description"],
+                "poster" : ("http://127.0.0.1:8000"+event["poster"]),
+                "date" : event["date"],
+            }
+            
+            data.append(event_data)    
+
+
+        return Response(data)
