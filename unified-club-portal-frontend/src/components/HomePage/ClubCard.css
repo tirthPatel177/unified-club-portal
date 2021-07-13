@@ -1,26 +1,12 @@
-.club-card > a{
-    /* background-color: #fff; */
-    display: flex;
-    flex-direction: row;
-    width: 80%;
-    box-shadow: 2px 0.5px rgb(148, 143, 143);
-    border-radius: 5px;
-    justify-content: flex-start;
-    margin: 20px;
-    height: 100px;
+.card-margin{
+    margin: 1.2em;
+    /* heigth: 780px; */
 }
 
-.club-card .image-contianer {
-    width: 20%;
+.card-content {
+    height: 150px;
 }
 
-.profile-image {
-    width: 100px;
-}
-
-
-@media only screen and (max-width: 768px)  {
-    .club-card {
-        width: 70%;
-    }
+.card-links {
+    text-decoration: none;
 }
