@@ -51,6 +51,13 @@ const NormalHome = () => {
                     }
                 )
             }
+            {
+                clubs.map( club => 
+                    {
+                        return <ClubCard club={club} key={club.id}/>
+                    }
+                )
+            }
             </div>
         </div>
     )
