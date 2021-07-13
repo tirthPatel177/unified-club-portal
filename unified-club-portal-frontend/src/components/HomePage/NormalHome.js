@@ -26,16 +26,16 @@ const NormalHome = () => {
         console.log(clubs);
     }, [])
 
-    const selected_club = (title) => {
-        // fetch('http://127.0.0.1:8000/api/profile_club/' + title, {
-        //     method: GET
-        // }).then(
-        //     data => data.json()
-        // ).then(
+    // const selected_club = (title) => {
+    //     fetch('http://127.0.0.1:8000/api/profile_club/' + title, {
+    //         method: GET
+    //     }).then(
+    //         data => data.json()
+    //     ).then(
             
-        // )
+    //     )
 
-    }
+    // }
 
     return (
         <div>
