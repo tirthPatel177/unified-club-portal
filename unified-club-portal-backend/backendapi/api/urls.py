@@ -14,6 +14,8 @@ from .views import (
     event_create, 
     events_all,
     events_club,
+    member_add,
+    member_delete,
     )
 
 router = routers.DefaultRouter()
@@ -33,4 +35,6 @@ urlpatterns = [
     path('profile_club/<club_name>', club_data.as_view()),
     path('events/<club_name>', events_club.as_view()),
     path('events_all', events_all.as_view()),
+    path('member_add', member_add.as_view()),
+    path('member_delete', member_delete.as_view()),
 ]

@@ -21,7 +21,8 @@ class Club_profile(models.Model):
     tag_line = models.CharField(max_length=500, default="")
 
 def upload_path_event(instance, filename):
-    return "/".join(['events_imgs', filename])
+    clb_name = Club_profile.objects.get(user=instance.user).title.replace(" ", "_")
+    return "/".join(['events_imgs', clb_name , filename])
 
 class Event(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
@@ -30,3 +31,7 @@ class Event(models.Model):
     poster = models.ImageField(null=False, blank=False, default='default.jpg', upload_to=upload_path_event)
     date = models.DateTimeField()
     
+
+class Member(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
+    club_name = models.CharField(max_length=150, unique=True)

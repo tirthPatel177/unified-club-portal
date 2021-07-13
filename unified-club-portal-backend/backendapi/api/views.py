@@ -2,9 +2,9 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer
+from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer
 from rest_framework.response import Response
-from .models import Book, Type_of_User, Club_profile, Event
+from .models import Book, Type_of_User, Club_profile, Event, Member
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -274,3 +274,50 @@ class events_club(APIView):
 
 
         return Response(data)
+    
+    
+class member_add(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (
+        parsers.FormParser,
+        parsers.MultiPartParser,
+        parsers.JSONParser,
+    )
+
+    renderer_classes = (renderers.JSONRenderer,)
+    
+    def post(self, request):
+        token = request.data["token"]
+        title = request.data["title"]
+        
+        user = Token.objects.get(key=token).user
+        Member.objects.create(user=user, club_name=title)
+        
+        det = {"success": "Added as Member successfully"}
+        
+        return Response(det, status=status.HTTP_201_CREATED)
+        
+    
+    
+class member_delete(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (
+        parsers.FormParser,
+        parsers.MultiPartParser,
+        parsers.JSONParser,
+    )
+
+    renderer_classes = (renderers.JSONRenderer,)
+    
+    def post(self, request):
+        token = request.data["token"]
+        title = request.data["title"]
+        
+        user = Token.objects.get(key=token).user
+        Member.objects.get(user=user, club_name=title).delete()
+        
+        det = {"success": "Removed as Member successfully"}
+        
+        return Response(det, status=status.HTTP_201_CREATED)
