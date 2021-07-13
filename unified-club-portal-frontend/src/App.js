@@ -6,6 +6,7 @@ import { PrivateRoute } from './Helpers/PrivateRoute';
 import { Dashboard } from './components/HomePage/Dashboard';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from './Helpers/actions/actionTypes'
+import ClubProfile from './components/clubs_profile/ClubProfile';
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
       <Switch>
         <PrivateRoute exact path='/' component={Dashboard}/>
         <Route exact path='/login' component={Login}/>
+        <Route exact path='/club-profiles/:club' component={ClubProfile}/>
       </Switch>
     </Router>
     </div>

@@ -41,7 +41,7 @@ export const Dashboard = () => {
             {/* <button onClick={logout} >
                 Logout
             </button> */}
-            <Logout />
+            {/* <Logout /> */}
         </div>
     )
 }

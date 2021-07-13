@@ -1,0 +1,12 @@
+.club-list-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2em;
+}
+
+@media only screen and (max-width: 768px)  {
+    .club-list-cotainer {
+        flex-direction: column;
+    }
+}

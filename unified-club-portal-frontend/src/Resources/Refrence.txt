@@ -12,3 +12,13 @@ https://stackoverflow.com/questions/51956834/building-a-multi-view-multi-user-ty
 
 Role Based Authorization
 https://jasonwatmore.com/post/2019/02/01/react-role-based-authorization-tutorial-with-example
+
+Framer-Motion
+React Animation Librabry
+
+Edit Club View Profile Example
+https://www.bootdey.com/snippets/view/bs4-edit-profile-page
+
+Edit Profile Containers
+https://blog.logrocket.com/building-inline-editable-ui-in-react/
+

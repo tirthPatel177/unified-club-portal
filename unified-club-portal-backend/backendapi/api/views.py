@@ -19,6 +19,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import token_generator
+from django.db import IntegrityError
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -130,23 +131,28 @@ class get_data_user(APIView):
         
 class club_data_create(APIView):
     def post(self, request):
-        token = request.data["token"]
-        title = request.data["title"]
-        desc = request.data["description"]
-        img = request.data["profile_image"]
-        tag_line = request.data["tag_line"],
-        
-
-        user = Token.objects.get(key=token).user
-        
-        Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
-        
-        cont = {
-            "status" : "Created Successfully"
-        }
-        
-        return Response(cont,status=status.HTTP_201_CREATED)
-
+        try:
+            token = request.data["token"]
+            title = request.data["title"]
+            desc = request.data["description"]
+            img = request.data["profile_image"]
+            tag_line = request.data["tag_line"],
+            
+            user = Token.objects.get(key=token).user
+            
+            Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
+            
+            
+            cont = {
+                "status" : "Created Successfully"
+            }
+            
+            return Response(cont,status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            resp = {
+                'Error': 'Club with that name already exists!'
+            }
+            return Response(resp)
 
 class clubs_all(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)

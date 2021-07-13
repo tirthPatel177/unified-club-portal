@@ -1,14 +1,20 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+// import { useParams } from 'react-router-dom'
+import ClubProfile from '../clubs_profile/ClubProfile'
 
 const ClubHome = () => {
     const user = useSelector(state => state.user)
+    // const {club} = useParams();
+    
     return (
         <div>
-            <p>
-                { user.email }
-                <p> { user.type_of_user } </p>
-            </p>
+            
+                {/* <p> { user.first_name } </p>
+                <p> { user.type_of_user } </p> */}
+                {/* <ClubProfile /> */}
+                <h1>First Page a Club will see after they login</h1>
+            
         </div>
     )
 }
