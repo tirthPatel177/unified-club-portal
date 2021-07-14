@@ -1,12 +1,14 @@
 import React from "react";
+import Edit from "../../Edit";
 import "./web.css";
-function Web() {
+function Web(props) {
   return (
     <div className="web">
       <div className="web-option">
-        <a href="#projects">
+        {/* <a href="#projects">
           Edit Profile
-        </a>
+        </a> */}
+        <Edit edit={props.edit} setEdit={props.setEdit}/>
       </div>
       <div className="web-option">
         <a href="#skills">

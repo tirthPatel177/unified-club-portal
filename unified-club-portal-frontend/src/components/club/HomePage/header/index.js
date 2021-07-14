@@ -4,7 +4,7 @@ import Mobile from "./mobile/index";
 import Web from "./web/index";
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
-function Header() {
+function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
   const handleLogoClick = () => {
     window.scrollTo(0, 0);
@@ -19,14 +19,14 @@ function Header() {
       </div>
       <div className="menu">
         <div className="web-menu">
-          <Web />
+          <Web edit={props.edit} setEdit={props.setEdit}/>
         </div>
 
         <div className="mobile-menu">
           <div onClick={() => setIsOpen(!isOpen)}>
             <DashboardIcon />
           </div>
-          {isOpen && <Mobile isOpen={isOpen} setIsOpen={setIsOpen} />}
+          {isOpen && <Mobile isOpen={isOpen} setIsOpen={setIsOpen} edit={props.edit} setEdit={props.setEdit}/>}
         </div>
       </div>
     </div>

@@ -38,28 +38,32 @@ const Home = () => {
     // }
 
     return (
-        <div>
-            {/* <p> { user.email }</p>
-            <p> {user.first_name } </p>
-            <p> { user.type_of_user } </p> */}
-            <Navbar />
-            <div className='club-list-container'>
-            {
-                clubs.map( club => 
-                    {
-                        return <ClubCard club={club} key={club.id}/>
-                    }
-                )
-            }
-            {
-                clubs.map( club => 
-                    {
-                        return <ClubCard club={club} key={club.id}/>
-                    }
-                )
-            }
+        <>
+            { user !== 'user' ? null : 
+            <div>
+                {/* <p> { user.email }</p>
+                <p> {user.first_name } </p>
+                <p> { user.type_of_user } </p> */}
+                <Navbar />
+                <div className='club-list-container'>
+                {
+                    clubs.map( club => 
+                        {
+                            return <ClubCard club={club} key={club.id}/>
+                        }
+                    )
+                }
+                {
+                    clubs.map( club => 
+                        {
+                            return <ClubCard club={club} key={club.id}/>
+                        }
+                    )
+                }
+                </div>
             </div>
-        </div>
+            } 
+        </>
     )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import About from "./about/index";
 // import Work from "./work/index";
-import Header from "./header/index";
+import Header from "./../header/index";
 import './NormalHome.css'
 import Description from './description/index'
 
@@ -10,7 +10,7 @@ const NormalHome = (props) => {
         <div>
 
             <div>
-                <Header />
+                <Header edit={props.edit} setEdit={props.setEdit}/>
             </div>
         
             <div className="body">

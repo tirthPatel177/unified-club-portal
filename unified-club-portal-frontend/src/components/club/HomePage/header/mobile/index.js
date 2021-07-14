@@ -1,8 +1,9 @@
 import React from "react";
 import "./mobile.css";
 import CancelIcon from '@material-ui/icons/Cancel';
+import Edit from "../../Edit";
 
-function Mobile({ isOpen, setIsOpen }) {
+function Mobile({ isOpen, setIsOpen, edit, setEdit }) {
   return (
     <div className="mobile">
       <div onClick={() => setIsOpen(!isOpen)} className="close-icon-container">
@@ -10,9 +11,10 @@ function Mobile({ isOpen, setIsOpen }) {
       </div>
       <div className="mobile-options">
         <div className="mobile-option">
-          <a href="#projects">
+          {/* <a href="#projects">
             Edit Profile
-          </a>
+          </a> */}
+          <Edit edit={edit} setEdit={setEdit}/>
         </div>
         <div className="mobile-option">
           <a href="#skills">
