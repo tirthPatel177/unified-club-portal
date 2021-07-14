@@ -111,7 +111,7 @@ class ObtainAuthToken(APIView):
 class get_data_user(APIView):
     def post(self, request):
         try:
-            user = Token.objects.get(key=request.POST.get("key", "")).user
+            user = Token.objects.get(key=request.POST.get("token", "")).user
             
             type_user = Type_of_User.objects.get(author=user)
             
@@ -179,6 +179,25 @@ class clubs_all(APIView):
         
         return Response(data)
         
+        
+class club_profile(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
+    def post(self, request):
+        token = request.data["token"]
+        user = Token.objects.get(key=token).user
+        clb = Club_profile.objects.get(user=user)
+        
+        serializer = Club_profileSerializer(clb)
+        
+        cont = {
+            "title" : serializer.data["title"],
+            "description" : serializer.data["description"],
+            "profile" : ("http://127.0.0.1:8000"+serializer.data["profile_pic"]),
+            "tag_line" : serializer.data["tag_line"],
+        }
+        
+        return Response(cont)
 
 
 class club_data(APIView):
@@ -292,8 +311,12 @@ class member_add(APIView):
         title = request.data["title"]
         
         user = Token.objects.get(key=token).user
-        Member.objects.create(user=user, club_name=title)
-        
+        if(Member.objects.filter(user=user, club_name=title).exists()):
+            det = {"Error": "You are already a member"}
+            return Response(det, status=status.HTTP_201_CREATED)
+        else:
+            Member.objects.create(user=user, club_name=title)
+                
         det = {"success": "Added as Member successfully"}
         
         return Response(det, status=status.HTTP_201_CREATED)
