@@ -1,0 +1,39 @@
+import React, {useState, useEffect} from 'react'
+import { useParams } from 'react-router-dom'
+import Home from './NormalHome'
+import './ClubProfile.css'
+import Navbar from '../NavBar/Navbar'
+
+const ClubProfile = () => {
+
+    const {club} = useParams();
+    const [clubDetails, setclubDetails] = useState([])
+
+    const fetch_club_detials = () => {
+        fetch('http://127.0.0.1:8000/api/profile_club/' + club, {
+            method: 'GET'
+        }).then(
+            data => data.json()
+        ).then(
+            data => {
+            console.log(data);
+            setclubDetails(data);
+            }
+        )
+    }
+
+    useEffect(()=> {
+        fetch_club_detials();
+    }, [])
+
+    return (
+        <>
+        <Navbar />
+        <div className='.home'>
+            <Home club={clubDetails}/>
+        </div>
+        </>
+    )
+}
+
+export default ClubProfile

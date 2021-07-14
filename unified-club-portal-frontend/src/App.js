@@ -3,10 +3,10 @@ import './App.css';
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './components/Auth/Login';
 import { PrivateRoute } from './Helpers/PrivateRoute';
-import { Dashboard } from './components/HomePage/Dashboard';
+import { Dashboard } from './components/Dashboard/Dashboard';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from './Helpers/actions/actionTypes'
-import ClubProfile from './components/clubs_profile/ClubProfile';
+import ClubProfile from './components/user/clubs_profile/ClubProfile';
 
 function App() {
 
@@ -63,7 +63,10 @@ function App() {
       <Switch>
         <PrivateRoute exact path='/' component={Dashboard}/>
         <Route exact path='/login' component={Login}/>
-        <Route exact path='/club-profiles/:club' component={ClubProfile}/>
+        {/* <Route exact path='/club-profiles/:club' component={ClubProfile}/> */}
+        <PrivateRoute exact path='/user/club-profiles/:club' component={ClubProfile} />
+        {/* <PrivateRoute exact path='/club/events' component={} /> */}
+        {/* <PrivateRoute exact path='/club/announcements' component={} /> */}
       </Switch>
     </Router>
     </div>

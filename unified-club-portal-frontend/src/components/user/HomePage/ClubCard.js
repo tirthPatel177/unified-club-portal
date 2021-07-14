@@ -3,7 +3,7 @@ import './ClubCard.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
+// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
@@ -27,7 +27,7 @@ const mobileStyles = makeStyles({
 const ClubCard = ({club}) => {
 
     const get_title = (title) => {
-        console.log(title);
+        // console.log(title);
         return title.split(' ').join('-');
     }
 
@@ -38,7 +38,7 @@ const ClubCard = ({club}) => {
 
     return (
         <div className='card-margin'>
-        <a className="card-links" href={'/club-profiles/'+ get_title(club.title)}>
+        <a className="card-links" href={'/user/club-profiles/'+ get_title(club.title)}>
         <Card className={isMobile ? mobileClasses.root : classes.root}>
             <CardActionArea>
             <CardMedia

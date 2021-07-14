@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Logout from "../Auth/Logout";
+import Logout from "./../../Auth/Logout";
 import  MenuToggle  from "./MenuToggle";
 
 const NavLinksContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  
 `;
 
 const LinksWrapper = styled.ul`
@@ -21,6 +22,7 @@ const LinksWrapper = styled.ul`
   position: fixed;
   top: 65px;
   left: 0;
+  z-index: 5;
 `;
 
 const LinkItem = styled.li`
@@ -45,6 +47,10 @@ const Marginer = styled.div`
   height: 0.8em;
 `;
 
+const CenterLogout = styled.div`
+  align-self: center;
+`;
+
 export default function MobileNavLinks(props) {
   const [isOpen, setOpen] = useState(false);
 
@@ -54,16 +60,18 @@ export default function MobileNavLinks(props) {
       {isOpen && (
         <LinksWrapper>
           <LinkItem>
-            <Link href="/">Clubs</Link>
+            <Link href="/">Home</Link>
           </LinkItem>
           <LinkItem>
             <Link href="#">Events</Link>
           </LinkItem>
           <LinkItem>
-            <Link href="#">About us</Link>
+            <Link href="#">Announcements</Link>
           </LinkItem>
           <Marginer />
+          <CenterLogout>
           <Logout />
+          </CenterLogout>
         </LinksWrapper>
       )}
     </NavLinksContainer>

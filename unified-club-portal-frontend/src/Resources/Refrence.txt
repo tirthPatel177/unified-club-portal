@@ -22,3 +22,11 @@ https://www.bootdey.com/snippets/view/bs4-edit-profile-page
 Edit Profile Containers
 https://blog.logrocket.com/building-inline-editable-ui-in-react/
 
+Profile Editor React
+https://github.com/3box/3box-profile-edit-react
+
+CKE Editor React
+https://www.youtube.com/watch?v=hVFy8S2yCH4
+
+Pagination React 
+https://material-ui.com/components/pagination/

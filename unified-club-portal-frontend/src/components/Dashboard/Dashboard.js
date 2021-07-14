@@ -2,9 +2,9 @@ import React from 'react'
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from './../../Helpers/actions/actionTypes'
-import AdminHome from './AdminHome';
-import ClubHome from './ClubHome';
-import NormalHome from './NormalHome';
+import AdminHome from './../admin/HomePage/Home';
+import ClubHome from './../club/HomePage/Home';
+import NormalHome from './../user/HomePage/Home';
 // import { Redirect } from 'react-router';
 import Logout from '../Auth/Logout';
 

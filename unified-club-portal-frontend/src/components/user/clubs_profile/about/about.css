@@ -1,0 +1,42 @@
+.about {
+  /* height: 75vh; */
+  padding-bottom: 48px;
+}
+.about-top {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.picture {
+  height: 320px;
+}
+.about-info {
+  font-size: 24px;
+}
+.info-name {
+  font-size: 32px;
+  color: blue;
+}
+@media only screen and (max-width: 720px) {
+  .about-top {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+  .picture {
+    height: 280px;
+  }
+  .about-info {
+    font-size: 20px;
+    margin-top: 15px;
+  }
+  .info-name {
+    font-size: 26px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .picture {
+    width: 280px;
+  }
+}

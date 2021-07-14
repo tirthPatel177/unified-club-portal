@@ -1,9 +1,9 @@
 import React from 'react'
-import TitleLogo from '../TitleLogo/TitleLogo'
+import TitleLogo from './../../TitleLogo/TitleLogo'
 import { useMediaQuery } from "react-responsive";
-import { DeviceSize } from '../../Helpers/Screensize';
+import { DeviceSize } from './../../../Helpers/Screensize';
 import MobileNavLinks from './MobileNavLinks';
-import Logout from '../Auth/Logout';
+import Logout from './../../Auth/Logout';
 import NavLinks from './NavLinks';
 import styled from "styled-components";
 

@@ -4,9 +4,9 @@ import { Redirect } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import ClubCard from './ClubCard';
 import Navbar from '../NavBar/Navbar';
-import './NormalHome.css'
+import './Home.css'
 
-const NormalHome = () => {
+const Home = () => {
     const user = useSelector(state => state.user)
     const [clubs, setClubs] = useState([]);
 
@@ -17,7 +17,7 @@ const NormalHome = () => {
             data => data.json()
         ).then(data => {
             setClubs(data);
-            // console.log(data);
+            console.log(data);
         })
     };
 
@@ -63,4 +63,4 @@ const NormalHome = () => {
     )
 }
 
-export default NormalHome
+export default Home
