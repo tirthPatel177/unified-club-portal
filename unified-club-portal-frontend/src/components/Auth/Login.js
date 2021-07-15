@@ -53,8 +53,8 @@ function Login(props) {
     // Temporary
     const fetchdetails = async (token) => {
         let formData = new FormData();
-        formData.append("key", token);
-        fetch('http://localhost:8000/api/get_info', {
+        formData.append("token", token);
+        fetch('http://localhost:8000/api/user/get_info', {
             method: "POST",
             body: formData
         }).then( data => data.json()).then(
