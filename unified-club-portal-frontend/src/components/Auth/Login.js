@@ -102,8 +102,8 @@ function Login(props) {
 
             }
         ).catch( error => {
-            console.log(error)
-            // setError(error[0])
+            console.log(error[1])
+            setError(error[1])
         })
     };
 

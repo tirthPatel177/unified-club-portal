@@ -46,7 +46,7 @@ export default function NavLinks(props) {
           <Link href="/">Clubs</Link>
         </LinkItem>
         <LinkItem>
-          <Link href="#">Events</Link>
+          <Link href="/user/events">Events</Link>
         </LinkItem>
         <LinkItem>
           <Link href="#">About Us</Link>
