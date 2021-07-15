@@ -102,8 +102,9 @@ function Login(props) {
 
             }
         ).catch( error => {
-            console.log(error[1])
-            setError(error)})
+            console.log(error)
+            // setError(error[0])
+        })
     };
 
     const handleSignup = async (e) => {
