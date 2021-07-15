@@ -11,7 +11,8 @@ function About({club}) {
         </div>
         <div className="about-photo">
           <img
-            src={!club.profile ? require("./../../../../../Resources/club-profile.jpg").default : club.profile}
+            // src={!club.profile ? require("./../../../../../Resources/club-profile.jpg").default : club.profile}
+            src={club.profile}
             className="picture"
           />
         </div>

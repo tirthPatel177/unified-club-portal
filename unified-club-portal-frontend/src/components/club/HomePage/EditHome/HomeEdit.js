@@ -1,39 +1,46 @@
 import React, {useState, useEffect} from 'react'
 import Header from './../header/index'
 import { Button } from '@material-ui/core'
+import profile from './../../../../Resources/club-profile.jpg'
 
 const ImageUpload = (props) => {
-    const [selectedFile, setSelectedFile] = useState()
-    const [preview, setPreview] = useState()
+    let placeholder = null;
+
+    const [{alt, src}, setImg] = useState({
+        src: placeholder,
+        alt: 'Upload an Image'
+    });
+
+    const handleImg = (e) => {
+        if(e.target.files[0]) {
+            setImg({
+                src: URL.createObjectURL(e.target.files[0]),
+                alt: e.target.files[0].name
+            });    
+        }   
+    }
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
-        if (!selectedFile) {
-            setPreview(undefined)
-            return
-        }
+        placeholder = props.profile;
+    }, [])
 
-        const objectUrl = URL.createObjectURL(selectedFile)
-        setPreview(objectUrl)
-
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [selectedFile])
-
-    const onSelectFile = e => {
-        if (!e.target.files || e.target.files.length === 0) {
-            setSelectedFile(undefined)
-            return
-        }
-
-        // I've kept this example simple by using the first image instead of multiple
-        setSelectedFile(e.target.files[0])
-    }
 
     return (
         <div>
-            <input type='file' onChange={onSelectFile} />
-            {!selectedFile ?  <img src={props.profile} /> : selectedFile &&  <img src={preview}/>  }
+            <form>
+                <input 
+                    type="file" 
+                    accept=".png, .jpg, .jpeg" 
+                    id="photo" 
+                    className="visually-hidden"
+                    onChange={handleImg}
+                />
+                <img></img>
+
+            </form>
+            {/* <input type='file' onChange={onSelectFile} />
+            {!selectedFile ?  <img src={props.profile} /> : selectedFile &&  <img src={preview}/>  } */}
         </div>
     )
 }

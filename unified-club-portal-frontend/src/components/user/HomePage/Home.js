@@ -11,7 +11,7 @@ const Home = () => {
     const [clubs, setClubs] = useState([]);
 
     const get_clubs = async () => {
-        fetch('http://127.0.0.1:8000/api/clubs_all', {
+        fetch('http://127.0.0.1:8000/api/club/clubs_all', {
             method : 'GET'
         }).then(
             data => data.json()
@@ -49,14 +49,14 @@ const Home = () => {
                 {
                     clubs.map( club => 
                         {
-                            return <ClubCard club={club} key={club.id}/>
+                            return <ClubCard club={club} key={club.title}/>
                         }
                     )
                 }
                 {
                     clubs.map( club => 
                         {
-                            return <ClubCard club={club} key={club.id}/>
+                            return <ClubCard club={club} key={club.title}/>
                         }
                     )
                 }

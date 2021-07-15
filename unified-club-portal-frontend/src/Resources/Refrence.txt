@@ -30,3 +30,9 @@ https://www.youtube.com/watch?v=hVFy8S2yCH4
 
 Pagination React 
 https://material-ui.com/components/pagination/
+
+Form Material ui
+https://www.youtube.com/watch?v=-XKaSCU0ZLM
+
+Temp Loader React
+https://codesandbox.io/s/prod-haze-icxdm?file=/public/index.html
