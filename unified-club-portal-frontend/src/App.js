@@ -7,6 +7,7 @@ import { Dashboard } from './components/Dashboard/Dashboard';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from './Helpers/actions/actionTypes'
 import ClubProfile from './components/user/clubs_profile/ClubProfile';
+import UserEventsPage from './components/user/events/Events'
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
         <Route exact path='/login' component={Login}/>
         {/* <Route exact path='/club-profiles/:club' component={ClubProfile}/> */}
         <PrivateRoute exact path='/user/club-profiles/:club' component={ClubProfile} />
+        <PrivateRoute exact path='/user/events' component={UserEventsPage} />
         {/* <PrivateRoute exact path='/club/events' component={} /> */}
         {/* <PrivateRoute exact path='/club/announcements' component={} /> */}
       </Switch>
