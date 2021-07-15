@@ -16,6 +16,7 @@ from .views import (
     events_club,
     member_add,
     member_delete,
+    club_profile,
     )
 
 router = routers.DefaultRouter()
@@ -27,14 +28,15 @@ urlpatterns = [
     # url(r'^api/api-token-auth/', obtain_auth_token),
     path('users', UserViewSet.as_view({'get': 'list'})),
     path('login', ObtainAuthToken.as_view()),
-    path('get_info', get_data_user.as_view()),
-    path('activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
-    path('profile_club_create', club_data_create.as_view()),
-    path('event_create', event_create.as_view()),
-    path('clubs_all', clubs_all.as_view()),
-    path('profile_club/<club_name>', club_data.as_view()),
-    path('events/<club_name>', events_club.as_view()),
-    path('events_all', events_all.as_view()),
-    path('member_add', member_add.as_view()),
-    path('member_delete', member_delete.as_view()),
+    path('user/get_info', get_data_user.as_view()),
+    path('user/activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
+    path('club/profile_club_create', club_data_create.as_view()),
+    path('club/event_create', event_create.as_view()),
+    path('club/clubs_all', clubs_all.as_view()),
+    path('club/profile_club/<club_name>', club_data.as_view()),
+    path('club/club_profile', club_profile.as_view()),
+    path('club/events/<club_name>', events_club.as_view()),
+    path('club/events_all', events_all.as_view()),
+    path('club/member_add', member_add.as_view()),
+    path('club/member_delete', member_delete.as_view()),
 ]
