@@ -39,7 +39,7 @@ const Home = () => {
 
     return (
         <>
-            { user !== 'user' ? null : 
+            { !(user !== 'user') ? null : 
             <div>
                 {/* <p> { user.email }</p>
                 <p> {user.first_name } </p>
