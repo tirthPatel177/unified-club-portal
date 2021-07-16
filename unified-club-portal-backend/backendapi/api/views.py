@@ -51,7 +51,8 @@ class UserViewSet(viewsets.ModelViewSet):
             )
             
             email_send.send(fail_silently=False)
-                
+
+            Club_profile.objects.update_or_create(user=user, defaults=dict(title=email, description="", tag_line = ""))
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -141,8 +142,7 @@ class club_data_create(APIView):
             user = Token.objects.get(key=token).user
             
             Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
-            print(title)
-            print(tag_line)
+            
             
             cont = {
                 "status" : "Updated Successfully"
@@ -153,7 +153,7 @@ class club_data_create(APIView):
             resp = {
                 'Error': 'Club with that name already exists!'
             }
-            return Response(resp)
+            return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
 class clubs_all(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
