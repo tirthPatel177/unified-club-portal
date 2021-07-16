@@ -136,7 +136,7 @@ class club_data_create(APIView):
             title = request.data["title"]
             desc = request.data["description"]
             img = request.data["profile_image"]
-            tag_line = request.data["tag_line"],
+            tag_line = request.data["tag_line"]
             
             user = Token.objects.get(key=token).user
             
@@ -144,7 +144,7 @@ class club_data_create(APIView):
             
             
             cont = {
-                "status" : "Created Successfully"
+                "status" : "Updated Successfully"
             }
             
             return Response(cont,status=status.HTTP_201_CREATED)
@@ -254,11 +254,15 @@ class events_all(APIView):
         data = []
         
         for event in serializer.data:
+            club_prof = Club_profile.objects.get(title=event["event_title"])
             event_data = {
                 "event_title" : event["event_title"],
                 "event_description" : event["event_description"],
                 "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                 "date" : event["date"],
+                "club_name" : club_prof["title"],
+                "profile_pic" : ("http://127.0.0.1:8000"+club_prof["profile_pic"]),
+                
             }
             
             data.append(event_data)

@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
-        print(user)
+        # print(user)
         return user
     
 class BookSerializer(serializers.ModelSerializer):
