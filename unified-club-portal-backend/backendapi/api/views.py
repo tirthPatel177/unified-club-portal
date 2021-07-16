@@ -233,11 +233,12 @@ class event_create(APIView):
         event_title = request.data["event_title"]
         event_description = request.data["event_description"]
         # poster = request.data["poster"]
-        date = request.data["date"],
+        date = request.data["date"]
+        approved = False
 
         user = Token.objects.get(key=token).user
         
-        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0]))
+        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
         # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date))
         
         cont = {
@@ -258,20 +259,22 @@ class events_all(APIView):
         
         
         data = []
-        
+        i = 0
         for event in serializer.data:
-            club_prof = Club_profile.objects.get(title=event["event_title"])
-            event_data = {
-                "event_title" : event["event_title"],
-                "event_description" : event["event_description"],
-                "poster" : ("http://127.0.0.1:8000"+event["poster"]),
-                "date" : event["date"],
-                "club_name" : club_prof["title"],
-                "profile_pic" : ("http://127.0.0.1:8000"+club_prof["profile_pic"]),
+            club_prof = Club_profile.objects.get(user=events[i].user)
+            i+=1
+            if(event["approved"]):
+                event_data = {
+                    "event_title" : event["event_title"],
+                    "event_description" : event["event_description"],
+                    "poster" : ("http://127.0.0.1:8000"+event["poster"]),
+                    "date" : event["date"],
+                    "club_name" : club_prof.title,
+                    "profile_pic" : ("http://127.0.0.1:8000"+str(club_prof.profile_pic)),
+                    
+                }
                 
-            }
-            
-            data.append(event_data)
+                data.append(event_data)
         
         return Response(data)
     

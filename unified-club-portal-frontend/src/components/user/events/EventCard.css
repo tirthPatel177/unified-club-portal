@@ -3,7 +3,7 @@
     background-color: rgba(89, 209, 218, 0.1);
     border-radius: 10px;
     width: 80%;
-    height: 400px;
+    height: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
@@ -21,12 +21,53 @@
 }
 
 .card-event-title{
-    margin-left: 25px;
+    margin-left: 23px;
     font-size: 25px;
 }
 
 .card-event-date{
-    margin-left: 80%;
-    margin-bottom: 0%;
+    margin-right: 10px;
+    float: right;
     font-size: 15px;
 }
+
+.club_profile_pic{
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    margin-top: 2px;
+}
+
+@media(max-width: 600px){
+    .club_profile_pic{
+        width: 20px;
+        height: 20px;
+    }
+    .card-event-title{
+        font-size: 19px;
+    }
+    
+    .card-event-date{
+        font-size: 13px;
+    }
+}
+
+.card-event-club{
+    font-size: 15px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.club_name_event{
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.data_event{
+    /* margin: 50px; */
+    padding-bottom: 20px;
+}
+
