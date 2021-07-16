@@ -139,10 +139,14 @@ class club_data_create(APIView):
             tag_line = request.data["tag_line"]
             
             user = Token.objects.get(key=token).user
+
+            # print("------>",img, type(img))
+            #  After hosting change the path to the hosting server 
+            if(type(img)==str):
+                img = img[len("http://127.0.0.1:8000/images"):]
             
             Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
-            print(title)
-            print(tag_line)
+            
             
             cont = {
                 "status" : "Updated Successfully"
