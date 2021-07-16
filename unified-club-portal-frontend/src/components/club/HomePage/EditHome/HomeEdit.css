@@ -1,0 +1,50 @@
+.club-profile-form-container{
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
+}
+
+.club-profile-form-container > .club-profile-form{
+    display: flex;
+    flex-direction: column;
+    margin: 3%;
+    padding: 20px 0;
+}
+
+.club-profile-image-upload {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+}
+
+.club-profile-image-upload > .club-image-upload-button-area{
+    width: 50%;
+    /* background-color: blue; */
+    text-align: center;
+}
+
+.edit-profile-welcome {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.club-profile-form .form-marginer {
+    display: grid;
+    padding-top: 20px;
+}
+
+@media screen and (max-width: 1000px){
+    .club-profile-image-upload {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .club-profile-image-upload > .club-image-upload-button-area{
+        width: 100%;
+        /* background-color: blue; */
+        text-align: center;
+    }
+    
+} 
+
