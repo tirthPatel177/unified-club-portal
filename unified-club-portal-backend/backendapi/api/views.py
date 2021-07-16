@@ -136,15 +136,16 @@ class club_data_create(APIView):
             title = request.data["title"]
             desc = request.data["description"]
             img = request.data["profile_image"]
-            tag_line = request.data["tag_line"],
+            tag_line = request.data["tag_line"]
             
             user = Token.objects.get(key=token).user
             
             Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
-            
+            print(title)
+            print(tag_line)
             
             cont = {
-                "status" : "Created Successfully"
+                "status" : "Updated Successfully"
             }
             
             return Response(cont,status=status.HTTP_201_CREATED)

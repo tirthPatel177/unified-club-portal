@@ -8,34 +8,62 @@ import InputLabel from '@material-ui/core/InputLabel';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
+import { useHistory } from "react-router-dom";
+
 
 const HomeEdit = (props) => {
 
-    
 
     const [clubDetails, setclubDetails] = useState(
         {
             title: props.club.title,
             tag_line: props.club.tag_line,
             description: props.club.description,
-            profile: props.club.profile
+            profile_image: props.club.profile
         }
     )
+    const history = useHistory();
+
+    const [preview, setPreview] = useState(props.club.profile);
 
     const handleChange = (e) => {
         e.preventDefault();
         const changename= e.target.name;
         const changevalue = e.target.value;
         console.log(changename, changevalue, 'Hello');
-        if(changename === 'profile'){
+        if(changename === 'profile_image'){
             if(e.target.files[0]) {
-                setclubDetails({...clubDetails, profile: URL.createObjectURL(e.target.files[0])});
+                setclubDetails({...clubDetails, 
+                    // profile_image: URL.createObjectURL(e.target.files[0])
+                    profile_image: e.target.files[0]
+                });
+                setPreview(URL.createObjectURL(e.target.files[0]));
             }   
         }else{
             setclubDetails({...clubDetails, [changename]: changevalue});
         }
         console.log(clubDetails.name)
     };
+
+    const handleSubmit = () => {
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        for (const property in clubDetails) {
+            formData.append(property, clubDetails[property])
+            console.log(property, clubDetails[property], formData[property]);
+        }
+        console.log(formData.tag_line);
+        fetch('http://localhost:8000/api/club/profile_club_create',
+        {
+            method: 'POST',
+            body: formData
+        }).then( data => data.json()).then(
+
+            data => {console.log(data)
+            // <Redirect to='/' />
+        }
+        );
+    }
 
     return (
         <div>
@@ -46,7 +74,7 @@ const HomeEdit = (props) => {
                 <h2 className='edit-profile-welcome'>Edit Profile</h2>
             <form className='club-profile-form'>
                 <div className='club-profile-image-upload'>
-                    <img src={clubDetails.profile} style={{ height : '280px'}} ></img>
+                    <img src={preview} style={{ height : '280px'}} ></img>
                         
                     <div className="club-image-upload-button-area">
                     <h3> Profile Photo </h3>
@@ -54,7 +82,7 @@ const HomeEdit = (props) => {
                         type="file" 
                         accept=".png, .jpg, .jpeg" 
                         id="photo" 
-                        name='profile'
+                        name='profile_image'
                         className="club-image-upload-button"
                         onChange={handleChange}
                     />
@@ -83,6 +111,11 @@ const HomeEdit = (props) => {
                     value={clubDetails.description}
                     onChange={handleChange}
                 />
+                </div>
+                <div className='club-profile-save-container'>
+                    <Button variant="contained" color="primary" onClick={handleSubmit}>
+                        Save
+                    </Button>
                 </div>
             </form>
             </div>

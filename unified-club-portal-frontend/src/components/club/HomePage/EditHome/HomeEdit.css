@@ -9,6 +9,7 @@
     flex-direction: column;
     margin: 3%;
     padding: 20px 0;
+    /* justify-content: center; */
 }
 
 .club-profile-image-upload {
@@ -31,6 +32,11 @@
 .club-profile-form .form-marginer {
     display: grid;
     padding-top: 20px;
+}
+
+.club-profile-save-container {
+    margin: 10px;
+    text-align: center;
 }
 
 @media screen and (max-width: 1000px){
