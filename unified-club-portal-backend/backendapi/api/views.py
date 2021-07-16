@@ -141,7 +141,8 @@ class club_data_create(APIView):
             user = Token.objects.get(key=token).user
             
             Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
-            
+            print(title)
+            print(tag_line)
             
             cont = {
                 "status" : "Updated Successfully"
