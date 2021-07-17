@@ -37,3 +37,9 @@ class Event(models.Model):
 class Member(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
     club_name = models.CharField(max_length=150)
+
+class Register_Event(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
+    event_name = models.CharField(max_length=250, default="")
+    mobile_no = models.CharField(max_length=10)
+    roll_no = models.CharField(max_length=10)

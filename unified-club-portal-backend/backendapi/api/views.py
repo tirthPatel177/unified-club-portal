@@ -2,9 +2,9 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer
+from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer
 from rest_framework.response import Response
-from .models import Book, Type_of_User, Club_profile, Event, Member
+from .models import Book, Type_of_User, Club_profile, Event, Member, Register_Event
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -331,7 +331,7 @@ class member_add(APIView):
         user = Token.objects.get(key=token).user
         if(Member.objects.filter(user=user, club_name=title).exists()):
             det = {"Error": "You are already a member"}
-            return Response(det, status=status.HTTP_201_CREATED)
+            return Response(det, status=status.HTTP_400_BAD_REQUEST)
         else:
             Member.objects.create(user=user, club_name=title)
                 
@@ -362,3 +362,47 @@ class member_delete(APIView):
         det = {"success": "Removed as Member successfully"}
         
         return Response(det, status=status.HTTP_201_CREATED)
+
+
+class Event_register(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (
+        parsers.FormParser,
+        parsers.MultiPartParser,
+        parsers.JSONParser,
+    )
+    renderer_classes = (renderers.JSONRenderer,)
+    def post(self, request):
+        token = request.data["token"]
+        event_name = request.data["event_name"]
+        mobile_no = request.data["mobile_no"]
+        roll_no = request.data["roll_no"]
+
+        user = Token.objects.get(key=token).user
+        
+        if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
+            det = {"Error": "Already registered"}
+            return Response(det, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            Register_Event.objects.create(user=user, event_name=event_name, mobile_no=mobile_no, roll_no=roll_no)
+
+        det = {"success":"Registered successfully"}
+        return Response(det, status=status.HTTP_201_CREATED)
+
+class Registered_users(APIView):
+    def get(self, request, event_name):
+        event_name = event_name.replace('-', ' ')
+        participants = Register_Event.objects.filter(event_name=event_name)
+
+        data = []
+        for participant in participants:
+            part_data = {}
+            part_data["first_name"]=participant.user.first_name
+            part_data["last_name"]=participant.user.last_name
+            part_data["email"]=participant.user.email
+            part_data["mobile_no"]=participant.mobile_no
+            part_data["roll_no"]=participant.roll_no
+            
+            data.append(part_data)
+        return Response(data)
