@@ -263,7 +263,7 @@ class events_all(APIView):
         for event in serializer.data:
             club_prof = Club_profile.objects.get(user=events[i].user)
             i+=1
-            if(event["approved"] and not event["rejected"]):
+            if(event["approved"]==1 and event["visible"]):
                 event_data = {
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],
@@ -297,7 +297,7 @@ class events_club(APIView):
         for event in serializer.data:
             club_prof = Club_profile.objects.get(user=events[i].user)
             i+=1
-            if(event["approved"] and not event["rejected"]):
+            if(event["approved"]==1 and event["visible"]):
                 event_data = {
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],

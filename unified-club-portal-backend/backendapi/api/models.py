@@ -30,8 +30,8 @@ class Event(models.Model):
     event_description = models.TextField(max_length=1000)
     poster = models.ImageField(null=False, blank=False, default='default.jpg', upload_to=upload_path_event)
     date = models.DateTimeField()
-    approved = models.BooleanField(default=False)
-    rejected = models.BooleanField(default=False)
+    approved = models.IntegerField(default=0)
+    visible = models.BooleanField(default=False)
     
 
 class Member(models.Model):

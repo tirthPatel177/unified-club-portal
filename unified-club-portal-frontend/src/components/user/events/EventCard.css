@@ -26,8 +26,11 @@
 }
 
 .card-event-date{
-    margin-right: 10px;
-    float: right;
+    margin-right: 8px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    /* float: right;    */
     font-size: 15px;
 }
 
@@ -69,5 +72,6 @@
 .data_event{
     /* margin: 50px; */
     padding-bottom: 20px;
+    position: relative;
 }
 
