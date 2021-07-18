@@ -232,14 +232,15 @@ class event_create(APIView):
         token = request.data["token"]
         event_title = request.data["event_title"]
         event_description = request.data["event_description"]
-        # poster = request.data["poster"]
+        poster = request.data["poster"]
         date = request.data["date"]
         approved = False
+        visible = request.data["visible"]
 
         user = Token.objects.get(key=token).user
         
-        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
-        # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date))
+        # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
+        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible))
         
         cont = {
             "status" : "Event Created Successfully"
@@ -265,6 +266,7 @@ class events_all(APIView):
             i+=1
             if(event["approved"]==1 and event["visible"]):
                 event_data = {
+                    "id" : event["id"],
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
