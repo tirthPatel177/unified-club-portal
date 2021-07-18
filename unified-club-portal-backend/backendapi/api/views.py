@@ -232,14 +232,19 @@ class event_create(APIView):
         token = request.data["token"]
         event_title = request.data["event_title"]
         event_description = request.data["event_description"]
-        # poster = request.data["poster"]
+        poster = request.data["poster"]
         date = request.data["date"]
         approved = False
+        visible = True
+        if(request.data["visible"] == 'true'):
+            visible = True
+        else:
+            visible = False
 
         user = Token.objects.get(key=token).user
         
-        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
-        # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date))
+        # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
+        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible))
         
         cont = {
             "status" : "Event Created Successfully"

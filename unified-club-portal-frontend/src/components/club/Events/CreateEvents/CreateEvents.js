@@ -10,6 +10,8 @@ import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -25,10 +27,11 @@ const CreateEvents = () => {
 
     const [preview, setPreview] = useState('');
     const [event, setevent] = useState({
-        title: '',
-        description: '',
+        event_title: '',
+        event_description: '',
         date: '',
-        poster: ''
+        poster: '',
+        visible: false,
     })
     const [editordata, seteditordata] = useState('')
 
@@ -37,7 +40,10 @@ const CreateEvents = () => {
         const changename= e.target.name;
         const changevalue = e.target.value;
         // console.log(changename, changevalue, 'Hello');
-        if(changename === 'poster'){
+        if(changename === 'visible'){
+            setevent({...event, [changename]: e.target.checked})
+        }
+        else if(changename === 'poster'){
             if(e.target.files[0]) {
                 setevent({...event, 
                     // profile_image: URL.createObjectURL(e.target.files[0])
@@ -53,12 +59,25 @@ const CreateEvents = () => {
     useEffect(() => {
         console.log(event);}
     ,[event])
+    
+    const beforeSubmit = async () => {
+        setevent((event)=>{
+            return {...event, event_description : editordata}
+        });
+    };
 
     const handleSubmit = () => {
-        setevent((event)=>{
-        return {...event, description : editordata}
-        });
-        
+        beforeSubmit();
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        for (const property in event) {
+            formData.append(property, event[property])
+            console.log(property, event[property], formData[property]);
+        }
+        fetch('http://127.0.0.1:8000/api/club/event_create', {
+            method: 'POST',
+            body: formData
+        }).then( data => data.json())
         console.log(editordata)
     }
 
@@ -75,8 +94,8 @@ const CreateEvents = () => {
                     <div className='form-marginer'>
                         <FormControl >
                             <InputLabel htmlFor="title">Event Title</InputLabel>
-                            <Input name='title' id="title" 
-                            value={event.title} 
+                            <Input name='event_title' id="title" 
+                            value={event.event_title} 
                             onChange={handleChange}  
                             required/>
                         </FormControl>
@@ -120,13 +139,25 @@ const CreateEvents = () => {
                     </div>
 
                     <div className='form-marginer'>
+                        {/* <TextField
+                            name='datetime-local'
+                            value={event.date}
+                            id="datetime-local"
+                            label="Event Date"
+                            type="datetime-local"
+                            // defaultValue="2017-05-24"
+                            className={classes.textField}
+                            onChange={handleChange}
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                        /> */}
                         <TextField
                             name='date'
-                            value={event.date}
-                            id="date"
+                            id="datetime-local"
                             label="Event Date"
-                            type="date"
-                            defaultValue="2017-05-24"
+                            type="datetime-local"
+                            // defaultValue="2017-05-24T10:30"
                             className={classes.textField}
                             onChange={handleChange}
                             InputLabelProps={{
@@ -135,13 +166,30 @@ const CreateEvents = () => {
                         />
                     </div>
 
+                    <div className='form-marginer'>
+                    <FormControlLabel
+                        control={
+                        <Checkbox
+                            checked={event.visible}
+                            onChange={handleChange}
+                            name="visible"
+                            color="primary"
+                        />
+                        }
+                        label="Visible"
+                    />
+                    </div>
+
                     <div className='club-event-create-container'>
                     <Button variant="contained" color="primary" 
                     onClick={handleSubmit}
                     >
                         Create Event
                     </Button>
-                </div>
+                    </div>
+                    
+                    
+                    
                 </form>
             </div>
             </div>
