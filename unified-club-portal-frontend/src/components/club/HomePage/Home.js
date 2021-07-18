@@ -41,7 +41,7 @@ const Home = () => {
         // console.log(user);
         let token = localStorage.getItem('token');
         fetchdetails(token);
-    }, [])
+    }, [edit])
 
     // http://127.0.0.1:8000/api/profile_club/Programming-Club
     

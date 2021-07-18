@@ -3,7 +3,14 @@ import "./mobile.css";
 import CancelIcon from '@material-ui/icons/Cancel';
 import Edit from "../../Edit";
 
-function Mobile({ isOpen, setIsOpen, edit, setEdit }) {
+function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
+
+  const get_title = (title) => {
+    // console.log(title);
+    if(title)
+      return title.split(' ').join('-');
+}
+
   return (
     <div className="mobile">
       <div onClick={() => setIsOpen(!isOpen)} className="close-icon-container">
@@ -17,7 +24,7 @@ function Mobile({ isOpen, setIsOpen, edit, setEdit }) {
           <Edit edit={edit} setEdit={setEdit}/>
         </div>
         <div className="mobile-option">
-          <a href="#skills">
+          <a href={'/' + get_title(title) + '/events' }>
             Events
           </a>
         </div>
