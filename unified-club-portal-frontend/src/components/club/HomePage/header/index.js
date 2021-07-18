@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import Mobile from "./mobile/index";
 import Web from "./web/index";
@@ -12,6 +12,13 @@ function Header(props) {
   window.onscroll = function () {
     setIsOpen(false);
   };
+
+  useEffect(function () {
+    console.log(props.title);
+  }, [])
+
+
+
   return (
     <div className="header">
       <div onClick={handleLogoClick} className="logo">
@@ -19,14 +26,14 @@ function Header(props) {
       </div>
       <div className="menu">
         <div className="web-menu">
-          <Web edit={props.edit} setEdit={props.setEdit}/>
+          <Web edit={props.edit} setEdit={props.setEdit} title={props.title}/>
         </div>
 
         <div className="mobile-menu">
           <div onClick={() => setIsOpen(!isOpen)}>
             <DashboardIcon />
           </div>
-          {isOpen && <Mobile isOpen={isOpen} setIsOpen={setIsOpen} edit={props.edit} setEdit={props.setEdit}/>}
+          {isOpen && <Mobile isOpen={isOpen} setIsOpen={setIsOpen} edit={props.edit} setEdit={props.setEdit} title={props.title}/>}
         </div>
       </div>
     </div>

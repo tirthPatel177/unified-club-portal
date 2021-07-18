@@ -235,7 +235,11 @@ class event_create(APIView):
         poster = request.data["poster"]
         date = request.data["date"]
         approved = False
-        visible = request.data["visible"]
+        visible = True
+        if(request.data["visible"] == 'true'):
+            visible = True
+        else:
+            visible = False
 
         user = Token.objects.get(key=token).user
         

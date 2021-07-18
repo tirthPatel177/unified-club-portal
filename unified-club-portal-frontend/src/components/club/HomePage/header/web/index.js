@@ -2,6 +2,13 @@ import React from "react";
 import Edit from "../../Edit";
 import "./web.css";
 function Web(props) {
+
+  const get_title = (title) => {
+    // console.log(title);
+    if(title)
+      return title.split(' ').join('-');
+  }
+
   return (
     <div className="web">
       <div className="web-option">
@@ -11,7 +18,7 @@ function Web(props) {
         <Edit edit={props.edit} setEdit={props.setEdit}/>
       </div>
       <div className="web-option">
-        <a href="#skills">
+        <a href={'/' + get_title(props.title) + '/events' }>
           Events
         </a>
       </div>

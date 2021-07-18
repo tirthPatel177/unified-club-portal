@@ -13,7 +13,32 @@ import { useHistory } from "react-router-dom";
 
 const HomeEdit = (props) => {
 
+    
 
+    // const fetchdetails = async (token) => {
+    //     let formData = new FormData();
+    //     formData.append("token", token);
+    //     fetch('http://localhost:8000/api/club/club_profile', {
+    //         method: "POST",
+    //         body: formData
+    //     }).then( data => data.json()).then(
+    //         data => {
+    //             console.log(data);
+    //             setclubDetails(data);
+    //             // props.setUser(data.type_of_user)
+                
+    //         }
+    //     ).catch(e => console.log(e))
+    // }
+
+    // useEffect(() => {
+    //     // fetch('http://127.0.0.1:8000/api/profile_club/' + get_title(user))
+    //     // console.log(user);
+    //     let token = localStorage.getItem('token');
+    //     fetchdetails(token);
+    // }, [])
+
+    
     const [clubDetails, setclubDetails] = useState(
         {
             title: props.club.title,
@@ -22,7 +47,6 @@ const HomeEdit = (props) => {
             profile_image: props.club.profile
         }
     )
-    const history = useHistory();
 
     const [preview, setPreview] = useState(props.club.profile);
 
@@ -61,6 +85,7 @@ const HomeEdit = (props) => {
 
             data => {console.log(data)
             // <Redirect to='/' />
+            props.setEdit(false);
         }
         );
     }
@@ -68,7 +93,7 @@ const HomeEdit = (props) => {
     return (
         <div>
             <div>
-                <Header edit={props.edit} setEdit={props.setEdit}/>
+                <Header edit={props.edit} setEdit={props.setEdit} title={props.c}/>
             </div>
             <div className='club-profile-form-container'>
                 <h2 className='edit-profile-welcome'>Edit Profile</h2>
