@@ -443,6 +443,8 @@ class Event_register(APIView):
 
         user = Token.objects.get(key=token).user
         
+        event_name = Event.objects.get(event_title=event_name)
+        
         if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
             det = {"Error": "Already registered"}
             return Response(det, status=status.HTTP_400_BAD_REQUEST)
