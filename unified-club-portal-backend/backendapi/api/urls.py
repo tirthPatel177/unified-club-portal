@@ -19,6 +19,7 @@ from .views import (
     club_profile,
     Event_register,
     Registered_users,
+    event_update,
     )
 
 router = routers.DefaultRouter()
@@ -34,6 +35,7 @@ urlpatterns = [
     path('user/activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
     path('club/profile_club_create', club_data_create.as_view()),
     path('club/event_create', event_create.as_view()),
+    path('club/event_update', event_update.as_view()),
     path('club/clubs_all', clubs_all.as_view()),
     path('club/profile_club/<club_name>', club_data.as_view()),
     path('club/club_profile', club_profile.as_view()),

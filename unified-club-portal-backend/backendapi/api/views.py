@@ -144,7 +144,8 @@ class club_data_create(APIView):
             # print("------>",img, type(img))
             #  After hosting change the path to the hosting server 
             if(type(img)==str):
-                img = img[len("http://127.0.0.1:8000/images"):]
+                if("http://127.0.0.1:8000/images" in img):
+                    img = img[len("http://127.0.0.1:8000/images"):]
             
             Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
             
@@ -156,7 +157,7 @@ class club_data_create(APIView):
             return Response(cont,status=status.HTTP_201_CREATED)
         except IntegrityError:
             resp = {
-                'Error': 'Club with that name already exists!'
+                'Error': 'Club with this name already exists!'
             }
             return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
@@ -229,29 +230,83 @@ class club_data(APIView):
     
 class event_create(APIView):
     def post(self, request):
-        token = request.data["token"]
-        event_title = request.data["event_title"]
-        event_description = request.data["event_description"]
-        poster = request.data["poster"]
-        date = request.data["date"]
-        approved = False
-        visible = True
-        if(request.data["visible"] == 'true'):
+        try:
+            token = request.data["token"]
+            event_title = request.data["event_title"]
+            event_description = request.data["event_description"]
+            poster = request.data["poster"]
+            date = request.data["date"]
+            approved = False
             visible = True
-        else:
-            visible = False
+            if(request.data["visible"] == 'true'):
+                visible = True
+            else:
+                visible = False
 
-        user = Token.objects.get(key=token).user
-        
-        # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
-        Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible))
-        
-        cont = {
-            "status" : "Event Created Successfully"
-        }
-        
-        return Response(cont,status=status.HTTP_201_CREATED)
+            user = Token.objects.get(key=token).user
+            
+            # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
+            Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
+            
+            cont = {
+                "status" : "Event Created Successfully"
+            }
+            
+            return Response(cont,status=status.HTTP_201_CREATED)
     
+        except IntegrityError:
+                resp = {
+                    'Error': 'Event with this title already exists!'
+                }
+                return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+
+class event_update(APIView):
+    def post(self, request):
+        try:
+            id_event = request.data["id_event"]
+            token = request.data["token"]
+            event_title = request.data["event_title"]
+            event_description = request.data["event_description"]
+            poster = request.data["poster"]
+            date = request.data["date"]
+            approved = False
+            visible = True
+            if(request.data["visible"].lower() == 'true'):
+                visible = True
+            else:
+                visible = False
+
+            user = Token.objects.get(key=token).user
+            
+            obj = Event.objects.get(id=id_event)
+            
+            obj.event_title = event_title
+            obj.event_description = event_description
+            if(type(poster)==str):
+                if("http://127.0.0.1:8000/images" in poster):
+                    poster = poster[len("http://127.0.0.1:8000/images"):]
+            
+
+            obj.poster = poster
+            obj.date = date
+            obj.visible = visible
+            
+            obj.save()        
+            # # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
+            # Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
+            
+            cont = {
+                "status" : "Event Updated Successfully"
+            }
+            
+            return Response(cont,status=status.HTTP_201_CREATED)
+
+        except IntegrityError:
+            resp = {
+                'Error': 'Event with this title already exists!'
+            }
+            return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+
 class events_all(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
 
@@ -270,6 +325,7 @@ class events_all(APIView):
             i+=1
             if(event["approved"]==1 and event["visible"]):
                 event_data = {
+                    "id_event" : event["id"],
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
@@ -304,6 +360,7 @@ class events_club(APIView):
             i+=1
             if(event["approved"]==1 and event["visible"]):
                 event_data = {
+                    "id_event" : event["id"],
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
@@ -385,6 +442,8 @@ class Event_register(APIView):
         roll_no = request.data["roll_no"]
 
         user = Token.objects.get(key=token).user
+        
+        event_name = Event.objects.get(event_title=event_name)
         
         if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
             det = {"Error": "Already registered"}
