@@ -80,3 +80,13 @@ parameters: No Parameters
 URL = http://127.0.0.1:8000/api/club/event_data_id
 Type = "POST"
 parameters(Form-Data) : id_event
+
+(17) is_registered: To check if user is registered for event or not
+URL = http://127.0.0.1:8000/api/club/is_registered
+Type = "POST"
+parameters(Form-Data) : token, id_event
+
+(18) get_type_user: To get type of user from token
+URL = http://127.0.0.1:8000/api/user/get_type_user
+Type = "POST"
+parameters(Form-Data) : token

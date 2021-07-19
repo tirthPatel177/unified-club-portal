@@ -22,6 +22,7 @@ from .views import (
     event_update,
     event_data_id,
     Is_registered,
+    get_type_user,
     )
 
 router = routers.DefaultRouter()
@@ -34,6 +35,7 @@ urlpatterns = [
     path('users', UserViewSet.as_view({'get': 'list'})),
     path('login', ObtainAuthToken.as_view()),
     path('user/get_info', get_data_user.as_view()),
+    path('user/get_type_user', get_type_user.as_view()),
     path('user/activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
     path('club/profile_club_create', club_data_create.as_view()),
     path('club/event_create', event_create.as_view()),

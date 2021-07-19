@@ -108,7 +108,14 @@ class ObtainAuthToken(APIView):
             }
             return Response(content)
         
+class get_type_user(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        user = Token.objects.get(key=request.POST.get("token", "")).user
+        type_user = Type_of_User.objects.get(author=user)
+        return Response({"type_of_user":type_user.type_of_user})
         
+
 class get_data_user(APIView):
     def post(self, request):
         try:
@@ -322,13 +329,13 @@ class events_all(APIView):
         i = 0
         for event in serializer.data:
             club_prof = Club_profile.objects.get(user=events[i].user)
+            Club_prof = Club_profileSerializer(club_prof)
             i+=1
             if(event["approved"]==1 and event["visible"]):
                 if(event["poster"][0]!='/'):
                     event["poster"] = '/'+event["poster"]
-                clb_prof = str(club_prof.profile_pic)
-                if(clb_prof[0]!='/'):
-                    clb_prof = '/'+clb_prof
+                if(Club_prof.data["profile_pic"][0]!='/'):
+                    Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
@@ -336,8 +343,8 @@ class events_all(APIView):
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
-                    "club_name" : club_prof.title,
-                    "profile_pic" : ("http://127.0.0.1:8000"+clb_prof),
+                    "club_name" : Club_prof.data["title"],
+                    "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     
                 }
                 
@@ -363,13 +370,13 @@ class events_club(APIView):
         i=0
         for event in serializer.data:
             club_prof = Club_profile.objects.get(user=events[i].user)
+            Club_prof = Club_profileSerializer(club_prof)
             i+=1
             if(event["approved"]==1 and event["visible"]):
                 if(event["poster"][0]!='/'):
                     event["poster"] = '/'+event["poster"]
-                clb_prof = str(club_prof.profile_pic)
-                if(clb_prof[0]!='/'):
-                    clb_prof = '/'+clb_prof
+                if(Club_prof.data["profile_pic"][0]!='/'):
+                    Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
@@ -377,8 +384,8 @@ class events_club(APIView):
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
-                    "club_name" : club_prof.title,
-                    "profile_pic" : ("http://127.0.0.1:8000"+clb_prof),
+                    "club_name" : Club_prof.data["title"],
+                    "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     
                 }
             
@@ -393,21 +400,22 @@ class event_data_id(APIView):
         evnt = Event.objects.get(id=id_event)
         
         club_prof = Club_profile.objects.get(user=evnt.user)
-        evnt_poster = str(evnt.poster)
-        if(evnt_poster[0]!='/'):
-            evnt_poster = '/'+evnt_poster
-        clb_prof = str(club_prof.profile_pic)
-        if(clb_prof[0]!='/'):
-            clb_prof = '/'+clb_prof
+        Club_prof = Club_profileSerializer(club_prof)
+        event = EventSerializer(evnt)
+        # print(serializer.data["poster"])
+        if(event.data["poster"][0]!='/'):
+            event.data["poster"] = '/'+event.data["poster"]
+        if(Club_prof.data["profile_pic"][0]!='/'):
+            Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
         event_data = {
-            "id_event" : evnt.id,
-            "event_title" : evnt.event_title,
-            "event_description" : evnt.event_description,
-            "poster" : ("http://127.0.0.1:8000"+evnt_poster),
-            "date" : evnt.date,
-            "visible" : evnt.visible,
-            "club_name" : club_prof.title,
-            "profile_pic" : ("http://127.0.0.1:8000"+clb_prof),                
+            "id_event" : event.data["id"],
+            "event_title" : event.data["event_title"],
+            "event_description" : event.data["event_description"],
+            "poster" : ("http://127.0.0.1:8000"+event.data["poster"]),
+            "date" : event.data["date"],
+            "visible" : event.data["visible"],
+            "club_name" : Club_prof.data["profile_pic"],
+            "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),                
         }
         
         return Response(event_data)
