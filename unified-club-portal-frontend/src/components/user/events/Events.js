@@ -33,7 +33,7 @@ const Events = () => {
                     {
                         events.map( event => 
                             {
-                                return <EventCard event={event} key={event.event_title}/>
+                                return <EventCard event={event} key={event.id_event}/>
                             }
                         )
                     }

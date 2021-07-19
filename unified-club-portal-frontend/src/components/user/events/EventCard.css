@@ -75,3 +75,10 @@
     position: relative;
 }
 
+.card-links {
+    text-decoration: none;
+}
+
+.card-links:active {
+    color: black;
+}

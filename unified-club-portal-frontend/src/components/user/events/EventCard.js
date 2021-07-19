@@ -5,6 +5,7 @@ const EventCard = ({event}) => {
 
     return (
         <div className="card_event">
+            <a className="card-links" href={'/user/events/'+ event.id_event}>
             <img src={event.poster} width="100%" height="300px" className="poster_event"/>
             <div className="data_event">
                 <div className="card-event-club">
@@ -14,7 +15,7 @@ const EventCard = ({event}) => {
                 <span className="card-event-title">{event.event_title}</span>
                 <span className="card-event-date">{event.date}</span>
             </div>
-            
+            </a>
             
         </div>
     )

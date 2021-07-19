@@ -226,7 +226,7 @@ function Login(props) {
                             Login
                         </button>
                     </form>
-                    <p>
+                    <p className='already-account'>
                         Don't have an account? {" "}
                         <a onClick={changethestate} href="#"> SignUp</a>
                     </p>
@@ -244,7 +244,7 @@ function Login(props) {
                             Sign Up
                         </button>
                     </form>
-                    <p>
+                    <p className='already-account'>
                         Already have an account? {" "}
                         <a onClick={changethestate} href='#'> Login </a>
                     </p>
