@@ -108,7 +108,14 @@ class ObtainAuthToken(APIView):
             }
             return Response(content)
         
+class get_type_user(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        user = Token.objects.get(key=request.POST.get("token", "")).user
+        type_user = Type_of_User.objects.get(author=user)
+        return Response({"type_of_user":type_user.type_of_user})
         
+
 class get_data_user(APIView):
     def post(self, request):
         try:
