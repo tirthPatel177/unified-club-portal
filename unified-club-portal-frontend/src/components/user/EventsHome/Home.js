@@ -21,6 +21,9 @@ const Home = () => {
         }
     )
 
+    const [isreg, setisreg] = useState(false);
+
+    const [event, setevent] = useState({});
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -35,13 +38,13 @@ const Home = () => {
     const handleSubmit = () => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
-        formData.append('id', );
+        formData.append('id_event', id);
         for (const property in register) {
             formData.append(property, register[property])
             console.log(property, register[property], formData[property]);
         }
         // console.log(formData.tag_line);
-        fetch('http://localhost:8000/api/club/profile_club_create',
+        fetch('http://localhost:8000/api/club/event_register',
         {
             method: 'POST',
             body: formData
@@ -53,19 +56,52 @@ const Home = () => {
         );
     }
 
+
+    const fetchEventDetails = () => {
+        let formData = new FormData();
+        formData.append('id_event', id)
+        fetch('http://127.0.0.1:8000/api/club/event_data_id',
+        {
+            method: 'POST',
+            body: formData
+        }).then( data => data.json()).then(
+            data => setevent(data)
+        )
+    }
+
+
+    const checkReg = () => {
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        formData.append('id_event', id);
+        fetch("http://127.0.0.1:8000/api/club/is_registered",{
+            method: 'POST',
+            body: formData
+        }).then(data => data.json()).then(
+            data => setisreg(data)
+        )
+
+    }
+
+    const handle_unreg = () => {
+        
+    }
+
     useEffect(() => {
         console.log(id);
+        fetchEventDetails();
+        checkReg();
     }, [])
 
-    const data = {
-        id: 1,
-        club_name: "Programming Club",
-        date: "2021-07-15T12:00:00",
-        event_description: "<h2>Hello from CKEditor 5!</h2><p>Happy Diwali</p>",
-        event_title: "Trees in DSA",
-        poster: "http://127.0.0.1:8000/images/default.jpg",
-        profile_pic: "http://127.0.0.1:8000/profile_imgs/guitar.jpg"
-    }
+    // const data = {
+    //     id: 1,
+    //     club_name: "Programming Club",
+    //     date: "2021-07-15T12:00:00",
+    //     event_description: "<h2>Hello from CKEditor 5!</h2><p>Happy Diwali</p>",
+    //     event_title: "Trees in DSA",
+    //     poster: "http://127.0.0.1:8000/images/default.jpg",
+    //     profile_pic: "http://127.0.0.1:8000/profile_imgs/guitar.jpg"
+    // }
 
     return (
         <div>
@@ -74,19 +110,28 @@ const Home = () => {
             <div className='event-home-card'>
                 <main>
                     <h2 className='event-title'>
-                        {data.event_title}
+                        {event.event_title}
                     </h2>
                     <div className='by-container'>
-                        <h3>{data.date}</h3>
-                        <h3>By {data.club_name}</h3>
+                        <h3>{event.date}</h3>
+                        <h3>By {event.club_name}</h3>
                     </div>
                     <div className='event-poster'>
-                        <img src={data.poster} alt='event poster'></img>
+                        <img src={event.poster} alt='event poster'></img>
                     </div>
                     <div className='event-description'>
-                        {ReactHtmlParser(data.event_description)}
+                        {ReactHtmlParser(event.event_description)}
                     </div>
                 </main>
+                { isreg ? 
+                    <div className='event-register-button-container'>
+                    <Button variant="contained" color="primary" 
+                    onClick={handle_unreg}
+                    >
+                        Un-register
+                    </Button>
+                    </div>
+                :
                 <div className='register-from'>
                     <h3 className='register-heading'>
                         Register
@@ -128,6 +173,7 @@ const Home = () => {
                         </div>
                     </form>
                 </div>
+                }   
             </div>
         </div>
         </div>
