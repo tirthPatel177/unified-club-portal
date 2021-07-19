@@ -508,3 +508,15 @@ class Registered_users(APIView):
             
             data.append(part_data)
         return Response(data)
+    
+class Is_registered(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        id_event = request.data["id_event"]
+        
+        user = Token.objects.get(key=token).user
+        
+        event_name = Event.objects.get(id=id_event)
+        if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
+            return Response({"user": "true"})
+        return Response({"user":"false"})
