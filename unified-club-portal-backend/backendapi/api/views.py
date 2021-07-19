@@ -414,7 +414,7 @@ class event_data_id(APIView):
             "poster" : ("http://127.0.0.1:8000"+event.data["poster"]),
             "date" : event.data["date"],
             "visible" : event.data["visible"],
-            "club_name" : Club_prof.data["profile_pic"],
+            "club_name" : Club_prof.data["title"],
             "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),                
         }
         
