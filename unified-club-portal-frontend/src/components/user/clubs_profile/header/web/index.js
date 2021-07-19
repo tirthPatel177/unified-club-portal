@@ -1,6 +1,10 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import "./web.css";
 function Web() {
+
+  let {club} = useParams();
+
   return (
     <div className="web">
       <div className="web-option">
@@ -9,7 +13,7 @@ function Web() {
         </a>
       </div>
       <div className="web-option">
-        <a href="#work">
+        <a href={"/user/"+ club +"/announcements"}>
           Announcements
         </a>
       </div>

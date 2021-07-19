@@ -28,7 +28,6 @@ const CreateEvents = () => {
     const [preview, setPreview] = useState('');
     const [event, setevent] = useState({
         event_title: '',
-        event_description: '',
         date: '',
         poster: '',
         visible: false,
@@ -66,8 +65,7 @@ const CreateEvents = () => {
         });
     };
 
-    const handleSubmit = async () => {
-        await beforeSubmit();
+    const sendData = () => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         for (const property in event) {
@@ -80,6 +78,27 @@ const CreateEvents = () => {
         }).then( data => data.json())
         console.log(editordata)
     }
+
+
+    const handleSubmit =  async () => {
+
+        // sendData();
+
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        formData.append('event_description', editordata)
+        for (const property in event) {
+            formData.append(property, event[property])
+            console.log(property, event[property], formData[property]);
+        }
+        fetch('http://127.0.0.1:8000/api/club/event_create', {
+            method: 'POST',
+            body: formData
+        }).then( data => data.json())
+        console.log(editordata)
+        
+    }
+
 
     return (
         <div>
