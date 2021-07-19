@@ -18,7 +18,7 @@ function Web(props) {
         <Edit edit={props.edit} setEdit={props.setEdit}/>
       </div>
       <div className="web-option">
-        <a href={'/' + get_title(props.title) + '/events' }>
+        <a href={'/club/' + get_title(props.title) + '/events' }>
           Events
         </a>
       </div>

@@ -24,7 +24,7 @@ function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
           <Edit edit={edit} setEdit={setEdit}/>
         </div>
         <div className="mobile-option">
-          <a href={'/' + get_title(title) + '/events' }>
+          <a href={'/club/' + get_title(title) + '/events' }>
             Events
           </a>
         </div>

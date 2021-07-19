@@ -10,6 +10,7 @@ import ClubProfile from './components/user/clubs_profile/ClubProfile';
 import UserEventsPage from './components/user/events/Events'
 import CreateEvent from './components/club/Events/CreateEvents/CreateEvents'
 import ClubEvents from './components/club/Events/ListEvents/Events'
+import UserEventHomePage from './components/user/EventsHome/Home'
 
 function App() {
 
@@ -69,9 +70,10 @@ function App() {
         {/* <Route exact path='/club-profiles/:club' component={ClubProfile}/> */}
         <PrivateRoute exact path='/user/club-profiles/:club' component={ClubProfile} />
         <PrivateRoute exact path='/user/events' component={UserEventsPage} />
-        <PrivateRoute exact path='/:club/events' component={ClubEvents} />
+        <PrivateRoute exact path='/user/events/:id' component={UserEventHomePage} />
+        <PrivateRoute exact path='/club/:club/events' component={ClubEvents} />
         {/* <PrivateRoute exact path='/club/announcements' component={} /> */}
-        <PrivateRoute exact path='/:club/create-event' component={CreateEvent} />
+        <PrivateRoute exact path='/club/:club/create-event' component={CreateEvent} />
       </Switch>
     </Router>
     </div>

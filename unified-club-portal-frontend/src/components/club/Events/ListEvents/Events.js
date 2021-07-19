@@ -40,7 +40,7 @@ const Events = () => {
 
 
     const handleCreateEvent = () => {
-        let path = `/${get_title(title)}/create-event`; 
+        let path = `/club/${get_title(title)}/create-event`; 
         history.push(path);
     }
 

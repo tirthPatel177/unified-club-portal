@@ -28,8 +28,7 @@ const Events = () => {
     return (
         <div>
             <Navbar />
-            <h2>
-                This is Events Page.
+            
                 <div>
                     {
                         events.map( event => 
@@ -39,7 +38,7 @@ const Events = () => {
                         )
                     }
                 </div>
-            </h2>
+            
         </div>
     )
 }
