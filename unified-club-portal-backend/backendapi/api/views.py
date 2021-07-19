@@ -475,13 +475,13 @@ class Event_register(APIView):
     renderer_classes = (renderers.JSONRenderer,)
     def post(self, request):
         token = request.data["token"]
-        event_name = request.data["event_name"]
+        id_event = request.data["id_event"]
         mobile_no = request.data["mobile_no"]
         roll_no = request.data["roll_no"]
 
         user = Token.objects.get(key=token).user
         
-        event_name = Event.objects.get(event_title=event_name)
+        event_name = Event.objects.get(id=id_event)
         
         if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
             det = {"Error": "Already registered"}
