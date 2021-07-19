@@ -1,6 +1,8 @@
 import { Button } from '@material-ui/core';
 import React, {useEffect, useState} from 'react'
 import { useHistory, useParams } from 'react-router-dom';
+import Header from '../../HomePage/header';
+import Navbar from '../../NavBar/Navbar';
 
 const Events = () => {
 
@@ -47,9 +49,15 @@ const Events = () => {
 
     return (
         <div>
+            <Navbar />
+            <div className='club-home'>
+
+            
+            <Header />
             <Button variant="contained" color="primary" onClick={handleCreateEvent}>
                 Create Event
             </Button>
+            </div>
         </div>
     )
 }

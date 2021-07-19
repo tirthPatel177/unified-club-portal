@@ -60,14 +60,14 @@ const CreateEvents = () => {
         console.log(event);}
     ,[event])
     
-    const beforeSubmit = async () => {
+    const beforeSubmit = () => {
         setevent((event)=>{
             return {...event, event_description : editordata}
         });
     };
 
-    const handleSubmit = () => {
-        beforeSubmit();
+    const handleSubmit = async () => {
+        await beforeSubmit();
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         for (const property in event) {
