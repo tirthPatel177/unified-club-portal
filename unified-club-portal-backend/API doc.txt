@@ -3,7 +3,6 @@ URL = http://127.0.0.1:8000/api/users
 Type = "POST"
 parameters : first_name, last_name, email, password, type_of_user
 
-
 (2) Login: For login and getting token for authentication
 URL = http://127.0.0.1:8000/api/login
 Type = "POST"
@@ -19,12 +18,10 @@ URL = http://127.0.0.1:8000/api/club/profile_club_create
 Type = "POST"
 parameters(Form-Data) : token, title, description, profile_image, tag_line
 
-
 (5) Club_all: To get the data of all the clubs
 URL = http://127.0.0.1:8000/api/club/clubs_all
 Type = "GET"
 parameters: No Parameters
-
 
 (6) One_club_data: Get data of a particular user
 URL = http://127.0.0.1:8000/api/club/profile_club/<club_name>
@@ -95,3 +92,8 @@ parameters(Form-Data) : token
 URL = http://127.0.0.1:8000/api/club/event_unregister
 Type = "POST"
 parameters(Form-Data) : token, id_event
+
+(20) announcement: Create an announcement
+URL = http://127.0.0.1:8000/api/club/announcement
+Type = "POST"
+parameters(Form-Data) : token, event_name, title, ann_description

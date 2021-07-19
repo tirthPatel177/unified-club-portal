@@ -2,9 +2,9 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer
+from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer
 from rest_framework.response import Response
-from .models import Book, Type_of_User, Club_profile, Event, Member, Register_Event
+from .models import Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -20,6 +20,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import token_generator
 from django.db import IntegrityError
+from datetime import datetime
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -343,6 +344,8 @@ class events_all(APIView):
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
+                    "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                    "completed": event["completed"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     
@@ -350,6 +353,7 @@ class events_all(APIView):
                 
                 data.append(event_data)
         
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
     
     
@@ -384,16 +388,19 @@ class events_club(APIView):
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
+                    "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                    "completed": event["completed"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     
                 }
             
                 data.append(event_data)    
-
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
 
 class event_data_id(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         id_event = request.data["id_event"]
         
@@ -414,8 +421,10 @@ class event_data_id(APIView):
             "poster" : ("http://127.0.0.1:8000"+event.data["poster"]),
             "date" : event.data["date"],
             "visible" : event.data["visible"],
+            "date_srt": datetime.strptime(event.data["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+            "completed": event.data["completed"],
             "club_name" : Club_prof.data["title"],
-            "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),                
+            "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
         }
         
         return Response(event_data)
@@ -523,23 +532,30 @@ class Event_unregister(APIView):
         return Response(det, status=status.HTTP_201_CREATED)
 
 class Registered_users(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def get(self, request, event_name):
         event_name = event_name.replace('-', ' ')
+        event_name = Event.objects.get(event_title=event_name)
         participants = Register_Event.objects.filter(event_name=event_name)
-
+        participants = Register_EventSerializer(participants, many=True)
         data = []
-        for participant in participants:
+
+        for participant in participants.data:
             part_data = {}
-            part_data["first_name"]=participant.user.first_name
-            part_data["last_name"]=participant.user.last_name
-            part_data["email"]=participant.user.email
-            part_data["mobile_no"]=participant.mobile_no
-            part_data["roll_no"]=participant.roll_no
-            
+            user = User.objects.get(id=participant["user"])
+            part_data["first_name"]=user.first_name
+            part_data["last_name"]=user.last_name
+            part_data["email"]=user.email
+            part_data["mobile_no"]=participant["mobile_no"]
+            part_data["roll_no"]=participant["roll_no"]
+            part_data["date_srt"]=datetime.strptime(participant["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
             data.append(part_data)
+        
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
     
 class Is_registered(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         token = request.data["token"]
         id_event = request.data["id_event"]
@@ -550,3 +566,56 @@ class Is_registered(APIView):
         if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
             return Response({"user": "true"})
         return Response({"user":"false"})
+    
+class announcement(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+    def post(self, request):
+        token = request.data["token"]
+        event_name = request.data["event_name"]
+        to_announce = request.data["to_announce"]
+        title = request.data["title"]
+        ann_description = request.data["ann_description"]
+        
+        user = Token.objects.get(key=token).user
+        event_name = Event.objects.get(event_title=event_name)
+        Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description)
+        
+        return Response({"success":"Announcement created successfully"})
+    
+class get_announcements(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+    def post(self, request):
+        token = request.data["token"]
+        user = Token.objects.get(key=token).user
+        
+        members = Member.objects.filter(user=user)
+        data1 = []
+        for member in members:
+            user1 = member.club_name.user
+            evnts = Event.objects.filter(user=user1)
+            
+            for evnt in evnts:
+                data1.append(Announcement.objects.filter(event_name=evnt, to_announce="members"))
+        
+        registered_users = Register_Event.objects.filter(user=user)
+        
+        for registered_user in registered_users:
+            data1.append(Announcement.objects.filter(event_name=registered_user.event_name, to_announce="registered"))
+        
+        data = []
+        
+        for obj in data1:
+            announce_dt = AnnouncementSerializer(obj, many=True)
+            for announce in announce_dt.data:
+                event_nm = Event.objects.get(id=announce["event_name"]).event_title
+                ann_data = {
+                    "event_name":event_nm,
+                    "to_announce":announce["to_announce"],
+                    "title":announce["title"],
+                    "ann_description":announce["ann_description"],
+                    "date_srt": datetime.strptime(announce["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                }
+
+                data.append(ann_data)
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        return Response(data)

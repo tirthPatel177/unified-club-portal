@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from datetime import datetime 
 
 class Book(models.Model):
     title = models.TextField(max_length=320, blank=False, null=False)
@@ -16,7 +17,7 @@ def upload_path(instance, filename):
 class Club_profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
     title = models.CharField(max_length=150, unique=True)
-    description = models.TextField(max_length=1000)
+    description = models.TextField()
     profile_pic = models.ImageField(null=False, blank=False, default='default.jpg', upload_to=upload_path)
     tag_line = models.CharField(max_length=500, default="")
 
@@ -27,11 +28,13 @@ def upload_path_event(instance, filename):
 class Event(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
     event_title = models.CharField(max_length=250, unique=True)
-    event_description = models.TextField(max_length=1000)
+    event_description = models.TextField()
     poster = models.ImageField(null=False, blank=False, default='default.jpg', upload_to=upload_path_event)
     date = models.DateTimeField()
     approved = models.IntegerField(default=0)
     visible = models.BooleanField(default=False)
+    date_srt = models.DateTimeField(default=datetime.now, blank=True)
+    completed = models.BooleanField(default=False)
     
 
 class Member(models.Model):
@@ -43,3 +46,12 @@ class Register_Event(models.Model):
     event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
     mobile_no = models.CharField(max_length=10)
     roll_no = models.CharField(max_length=10)
+    date_srt = models.DateTimeField(default=datetime.now, blank=True)
+
+class Announcement(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
+    event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    to_announce = models.CharField(max_length=250, default="")
+    title = models.CharField(max_length=150)
+    ann_description = models.TextField()
+    date_srt = models.DateTimeField(default=datetime.now, blank=True)
