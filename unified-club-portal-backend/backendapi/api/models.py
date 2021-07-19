@@ -36,7 +36,7 @@ class Event(models.Model):
 
 class Member(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
-    club_name = models.CharField(max_length=150)
+    club_name = models.ForeignKey(Club_profile, on_delete=models.CASCADE)
 
 class Register_Event(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)

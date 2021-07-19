@@ -390,6 +390,7 @@ class member_add(APIView):
         token = request.data["token"]
         title = request.data["title"]
         
+        title = Club_profile.objects.get(title=title)
         user = Token.objects.get(key=token).user
         if(Member.objects.filter(user=user, club_name=title).exists()):
             det = {"Error": "You are already a member"}
@@ -417,7 +418,7 @@ class member_delete(APIView):
     def post(self, request):
         token = request.data["token"]
         title = request.data["title"]
-        
+        title = Club_profile.objects.get(title=title)
         user = Token.objects.get(key=token).user
         Member.objects.get(user=user, club_name=title).delete()
         
