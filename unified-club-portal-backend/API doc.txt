@@ -69,9 +69,14 @@ parameters(Form-Data) : token, title
 (14) event_register: To register a user for event
 URL = http://127.0.0.1:8000/api/club/event_register
 Type = "POST"
-parameters(Form-Data) : token, event_name, mobile_no, roll_no
+parameters(Form-Data) : token, id, mobile_no, roll_no
 
 (15) get_registered_users : To get registered user for an event
 URL = http://127.0.0.1:8000/api/club/registered_users/WMC
 Type = "GET"
 parameters: No Parameters
+
+(16) event_data_id: To get event data from id
+URL = http://127.0.0.1:8000/api/club/event_data_id
+Type = "POST"
+parameters(Form-Data) : id_event

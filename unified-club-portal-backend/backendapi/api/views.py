@@ -324,14 +324,20 @@ class events_all(APIView):
             club_prof = Club_profile.objects.get(user=events[i].user)
             i+=1
             if(event["approved"]==1 and event["visible"]):
+                if(event["poster"][0]!='/'):
+                    event["poster"] = '/'+event["poster"]
+                clb_prof = str(club_prof.profile_pic)
+                if(clb_prof[0]!='/'):
+                    clb_prof = '/'+clb_prof
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
+                    "visible" : event["visible"],
                     "club_name" : club_prof.title,
-                    "profile_pic" : ("http://127.0.0.1:8000"+str(club_prof.profile_pic)),
+                    "profile_pic" : ("http://127.0.0.1:8000"+clb_prof),
                     
                 }
                 
@@ -359,21 +365,52 @@ class events_club(APIView):
             club_prof = Club_profile.objects.get(user=events[i].user)
             i+=1
             if(event["approved"]==1 and event["visible"]):
+                if(event["poster"][0]!='/'):
+                    event["poster"] = '/'+event["poster"]
+                clb_prof = str(club_prof.profile_pic)
+                if(clb_prof[0]!='/'):
+                    clb_prof = '/'+clb_prof
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
                     "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
+                    "visible" : event["visible"],
                     "club_name" : club_prof.title,
-                    "profile_pic" : ("http://127.0.0.1:8000"+str(club_prof.profile_pic)),
+                    "profile_pic" : ("http://127.0.0.1:8000"+clb_prof),
                     
                 }
             
                 data.append(event_data)    
 
         return Response(data)
-    
+
+class event_data_id(APIView):
+    def post(self, request):
+        id_event = request.data["id_event"]
+        
+        evnt = Event.objects.get(id=id_event)
+        
+        club_prof = Club_profile.objects.get(user=evnt.user)
+        evnt_poster = str(evnt.poster)
+        if(evnt_poster[0]!='/'):
+            evnt_poster = '/'+evnt_poster
+        clb_prof = str(club_prof.profile_pic)
+        if(clb_prof[0]!='/'):
+            clb_prof = '/'+clb_prof
+        event_data = {
+            "id_event" : evnt.id,
+            "event_title" : evnt.event_title,
+            "event_description" : evnt.event_description,
+            "poster" : ("http://127.0.0.1:8000"+evnt_poster),
+            "date" : evnt.date,
+            "visible" : evnt.visible,
+            "club_name" : club_prof.title,
+            "profile_pic" : ("http://127.0.0.1:8000"+clb_prof),                
+        }
+        
+        return Response(event_data)
     
 class member_add(APIView):
     throttle_classes = ()
@@ -390,6 +427,7 @@ class member_add(APIView):
         token = request.data["token"]
         title = request.data["title"]
         
+        title = Club_profile.objects.get(title=title)
         user = Token.objects.get(key=token).user
         if(Member.objects.filter(user=user, club_name=title).exists()):
             det = {"Error": "You are already a member"}
@@ -417,7 +455,7 @@ class member_delete(APIView):
     def post(self, request):
         token = request.data["token"]
         title = request.data["title"]
-        
+        title = Club_profile.objects.get(title=title)
         user = Token.objects.get(key=token).user
         Member.objects.get(user=user, club_name=title).delete()
         
@@ -437,13 +475,13 @@ class Event_register(APIView):
     renderer_classes = (renderers.JSONRenderer,)
     def post(self, request):
         token = request.data["token"]
-        event_name = request.data["event_name"]
+        id_event = request.data["id_event"]
         mobile_no = request.data["mobile_no"]
         roll_no = request.data["roll_no"]
 
         user = Token.objects.get(key=token).user
         
-        event_name = Event.objects.get(event_title=event_name)
+        event_name = Event.objects.get(id=id_event)
         
         if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
             det = {"Error": "Already registered"}
