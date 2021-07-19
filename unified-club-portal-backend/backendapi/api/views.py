@@ -499,6 +499,28 @@ class Event_register(APIView):
 
         det = {"success":"Registered successfully"}
         return Response(det, status=status.HTTP_201_CREATED)
+    
+class Event_unregister(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (
+        parsers.FormParser,
+        parsers.MultiPartParser,
+        parsers.JSONParser,
+    )
+    renderer_classes = (renderers.JSONRenderer,)
+    def post(self, request):
+        token = request.data["token"]
+        id_event = request.data["id_event"]
+
+        user = Token.objects.get(key=token).user
+        
+        event_name = Event.objects.get(id=id_event)
+        
+        Register_Event.objects.get(user=user, event_name=event_name).delete()
+
+        det = {"success":"Unregistered successfully"}
+        return Response(det, status=status.HTTP_201_CREATED)
 
 class Registered_users(APIView):
     def get(self, request, event_name):
