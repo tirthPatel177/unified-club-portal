@@ -54,6 +54,7 @@ const Home = () => {
             // <Redirect to='/' />
         }
         );
+        setisreg(!isreg);
     }
 
 
@@ -84,7 +85,14 @@ const Home = () => {
     }
 
     const handle_unreg = () => {
-        
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        formData.append('id_event', id);
+        fetch('http://127.0.0.1:8000/api/club/event_unregister', {
+            method: 'POST',
+            body: formData
+        }).then(data => data.json())
+        setisreg(!isreg)
     }
 
     useEffect(() => {
