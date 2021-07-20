@@ -57,7 +57,7 @@ class UserViewSet(viewsets.ModelViewSet):
             
             email_send.send(fail_silently=False)
 
-            Club_profile.objects.update_or_create(user=user, defaults=dict(title=email, description="", tag_line = ""))
+            # Club_profile.objects.create(user=user, defaults=dict(title=user, description="", tag_line = ""))
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

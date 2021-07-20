@@ -152,6 +152,6 @@ EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST="smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "Emaiunifiedclub2021au@gmail.com"
+EMAIL_HOST_USER = "unifiedclub2021au@gmail.com"
 DEFAULT_FROM_EMAIL = "unifiedclub2021au@gmail.com"
 EMAIL_HOST_PASSWORD="Ti@Ni2021"
