@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
-from datetime import datetime 
+from datetime import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Book(models.Model):
     title = models.TextField(max_length=320, blank=False, null=False)
@@ -35,7 +36,6 @@ class Event(models.Model):
     visible = models.BooleanField(default=False)
     date_srt = models.DateTimeField(default=datetime.now, blank=True)
     completed = models.BooleanField(default=False)
-    
 
 class Member(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
@@ -50,8 +50,15 @@ class Register_Event(models.Model):
 
 class Announcement(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
-    event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event_name = models.ForeignKey(Event, on_delete=models.CASCADE,blank=True, null=True)
     to_announce = models.CharField(max_length=250, default="")
     title = models.CharField(max_length=150)
     ann_description = models.TextField()
     date_srt = models.DateTimeField(default=datetime.now, blank=True)
+    
+
+    
+class Rating(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
+    event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)])
