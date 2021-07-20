@@ -1,8 +1,12 @@
 import React from "react";
 import "./mobile.css";
 import CancelIcon from '@material-ui/icons/Cancel';
+import { useParams } from "react-router-dom";
 
-function Mobile({ isOpen, setIsOpen }) {
+function Mobile({ isOpen, setIsOpen, title }) {
+
+  let {club} = useParams();
+
   return (
     <div className="mobile">
       <div onClick={() => setIsOpen(!isOpen)} className="close-icon-container">
@@ -15,7 +19,7 @@ function Mobile({ isOpen, setIsOpen }) {
           </a>
         </div>
         <div className="mobile-option">
-          <a href="#work">
+          <a href={"/user/"+ club +"/announcements"}>
             {" "}
             Announcements
           </a>

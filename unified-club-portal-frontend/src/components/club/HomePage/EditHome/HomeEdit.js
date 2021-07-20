@@ -93,7 +93,7 @@ const HomeEdit = (props) => {
     return (
         <div>
             <div>
-                <Header edit={props.edit} setEdit={props.setEdit} title={props.c}/>
+                <Header edit={props.edit} setEdit={props.setEdit} title={props.club.title}/>
             </div>
             <div className='club-profile-form-container'>
                 <h2 className='edit-profile-welcome'>Edit Profile</h2>

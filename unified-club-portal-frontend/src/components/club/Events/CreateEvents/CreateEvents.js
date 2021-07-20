@@ -12,6 +12,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {useHistory, useParams} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -25,10 +26,12 @@ const CreateEvents = () => {
 
     const classes = useStyles();
 
+    let {club} = useParams();
+    let history = useHistory();
+
     const [preview, setPreview] = useState('');
     const [event, setevent] = useState({
         event_title: '',
-        event_description: '',
         date: '',
         poster: '',
         visible: false,
@@ -36,10 +39,10 @@ const CreateEvents = () => {
     const [editordata, seteditordata] = useState('')
 
     const handleChange = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const changename= e.target.name;
         const changevalue = e.target.value;
-        // console.log(changename, changevalue, 'Hello');
+        console.log(changename, changevalue, 'Hello');
         if(changename === 'visible'){
             setevent({...event, [changename]: e.target.checked})
         }
@@ -66,8 +69,7 @@ const CreateEvents = () => {
         });
     };
 
-    const handleSubmit = async () => {
-        await beforeSubmit();
+    const sendData = () => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         for (const property in event) {
@@ -80,6 +82,27 @@ const CreateEvents = () => {
         }).then( data => data.json())
         console.log(editordata)
     }
+
+
+    const handleSubmit =  async () => {
+
+        // sendData();
+
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        formData.append('event_description', editordata)
+        for (const property in event) {
+            formData.append(property, event[property])
+            console.log(property, event[property], formData[property]);
+        }
+        fetch('http://127.0.0.1:8000/api/club/event_create', {
+            method: 'POST',
+            body: formData
+        }).then( data => data.json())
+        console.log(editordata)
+        history.push(`/club/${club}/events`);
+    }
+
 
     return (
         <div>
@@ -170,7 +193,7 @@ const CreateEvents = () => {
                     <FormControlLabel
                         control={
                         <Checkbox
-                            checked={event.visible}
+                            checked={event.visible ? true: false}
                             onChange={handleChange}
                             name="visible"
                             color="primary"
