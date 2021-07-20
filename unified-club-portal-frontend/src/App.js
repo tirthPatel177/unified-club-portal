@@ -15,7 +15,7 @@ import UserAnnouncementsPage from './components/user/announcements/AnnouncementL
 import ClubAnnouncementsPage from './components/club/announcements/AnnouncementsList'
 import CreateClubAnnouncements from './components/club/announcements/CreateAnnouncements/CreateAnnouncements'
 import ClubEditProfile from './components/club/HomePage/EditHome/HomeEdit'
-
+import AdminCreateClub from './components/admin/CreateClub/CreateClub'
 
 
 function App() {
@@ -83,6 +83,7 @@ function App() {
         <PrivateRoute exact path='/club/:club/announcements' component={ClubAnnouncementsPage} />
         <PrivateRoute exact path='/club/:club/create-announcement' component={CreateClubAnnouncements} />
         <PrivateRoute exact path='/club/:club/create-event' component={CreateEvent} />
+        <PrivateRoute exact path='/create-club' component={AdminCreateClub} />
       </Switch>
     </Router>
     </div>

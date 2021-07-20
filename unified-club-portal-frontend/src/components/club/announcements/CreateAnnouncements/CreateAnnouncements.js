@@ -20,7 +20,6 @@ const CreateAnnouncements = () => {
     const [announcement, setannouncement] = useState({
         event_title: '',
         title: '',
-        ann_description: '',
         send_registered: false,
         to_announce: ''
     })

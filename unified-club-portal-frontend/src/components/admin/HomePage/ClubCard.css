@@ -1,0 +1,12 @@
+.card-margin{
+    margin: 1.2em;
+    /* heigth: 780px; */
+}
+
+.card-content {
+    height: 150px;
+}
+
+.card-links {
+    text-decoration: none;
+}
