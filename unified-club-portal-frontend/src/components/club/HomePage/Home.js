@@ -10,12 +10,12 @@ import './Home.css'
 const Home = () => {
     const user = useSelector(state => state.user)
     // const {club} = useParams();
-    const [edit, setedit] = useState(false);
+    // const [edit, setedit] = useState(false);
     const [clubDetails, setclubDetails] = useState(
         {}
     );
 
-    const fetchdetails = async (token) => {
+    const fetchdetails =  (token) => {
         let formData = new FormData();
         formData.append("token", token);
         fetch('http://localhost:8000/api/club/club_profile', {
@@ -41,7 +41,7 @@ const Home = () => {
         // console.log(user);
         let token = localStorage.getItem('token');
         fetchdetails(token);
-    }, [edit])
+    }, [])
 
     // http://127.0.0.1:8000/api/profile_club/Programming-Club
     
@@ -52,9 +52,10 @@ const Home = () => {
                 <p> { user.type_of_user } </p> */}
                 {/* <ClubProfile /> */}
                 <div className='club-home'>
-                    {
+                    {/* {
                         !edit ? <NormalHome club={clubDetails} edit={edit} setEdit={setedit}/> : <HomeEdit club={clubDetails} edit={edit} setEdit={setedit}/>
-                    }
+                    } */}
+                    <NormalHome club={clubDetails} />
                 </div>
         </div>
     )

@@ -20,10 +20,16 @@ function Web(props) {
   return (
     <div className="web">
       <div className="web-option">
-        {/* <a href="#projects">
+        <a href="/">
+          Profile
+        </a>
+        {/* <Edit edit={props.edit} setEdit={props.setEdit}/> */}
+      </div>
+      <div className="web-option">
+        <a href="/club/edit-profile">
           Edit Profile
-        </a> */}
-        <Edit edit={props.edit} setEdit={props.setEdit}/>
+        </a>
+        {/* <Edit edit={props.edit} setEdit={props.setEdit}/> */}
       </div>
       <div className="web-option">
         <a href={'/club/' + get_title(props.title) + '/events' }>
@@ -35,11 +41,11 @@ function Web(props) {
           Announcements
         </a>
       </div>
-      <div className="web-option">
+      {/* <div className="web-option">
         <a href="#contact">
           Contact
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }
