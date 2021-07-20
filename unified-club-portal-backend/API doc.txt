@@ -96,9 +96,14 @@ parameters(Form-Data) : token, id_event
 (20) announcement: Create an announcement
 URL = http://127.0.0.1:8000/api/club/announcement
 Type = "POST"
-parameters(Form-Data) : token, event_name, title, ann_description
+parameters(Form-Data) : token, event_name, to_announce, title, ann_description
 
 (21) get_announcement: Get announcements according to club and logged in user
 URL = http://127.0.0.1:8000/api/club/get_announcements
 Type = "POST"
 parameters(Form-Data) : token, club_name
+
+(22) get_uncompletedevents: To get all the uncompleted events of a club
+URL = http://127.0.0.1:8000/api/club/uncompleted_events/Programming-Club
+Type = "GET"
+parameters: No Parameters

@@ -398,6 +398,31 @@ class events_club(APIView):
                 data.append(event_data)    
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
+    
+class uncompleted_events(APIView):
+    def get(self, request, club_name):
+        
+        club_name = club_name.replace('-',' ')
+        user = Club_profile.objects.get(title=club_name).user
+        events = Event.objects.filter(user=user)
+        serializer = EventSerializer(events, many=True)
+        data = []
+        i=0
+        for event in serializer.data:
+            club_prof = Club_profile.objects.get(user=events[i].user)
+            Club_prof = Club_profileSerializer(club_prof)
+            i+=1
+            if(event["completed"]==0):
+                if club_name==Club_prof.data["title"]:
+                    event_data = {
+                        "id_event" : event["id"],
+                        "event_title" : event["event_title"],
+                        "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                    }
+                
+                    data.append(event_data)
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        return Response(data)
 
 class event_data_id(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
