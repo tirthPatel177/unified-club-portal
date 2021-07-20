@@ -5,3 +5,4 @@
 3. Logout Popup (Do you want to logout?)
 4. Ck Editor for Description
 5. Authorization per page after login
+6. put a limit for registration of event
