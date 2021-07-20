@@ -1,12 +1,20 @@
 import React from "react";
 import Edit from "../../Edit";
 import "./web.css";
+import {useParams} from 'react-router-dom'
 function Web(props) {
+
+  let {club} = useParams();
 
   const get_title = (title) => {
     // console.log(title);
-    if(title)
+    if(title){
       return title.split(' ').join('-');
+    }
+    else{
+      
+      return club;
+    }
   }
 
   return (
@@ -23,7 +31,7 @@ function Web(props) {
         </a>
       </div>
       <div className="web-option">
-        <a href="#work">
+        <a href={'/club/' + get_title(props.title) + '/announcements' }>
           Announcements
         </a>
       </div>

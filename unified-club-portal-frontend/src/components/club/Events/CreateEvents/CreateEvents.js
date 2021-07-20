@@ -12,6 +12,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {useHistory, useParams} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -25,6 +26,9 @@ const CreateEvents = () => {
 
     const classes = useStyles();
 
+    let {club} = useParams();
+    let history = useHistory();
+
     const [preview, setPreview] = useState('');
     const [event, setevent] = useState({
         event_title: '',
@@ -35,10 +39,10 @@ const CreateEvents = () => {
     const [editordata, seteditordata] = useState('')
 
     const handleChange = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const changename= e.target.name;
         const changevalue = e.target.value;
-        // console.log(changename, changevalue, 'Hello');
+        console.log(changename, changevalue, 'Hello');
         if(changename === 'visible'){
             setevent({...event, [changename]: e.target.checked})
         }
@@ -96,7 +100,7 @@ const CreateEvents = () => {
             body: formData
         }).then( data => data.json())
         console.log(editordata)
-        
+        history.push(`/club/${club}/events`);
     }
 
 
@@ -189,7 +193,7 @@ const CreateEvents = () => {
                     <FormControlLabel
                         control={
                         <Checkbox
-                            checked={event.visible}
+                            checked={event.visible ? true: false}
                             onChange={handleChange}
                             name="visible"
                             color="primary"

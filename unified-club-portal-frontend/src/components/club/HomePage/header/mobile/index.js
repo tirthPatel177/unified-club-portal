@@ -2,13 +2,21 @@ import React from "react";
 import "./mobile.css";
 import CancelIcon from '@material-ui/icons/Cancel';
 import Edit from "../../Edit";
+import { useParams } from "react-router-dom";
 
 function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
 
+  let {club} = useParams();
+
   const get_title = (title) => {
     // console.log(title);
-    if(title)
+    if(title){
       return title.split(' ').join('-');
+    }
+    else{
+      
+      return club;
+    }
 }
 
   return (
@@ -29,7 +37,7 @@ function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
           </a>
         </div>
         <div className="mobile-option">
-          <a href="#work">
+          <a href={'/club/' + get_title(title) + '/announcements' }>
             {" "}
             Announcements
           </a>
