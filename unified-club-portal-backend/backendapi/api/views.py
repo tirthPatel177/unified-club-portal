@@ -586,16 +586,21 @@ class get_announcements(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         token = request.data["token"]
+        club_nm = request.data["club_name"]
         user = Token.objects.get(key=token).user
         
-        members = Member.objects.filter(user=user)
-        data1 = []
-        for member in members:
-            user1 = member.club_name.user
-            evnts = Event.objects.filter(user=user1)
+        # members = Member.objects.filter(user=user)
+        # data1 = []
+        # for member in members:
+        #     user1 = member.club_name.user
+        #     evnts = Event.objects.filter(user=user1)
             
-            for evnt in evnts:
-                data1.append(Announcement.objects.filter(event_name=evnt, to_announce="members"))
+        #     for evnt in evnts:
+        #         data1.append(Announcement.objects.filter(event_name=evnt, to_announce="members"))
+        
+        data1 = []
+        data1.append(Announcement.objects.filter(to_announce="members"))
+        
         
         registered_users = Register_Event.objects.filter(user=user)
         
@@ -607,15 +612,16 @@ class get_announcements(APIView):
         for obj in data1:
             announce_dt = AnnouncementSerializer(obj, many=True)
             for announce in announce_dt.data:
-                event_nm = Event.objects.get(id=announce["event_name"]).event_title
-                ann_data = {
-                    "event_name":event_nm,
-                    "to_announce":announce["to_announce"],
-                    "title":announce["title"],
-                    "ann_description":announce["ann_description"],
-                    "date_srt": datetime.strptime(announce["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
-                }
-
-                data.append(ann_data)
+                event_nm = Event.objects.get(id=announce["event_name"])
+                clb_name = Club_profile.objects.get(user=event_nm.user).title
+                if(clb_name==club_nm):
+                    ann_data = {
+                        "event_name":event_nm.event_title,
+                        "to_announce":announce["to_announce"],
+                        "title":announce["title"],
+                        "ann_description":announce["ann_description"],
+                        "date_srt": datetime.strptime(announce["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                    }
+                    data.append(ann_data)
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)

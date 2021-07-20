@@ -97,3 +97,8 @@ parameters(Form-Data) : token, id_event
 URL = http://127.0.0.1:8000/api/club/announcement
 Type = "POST"
 parameters(Form-Data) : token, event_name, title, ann_description
+
+(21) get_announcement: Get announcements according to club and logged in user
+URL = http://127.0.0.1:8000/api/club/get_announcements
+Type = "POST"
+parameters(Form-Data) : token, club_name
