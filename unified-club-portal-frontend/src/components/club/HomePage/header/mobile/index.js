@@ -26,10 +26,16 @@ function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
       </div>
       <div className="mobile-options">
         <div className="mobile-option">
-          {/* <a href="#projects">
+          <a href="/">
+            Profile
+          </a>
+          {/* <Edit edit={edit} setEdit={setEdit}/> */}
+        </div>
+        <div className="mobile-option">
+          <a href="/club/edit-profile">
             Edit Profile
-          </a> */}
-          <Edit edit={edit} setEdit={setEdit}/>
+          </a>
+          {/* <Edit edit={edit} setEdit={setEdit}/> */}
         </div>
         <div className="mobile-option">
           <a href={'/club/' + get_title(title) + '/events' }>
@@ -42,11 +48,11 @@ function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
             Announcements
           </a>
         </div>
-        <div className="mobile-option">
+        {/* <div className="mobile-option">
           <a href="#contact">
             Contact
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

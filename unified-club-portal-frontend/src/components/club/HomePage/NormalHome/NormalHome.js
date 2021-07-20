@@ -10,7 +10,7 @@ const NormalHome = (props) => {
         <div>
 
             <div>
-                <Header edit={props.edit} setEdit={props.setEdit} title={props.club.title}/>
+                <Header  title={props.club.title}/>
             </div>
         
             <div className="body">

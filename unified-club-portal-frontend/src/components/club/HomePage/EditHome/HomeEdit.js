@@ -9,46 +9,49 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from "react-router-dom";
+import Navbar from '../../NavBar/Navbar';
 
 
 const HomeEdit = (props) => {
 
-    
-
-    // const fetchdetails = async (token) => {
-    //     let formData = new FormData();
-    //     formData.append("token", token);
-    //     fetch('http://localhost:8000/api/club/club_profile', {
-    //         method: "POST",
-    //         body: formData
-    //     }).then( data => data.json()).then(
-    //         data => {
-    //             console.log(data);
-    //             setclubDetails(data);
-    //             // props.setUser(data.type_of_user)
-                
-    //         }
-    //     ).catch(e => console.log(e))
-    // }
-
-    // useEffect(() => {
-    //     // fetch('http://127.0.0.1:8000/api/profile_club/' + get_title(user))
-    //     // console.log(user);
-    //     let token = localStorage.getItem('token');
-    //     fetchdetails(token);
-    // }, [])
-
-    
     const [clubDetails, setclubDetails] = useState(
         {
-            title: props.club.title,
-            tag_line: props.club.tag_line,
-            description: props.club.description,
-            profile_image: props.club.profile
+            title: '',
+            tag_line: '',
+            description: '',
+            profile_image: ''
         }
     )
 
-    const [preview, setPreview] = useState(props.club.profile);
+    const [preview, setPreview] = useState('');
+    
+
+    const fetchdetails = (token) => {
+        let formData = new FormData();
+        formData.append("token", token);
+        fetch('http://localhost:8000/api/club/club_profile', {
+            method: "POST",
+            body: formData
+        }).then( data => data.json()).then(
+            data => {
+                console.log(data);
+                setclubDetails(data);
+                // props.setUser(data.type_of_user)
+                
+            }
+        ).catch(e => console.log(e))
+    }
+
+    useEffect(() => {
+        // fetch('http://127.0.0.1:8000/api/profile_club/' + get_title(user))
+        // console.log(user);
+        let token = localStorage.getItem('token');
+        fetchdetails(token);
+        console.log("tHIS Page")
+    }, [])
+
+    
+    
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -85,15 +88,18 @@ const HomeEdit = (props) => {
 
             data => {console.log(data)
             // <Redirect to='/' />
-            props.setEdit(false);
+
         }
         );
     }
 
     return (
         <div>
+            
+            <Navbar />
+            <div className='club-home'>
             <div>
-                <Header edit={props.edit} setEdit={props.setEdit} title={props.club.title}/>
+                <Header title={clubDetails.title}/>
             </div>
             <div className='club-profile-form-container'>
                 <h2 className='edit-profile-welcome'>Edit Profile</h2>
@@ -143,6 +149,7 @@ const HomeEdit = (props) => {
                     </Button>
                 </div>
             </form>
+            </div>
             </div>
         </div>
     )

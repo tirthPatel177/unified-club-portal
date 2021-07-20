@@ -1,19 +1,60 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Navbar from './../../NavBar/Navbar'
 import Header from './../../HomePage/header/index'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import './CreateAnnouncement.css'
 
 const CreateAnnouncements = () => {
+
+    const [announcement, setannouncement] = useState({
+        event_title: '',
+        title: '',
+        ann_description: '',
+        send_registered: false,
+        to_announce: ''
+    })
+
+    const [editordata, seteditordata] = useState('')
+
+
+    const handleChange = (e) => {
+        // e.preventDefault();
+        const changename= e.target.name;
+        const changevalue = e.target.value;
+        console.log(changename, changevalue, 'Hello');
+        if(changename === 'send_notification'){
+            setannouncement({...announcement, [changename]: e.target.checked})
+        }
+        else{
+            setannouncement({...announcement, [changename]: changevalue});
+        }
+    };
+
+    const handleSubmit = () => {
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        formData.append('ann_description', editordata)
+        for (const property in announcement) {
+            formData.append(property, announcement[property])
+            console.log(property, announcement[property], formData[property]);
+        }
+        fetch('http://127.0.0.1:8000/api/club/announcement', {
+            method: 'POST',
+            body: formData
+        }).then( data => data.json())
+        console.log(editordata)
+    }
+
     return (
         <div>
             <Navbar />
@@ -21,15 +62,15 @@ const CreateAnnouncements = () => {
             <Header />
             <div className='club-announcement-form-container'>
             <h2 className='club-event-welcome'>
-                    Create Event
+                    Create Announcement
                 </h2>
                 <form className='club-announcement-form'>
                     <div className='form-marginer'>
                         <FormControl >
                             <InputLabel htmlFor="title">Announcement Title</InputLabel>
-                            <Input name='event_title' id="title" 
-                            // value={event.event_title} 
-                            // onChange={handleChange}  
+                            <Input name='title' id="title" 
+                            value={announcement.title} 
+                            onChange={handleChange}  
                             required/>
                         </FormControl>
                     </div>
@@ -37,7 +78,7 @@ const CreateAnnouncements = () => {
                     <h4> Body </h4>
 
                         <CKEditor
-                            name='description'
+                            name='ann_description'
                             editor={ ClassicEditor }
                             data="<p>Hello from CKEditor 5!</p>"
                             onReady={ editor => {
@@ -47,23 +88,66 @@ const CreateAnnouncements = () => {
                             onChange={ ( event, editor ) => {
                                 const data = editor.getData();
                                 // console.log( { event, editor, data } );
-                                // seteditordata(data);
+                                seteditordata(data);
                             } }
                         />
+
+                    
+                    <div className='form-marginer'>
+                    <FormControl>
+                    <InputLabel id="demo-simple-select-label">Event</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={announcement.event_title}
+                    onChange={handleChange}
+                    name='event_title'
+                    >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                    </FormControl>
+                    </div>
 
                     <div className='form-marginer'>
                     <FormControlLabel
                         control={
                         <Checkbox
-                            // checked={event.visible ? true: false}
-                            // onChange={handleChange}
-                            name="visible"
+                            checked={announcement.send_notification ? true: false}
+                            onChange={handleChange}
+                            name="send_notification"
                             color="primary"
                         />
                         }
-                        label="Visible"
+                        label="Send Email Notification"
                     />
                     </div>
+
+                    <div className='form-marginer'>
+                    <FormControl>
+                    <InputLabel id="demo-simple-select-label">Announce To</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={announcement.to_announce}
+                    onChange={handleChange}
+                    name='to_announce'
+                    >
+                    <MenuItem value={'members'}>Members</MenuItem>
+                    <MenuItem value={'registered'}>Registered Participants</MenuItem>
+                    </Select>
+                    </FormControl>
+                    </div>
+                    
+                    <div className='club-announcement-create-container'>
+                    <Button variant="contained" color="primary" 
+                    onClick={handleSubmit}
+                    >
+                        Create Announcement
+                    </Button>
+                    </div>
+
                 </form>
             </div>
             </div>
