@@ -344,7 +344,7 @@ class events_all(APIView):
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
-                    "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                    "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                     "completed": event["completed"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
@@ -388,7 +388,7 @@ class events_club(APIView):
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
-                    "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                    "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                     "completed": event["completed"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
@@ -412,12 +412,12 @@ class uncompleted_events(APIView):
             club_prof = Club_profile.objects.get(user=events[i].user)
             Club_prof = Club_profileSerializer(club_prof)
             i+=1
-            if(event["completed"]==0):
+            if(event["completed"]==False):
                 if club_name==Club_prof.data["title"]:
                     event_data = {
                         "id_event" : event["id"],
                         "event_title" : event["event_title"],
-                        "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                        "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                     }
                 
                     data.append(event_data)
@@ -446,7 +446,7 @@ class event_data_id(APIView):
             "poster" : ("http://127.0.0.1:8000"+event.data["poster"]),
             "date" : event.data["date"],
             "visible" : event.data["visible"],
-            "date_srt": datetime.strptime(event.data["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+            "date_srt": datetime.strptime(event.data["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
             "completed": event.data["completed"],
             "club_name" : Club_prof.data["title"],
             "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
@@ -573,7 +573,7 @@ class Registered_users(APIView):
             part_data["email"]=user.email
             part_data["mobile_no"]=participant["mobile_no"]
             part_data["roll_no"]=participant["roll_no"]
-            part_data["date_srt"]=datetime.strptime(participant["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+            part_data["date_srt"]=datetime.strptime(participant["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
             data.append(part_data)
         
         data.sort(key = lambda a:a["date_srt"], reverse=True)
@@ -639,13 +639,14 @@ class get_announcements(APIView):
             for announce in announce_dt.data:
                 event_nm = Event.objects.get(id=announce["event_name"])
                 clb_name = Club_profile.objects.get(user=event_nm.user).title
+                # print(announce["date_srt"][0:19])
                 if(clb_name==club_nm):
                     ann_data = {
                         "event_name":event_nm.event_title,
                         "to_announce":announce["to_announce"],
                         "title":announce["title"],
                         "ann_description":announce["ann_description"],
-                        "date_srt": datetime.strptime(announce["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                        "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                     }
                     data.append(ann_data)
         data.sort(key = lambda a:a["date_srt"], reverse=True)
