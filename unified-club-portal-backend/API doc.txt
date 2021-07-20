@@ -102,3 +102,8 @@ parameters(Form-Data) : token, event_name, to_announce, title, ann_description
 URL = http://127.0.0.1:8000/api/club/get_announcements
 Type = "POST"
 parameters(Form-Data) : token, club_name
+
+(22) get_uncompletedevents: To get all the uncompleted events of a club
+URL = http://127.0.0.1:8000/api/club/uncompleted_events/Programming-Club
+Type = "GET"
+parameters: No Parameters
