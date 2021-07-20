@@ -46,7 +46,7 @@ const ClubCard = ({club}) => {
                 alt={club.title}
                 height="240"
                 image={club.profile}
-                title={club.title}
+                title="Contemplative Reptile"
             />
             <CardContent className='card-content'>
                 <Typography gutterBottom variant="h5" component="h2">

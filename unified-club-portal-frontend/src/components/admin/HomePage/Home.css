@@ -1,0 +1,19 @@
+.club-list-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2% 5%;
+}
+
+.create-club-button {
+    margin: 5% 2%;
+    text-align: center;
+}
+
+@media only screen and (min-width: 800px)  {
+    .club-list-cotainer {
+        flex-direction: column;
+    }
+}
