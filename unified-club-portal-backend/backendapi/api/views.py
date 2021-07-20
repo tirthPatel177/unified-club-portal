@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .models import (
     Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement, Rating
     )
+from django.shortcuts import render
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -114,7 +115,7 @@ class VerificationView(APIView):
         user.is_active = True
         user.save()
         
-        return Response(data)
+        return render(request, "varify.html")
     
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()

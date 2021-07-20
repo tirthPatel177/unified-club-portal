@@ -1,7 +1,7 @@
 (1) Register : To register a user
 URL = http://127.0.0.1:8000/api/users
 Type = "POST"
-parameters : first_name, last_name, email, password, type_of_user
+parameters : first_name, last_name, email, password
 
 (2) Login: For login and getting token for authentication
 URL = http://127.0.0.1:8000/api/login
@@ -112,3 +112,13 @@ parameters: No Parameters
 URL = http://127.0.0.1:8000/api/club/get_announcement_club/<club-name>
 Type = "GET"
 parameters: No Parameters
+
+(24) rating: To rate an event
+URL = http://127.0.0.1:8000/api/user/rating
+Type = "POST"
+parameters(Form-Data) : token, event_title, rating
+
+(25) club_register: to create a club
+URL = http://127.0.0.1:8000/api/clubs
+Type = "POST"
+parameters : email, password, title, description, profile_image, tag_line
