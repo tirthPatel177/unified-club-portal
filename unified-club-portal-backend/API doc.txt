@@ -69,7 +69,7 @@ Type = "POST"
 parameters(Form-Data) : token, id_event, mobile_no, roll_no
 
 (15) get_registered_users : To get registered user for an event
-URL = http://127.0.0.1:8000/api/club/registered_users/WMC
+URL = http://127.0.0.1:8000/api/club/registered_users/<event-name>
 Type = "GET"
 parameters: No Parameters
 
@@ -104,6 +104,11 @@ Type = "POST"
 parameters(Form-Data) : token, club_name
 
 (22) get_uncompletedevents: To get all the uncompleted events of a club
-URL = http://127.0.0.1:8000/api/club/uncompleted_events/Programming-Club
+URL = http://127.0.0.1:8000/api/club/uncompleted_events/<club-name>
+Type = "GET"
+parameters: No Parameters
+
+(23) get_announcement_club: To get announcements for club user
+URL = http://127.0.0.1:8000/api/club/get_announcement_club/<club-name>
 Type = "GET"
 parameters: No Parameters

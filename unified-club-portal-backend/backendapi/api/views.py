@@ -2,9 +2,13 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer
+from .serializers import (
+    UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer, RatingSerializer
+    )
 from rest_framework.response import Response
-from .models import Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement
+from .models import (
+    Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement, Rating
+    )
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -47,7 +51,7 @@ class UserViewSet(viewsets.ModelViewSet):
             email_send = EmailMessage(
                 email_subject,
                 email_body,
-                "Email",
+                'unifiedclub2021au@gmail.com',
                 [user.email],
             )
             
@@ -600,10 +604,40 @@ class announcement(APIView):
         to_announce = request.data["to_announce"]
         title = request.data["title"]
         ann_description = request.data["ann_description"]
-        
+        send_notification  = request.data["send_notification"]
+        club_name = request.data["club_name"]
+        club_name = club_name.replace('-', ' ')
+
         user = Token.objects.get(key=token).user
-        event_name = Event.objects.get(event_title=event_title)
-        Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description)
+        if(event_title!="None"):
+            event_name = Event.objects.get(event_title=event_title)
+            Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description)
+        else:
+            Announcement.objects.create(user=user, to_announce=to_announce, title=title,ann_description=ann_description)
+        if(send_notification=="true"):
+            emails_list = []
+            if(to_announce=="members"):
+                club_title = Club_profile.objects.get(title=club_name)
+                members_ml = Member.objects.filter(club_name=club_title)
+                for member_ml in members_ml:
+                    emails_list.append(member_ml.user.email)
+            else:
+                event_name = Event.objects.get(event_title=event_title)
+                registered_mls = Register_Event.objects.filter(event_name=event_name)
+                for registered_ml in registered_mls:
+                    emails_list.append(registered_ml.user.email)
+                
+            # email_subject = title
+            # email_body = ann_description
+            # email_send = EmailMessage(
+            #     email_subject,
+            #     email_body,
+            #     'unifiedclub2021au@gmail.com',
+            #     emails_list,
+            # )
+            
+            # email_send.send(fail_silently=False)
+            print(emails_list)    
         
         return Response({"success":"Announcement created successfully"})
     
@@ -659,6 +693,7 @@ class get_announcements(APIView):
         return Response(data)
 
 class get_announcement_club(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def get(self, request, club_name):
         club_name = club_name.replace('-', ' ')
         club = Club_profile.objects.get(title=club_name)
@@ -685,3 +720,20 @@ class get_announcement_club(APIView):
         
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
+    
+    
+class rating(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+    def post(self, request):
+        token = request.data["token"]
+        event_title = request.data["event_title"]
+        rating = request.data["rating"]
+        
+        user = Token.objects.get(key=token).user
+        event_name = Event.objects.get(event_title=event_title)
+        
+        if(Rating.objects.filter(user=user, event_name=event_name).exists()):
+            return Response({"Error":"Already rated"})
+        
+        Rating.objects.create(user=user, event_name=event_name, rating=rating)
+        return Response({"success":"Rated successfully"})
