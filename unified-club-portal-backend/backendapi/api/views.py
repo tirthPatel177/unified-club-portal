@@ -417,15 +417,11 @@ class uncompleted_events(APIView):
                     event_data = {
                         "id_event" : event["id"],
                         "event_title" : event["event_title"],
-<<<<<<< HEAD
-                        # "date_srt": datetime.strptime(event["date_srt"][], '%Y-%m-%dT%H:%M:%SZ'),
-=======
                         "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
->>>>>>> edee845df58b3abd43c7b0eeb0de3148b1ff5ab9
                     }
                 
                     data.append(event_data)
-        # data.sort(key = lambda a:a["date_srt"], reverse=True)
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
 
 class event_data_id(APIView):
