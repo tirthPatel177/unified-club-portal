@@ -596,13 +596,13 @@ class announcement(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         token = request.data["token"]
-        event_name = request.data["event_name"]
+        event_title = request.data["event_title"]
         to_announce = request.data["to_announce"]
         title = request.data["title"]
         ann_description = request.data["ann_description"]
         
         user = Token.objects.get(key=token).user
-        event_name = Event.objects.get(event_title=event_name)
+        event_name = Event.objects.get(event_title=event_title)
         Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description)
         
         return Response({"success":"Announcement created successfully"})
@@ -638,16 +638,50 @@ class get_announcements(APIView):
             announce_dt = AnnouncementSerializer(obj, many=True)
             for announce in announce_dt.data:
                 event_nm = Event.objects.get(id=announce["event_name"])
-                clb_name = Club_profile.objects.get(user=event_nm.user).title
+                clb_name = Club_profile.objects.get(user=event_nm.user)
+                Club_prof = Club_profileSerializer(clb_name)
                 # print(announce["date_srt"][0:19])
-                if(clb_name==club_nm):
+                if(Club_prof.data["profile_pic"][0]!='/'):
+                    Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
+
+                if(Club_prof.data["title"]==club_nm):
                     ann_data = {
                         "event_name":event_nm.event_title,
                         "to_announce":announce["to_announce"],
                         "title":announce["title"],
                         "ann_description":announce["ann_description"],
                         "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                        "club_title": Club_prof.data["title"],
+                        "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     }
                     data.append(ann_data)
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        return Response(data)
+
+class get_announcement_club(APIView):
+    def get(self, request, club_name):
+        club_name = club_name.replace('-', ' ')
+        club = Club_profile.objects.get(title=club_name)
+        
+        announcements = Announcement.objects.filter(user=club.user)
+        announce_dt = AnnouncementSerializer(announcements, many=True)
+        Club_prof = Club_profileSerializer(club)
+        if(Club_prof.data["profile_pic"][0]!='/'):
+            Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
+        
+        data = []
+        for announce in announce_dt.data:
+            event_nm = Event.objects.get(id=announce["event_name"])
+            ann_data = {
+                "event_name":event_nm.event_title,
+                "to_announce":announce["to_announce"],
+                "title":announce["title"],
+                "ann_description":announce["ann_description"],
+                "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                "club_title": Club_prof.data["title"],
+                "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+            }
+            data.append(ann_data)
+        
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
