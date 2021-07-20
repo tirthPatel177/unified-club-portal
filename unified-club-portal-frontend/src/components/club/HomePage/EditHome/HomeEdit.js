@@ -37,7 +37,7 @@ const HomeEdit = (props) => {
                 console.log(data);
                 setclubDetails(data);
                 // props.setUser(data.type_of_user)
-                
+                setPreview(data.profile)
             }
         ).catch(e => console.log(e))
     }
@@ -95,7 +95,7 @@ const HomeEdit = (props) => {
 
     return (
         <div>
-            
+
             <Navbar />
             <div className='club-home'>
             <div>

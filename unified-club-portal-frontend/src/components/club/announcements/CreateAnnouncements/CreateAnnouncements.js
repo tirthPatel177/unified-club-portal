@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Navbar from './../../NavBar/Navbar'
 import Header from './../../HomePage/header/index'
 import FormControl from '@material-ui/core/FormControl';
@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import './CreateAnnouncement.css'
+import { useHistory, useParams } from 'react-router-dom';
 
 const CreateAnnouncements = () => {
 
@@ -23,6 +24,22 @@ const CreateAnnouncements = () => {
         send_registered: false,
         to_announce: ''
     })
+
+    let {club} = useParams();
+
+    let history = useHistory();
+
+    const [events, setevents] = useState([])
+
+    useEffect(() => {
+        fetch(`http://127.0.0.1:8000/api/club/uncompleted_events/${club}`,{
+            method: "GET",
+        }).then(data => data.json()).then(
+            data => {setevents(data);
+                console.log(data)
+            }
+        )
+    }, [])
 
     const [editordata, seteditordata] = useState('')
 
@@ -53,6 +70,11 @@ const CreateAnnouncements = () => {
             body: formData
         }).then( data => data.json())
         console.log(editordata)
+        history.push(`/club/${club}/announcements`)
+    }
+
+    const ListEvents = (event) => {
+        <MenuItem value={event.event_title}>{event.event_title}</MenuItem>                    
     }
 
     return (
@@ -102,10 +124,16 @@ const CreateAnnouncements = () => {
                     value={announcement.event_title}
                     onChange={handleChange}
                     name='event_title'
-                    >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    >{
+                        // ListEvents()
+                        events.map((event) => {
+                               return <MenuItem value={event.event_title}>{event.event_title}</MenuItem>
+                            }
+                        )
+                    }
+                    
+                    {/* <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem> */}
                     </Select>
                     </FormControl>
                     </div>

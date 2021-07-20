@@ -78,7 +78,7 @@ function App() {
         <PrivateRoute exact path='/user/events' component={UserEventsPage} />
         <PrivateRoute exact path='/user/:club/announcements' component={UserAnnouncementsPage} />
         <PrivateRoute exact path='/user/events/:id' component={UserEventHomePage} />
-        <PrivateRoute exact path='club/edit-profile' component={ClubEditProfile} />
+        <PrivateRoute exact path='/club/edit-profile' component={ClubEditProfile} />
         <PrivateRoute exact path='/club/:club/events' component={ClubEvents} />
         <PrivateRoute exact path='/club/:club/announcements' component={ClubAnnouncementsPage} />
         <PrivateRoute exact path='/club/:club/create-announcement' component={CreateClubAnnouncements} />

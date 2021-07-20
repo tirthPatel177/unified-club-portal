@@ -417,11 +417,11 @@ class uncompleted_events(APIView):
                     event_data = {
                         "id_event" : event["id"],
                         "event_title" : event["event_title"],
-                        "date_srt": datetime.strptime(event["date_srt"], '%Y-%m-%dT%H:%M:%SZ'),
+                        # "date_srt": datetime.strptime(event["date_srt"][], '%Y-%m-%dT%H:%M:%SZ'),
                     }
                 
                     data.append(event_data)
-        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        # data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
 
 class event_data_id(APIView):
@@ -596,13 +596,13 @@ class announcement(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         token = request.data["token"]
-        event_name = request.data["event_name"]
+        event_title = request.data["event_title"]
         to_announce = request.data["to_announce"]
         title = request.data["title"]
         ann_description = request.data["ann_description"]
         
         user = Token.objects.get(key=token).user
-        event_name = Event.objects.get(event_title=event_name)
+        event_name = Event.objects.get(event_title=event_title)
         Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description)
         
         return Response({"success":"Announcement created successfully"})
