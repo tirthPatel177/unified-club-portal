@@ -103,8 +103,16 @@ class UserViewSet_club(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class club_delete(APIView):
+    def post(self, request):
+        title = request.data["title"]
+        user = Club_profile.objects.get(title=title).user
 
-
+        User.objects.get(id=user.id).delete()
+        
+        return Response({"success": "Club user deleted successfully"})
+        
 class VerificationView(APIView):    
     def get(self, request, uidb64, token):
         data = {
@@ -391,6 +399,13 @@ class events_all(APIView):
                     event["poster"] = '/'+event["poster"]
                 if(Club_prof.data["profile_pic"][0]!='/'):
                     Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
+                rating = 0
+                event_name = Event.objects.get(event_title=event["event_title"])
+                rating_get = Rating.objects.filter(event_name=event_name)
+                for rate in rating_get:
+                    rating+=rate.rating
+                if(len(rating_get)!=0):
+                    rating = rating/len(rating_get)
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
@@ -402,7 +417,7 @@ class events_all(APIView):
                     "completed": event["completed"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
-                    
+                    "rating" : rating,
                 }
                 
                 data.append(event_data)
@@ -435,6 +450,13 @@ class events_club(APIView):
                     event["poster"] = '/'+event["poster"]
                 if(Club_prof.data["profile_pic"][0]!='/'):
                     Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
+                rating = 0
+                event_name = Event.objects.get(event_title=event["event_title"])
+                rating_get = Rating.objects.filter(event_name=event_name)
+                for rate in rating_get:
+                    rating+=rate.rating
+                if(len(rating_get)!=0):
+                    rating = rating/len(rating_get)
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
@@ -446,7 +468,7 @@ class events_club(APIView):
                     "completed": event["completed"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
-                    
+                    "rating" : rating,
                 }
             
                 data.append(event_data)    
@@ -488,6 +510,11 @@ class event_data_id(APIView):
         club_prof = Club_profile.objects.get(user=evnt.user)
         Club_prof = Club_profileSerializer(club_prof)
         event = EventSerializer(evnt)
+        rating_get = Rating.objects.filter(event_name=evnt)
+        rating = 0
+        for rate in rating_get:
+            rating+=rate.rating
+        rating = rating/len(rating_get)
         # print(serializer.data["poster"])
         if(event.data["poster"][0]!='/'):
             event.data["poster"] = '/'+event.data["poster"]
@@ -504,6 +531,7 @@ class event_data_id(APIView):
             "completed": event.data["completed"],
             "club_name" : Club_prof.data["title"],
             "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+            "rating": rating,
         }
         
         return Response(event_data)

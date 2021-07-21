@@ -31,6 +31,7 @@ from .views import (
     uncompleted_events,
     get_announcement_club,
     rating,
+    club_delete,
     )
 
 router = routers.DefaultRouter()
@@ -42,6 +43,7 @@ urlpatterns = [
     # url(r'^api/api-token-auth/', obtain_auth_token),
     path('users', UserViewSet.as_view({'get': 'list'})),
     path('clubs', UserViewSet_club.as_view({'get': 'list'})),
+    path('club/club_delete', club_delete.as_view()),
     path('login', ObtainAuthToken.as_view()),
     path('user/get_info', get_data_user.as_view()),
     path('user/get_type_user', get_type_user.as_view()),
