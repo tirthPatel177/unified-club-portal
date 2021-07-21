@@ -1,0 +1,84 @@
+.card_event{
+    /* text-align: center; */
+    background-color: rgba(89, 209, 218, 0.1);
+    border-radius: 10px;
+    width: 80%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* border: solid black 1px; */
+    box-shadow: 1px 1px 1px gray;
+}
+
+.poster_event{
+    border-radius: 10px 10px 0px 0px;
+}
+
+.card_event :hover {
+    background-color: white;
+}
+
+.card-event-title{
+    margin-left: 23px;
+    font-size: 25px;
+}
+
+.card-event-date{
+    margin-right: 8px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    /* float: right;    */
+    font-size: 15px;
+}
+
+.club_profile_pic{
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    margin-top: 2px;
+}
+
+@media(max-width: 600px){
+    .club_profile_pic{
+        width: 20px;
+        height: 20px;
+    }
+    .card-event-title{
+        font-size: 19px;
+    }
+    
+    .card-event-date{
+        font-size: 13px;
+    }
+}
+
+.card-event-club{
+    font-size: 15px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.club_name_event{
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.data_event{
+    /* margin: 50px; */
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.card-links {
+    text-decoration: none;
+}
+
+.card-links:active {
+    color: black;
+}

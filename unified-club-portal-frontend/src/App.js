@@ -16,6 +16,8 @@ import ClubAnnouncementsPage from './components/club/announcements/Announcements
 import CreateClubAnnouncements from './components/club/announcements/CreateAnnouncements/CreateAnnouncements'
 import ClubEditProfile from './components/club/HomePage/EditHome/HomeEdit'
 import AdminCreateClub from './components/admin/CreateClub/CreateClub'
+import AdminEvents from './components/admin/events/Events'
+import AdminEventsHome from './components/admin/EventHome/EventHome'
 
 
 function App() {
@@ -84,6 +86,9 @@ function App() {
         <PrivateRoute exact path='/club/:club/create-announcement' component={CreateClubAnnouncements} />
         <PrivateRoute exact path='/club/:club/create-event' component={CreateEvent} />
         <PrivateRoute exact path='/create-club' component={AdminCreateClub} />
+
+        <PrivateRoute exact path='/admin/events' component={AdminEvents} />
+        <PrivateRoute exact path='/admin/events/:id' component={AdminEventsHome} />
       </Switch>
     </Router>
     </div>
