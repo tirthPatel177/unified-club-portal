@@ -122,3 +122,8 @@ parameters(Form-Data) : token, event_title, rating
 URL = http://127.0.0.1:8000/api/clubs
 Type = "POST"
 parameters : email, password, title, description, profile_image, tag_line
+
+(26) is_member: to check that a user is registered or not
+URL = http://127.0.0.1:8000/api/club/is_member
+Type = "POST"
+parameters(Form-Data) : token, title
