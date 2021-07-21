@@ -60,7 +60,7 @@ export default function AnnouncementCard({details}) {
         }
         
         title={details.club_title}
-        subheader={details.date_str}
+        subheader={details.date_srt.split('T').join(' ')}
       />
       {/* <CardMedia
         className={classes.media}

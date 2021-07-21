@@ -19,13 +19,11 @@ const AnnouncementList = () => {
         history.push(path);
     }
 
-    const fetchannouncements = (token) => {
-        let formData = new FormData();
-        formData.append("token", token);
-        formData.append("club_name", club.split('-').join(' '))
-        fetch('http://localhost:8000/api/club/get_announcements', {
-            method: "POST",
-            body: formData
+    const fetchannouncements = () => {
+        
+        fetch(`http://127.0.0.1:8000/api/club/get_announcement_club/${club}`, {
+            method: "GET",
+
         }).then( dataapi => dataapi.json()).then(
             dataapi => {
                 console.log(dataapi);
@@ -35,8 +33,8 @@ const AnnouncementList = () => {
     }
     
       useEffect(() => {
-        let token = localStorage.getItem('token');
-        fetchannouncements(token);
+        
+        fetchannouncements();
         
       }, [])
 

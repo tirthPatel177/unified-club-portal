@@ -14,3 +14,6 @@
 1. Events Page for User and Club
 2. Announcement Page for User and Club
 3. Display appropriate msg at login/signup
+4. Display Date Formatting
+5. Shareable event link
+
