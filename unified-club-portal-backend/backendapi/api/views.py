@@ -406,6 +406,8 @@ class events_all(APIView):
                     rating+=rate.rating
                 if(len(rating_get)!=0):
                     rating = rating/len(rating_get)
+                rating = rating//0.5
+                rating = rating*0.5
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
@@ -457,6 +459,8 @@ class events_club(APIView):
                     rating+=rate.rating
                 if(len(rating_get)!=0):
                     rating = rating/len(rating_get)
+                rating = rating//0.5
+                rating = rating*0.5
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
@@ -514,7 +518,10 @@ class event_data_id(APIView):
         rating = 0
         for rate in rating_get:
             rating+=rate.rating
-        rating = rating/len(rating_get)
+        if(len(rating_get)!=0):
+            rating = rating/len(rating_get)
+        rating = rating//0.5
+        rating = rating*0.5
         # print(serializer.data["poster"])
         if(event.data["poster"][0]!='/'):
             event.data["poster"] = '/'+event.data["poster"]
