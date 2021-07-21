@@ -12,23 +12,14 @@ import { useParams } from 'react-router-dom';
 
 const NormalHome = (props) => {
 
-    const [checked, setchecked] = useState();
+    const [checked, setchecked] = useState(false);
 
     const handleChange = () => {
-        setchecked(!checked);
-    };
 
-    let {club} = useParams();
-
-    useEffect(() => {
-
-    },[])
-
-    useEffect(() => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem("token"));
         formData.append("title", club.split('-').join(' '));
-        if(checked){
+        if(!checked){
             fetch('http://127.0.0.1:8000/api/club/member_add',{
                 method: "POST",
                 body: formData
@@ -39,7 +30,44 @@ const NormalHome = (props) => {
                 body: formData
             })
         }
-    }, [checked])
+        setchecked(!checked)
+    };
+
+    let {club} = useParams();
+
+    useEffect(() => {
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem("token"));
+        formData.append("title", club.split('-').join(' '));
+        fetch('http://127.0.0.1:8000/api/club/is_member',{
+                method: "POST",
+                body: formData
+            }).then(
+                data => data.json()
+            ).then(
+                data => {
+                    setchecked(data.user)
+                    console.log(data.user)
+                }
+            )
+    },[])
+
+    // useEffect(() => {
+    //     let formData = new FormData();
+    //     formData.append("token", localStorage.getItem("token"));
+    //     formData.append("title", club.split('-').join(' '));
+    //     if(checked){
+    //         fetch('http://127.0.0.1:8000/api/club/member_add',{
+    //             method: "POST",
+    //             body: formData
+    //         })
+    //     }else{
+    //         fetch('http://127.0.0.1:8000/api/club/member_delete',{
+    //             method: "POST",
+    //             body: formData
+    //         })
+    //     }
+    // }, [checked])
 
     return (
         <div className='home'>
@@ -60,9 +88,9 @@ const NormalHome = (props) => {
                 label={
                     checked ? "You are a member" : "Become a member"
                 }
-                control={
+                control={   
                 <Switch
-                    checked={checked}
+                    checked={checked ? true: false}
                     onChange={handleChange}
                     name="checked"
                     color="primary"
