@@ -9,8 +9,37 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 // import MuiPhoneNumber from "material-ui-phone-number";
 import { Button } from '@material-ui/core'
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
+const useStyles = makeStyles({
+  root: {
+    // width: 200,
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
 
 const Home = () => {
+
+    const [value, setValue] = useState(0);
+    const [hover, setHover] = useState(-1);
+    const classes = useStyles();
 
     let {id} = useParams();
 
@@ -39,11 +68,18 @@ const Home = () => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('id_event', id);
+
+        if(register["mobile_no"] === '' || register["roll_no"] === ''){
+            console.log("Feilds can not be empty");
+            return;
+        }
+
         for (const property in register) {
             formData.append(property, register[property])
             console.log(property, register[property], formData[property]);
         }
         // console.log(formData.tag_line);
+
         fetch('http://localhost:8000/api/club/event_register',
         {
             method: 'POST',
@@ -111,6 +147,10 @@ const Home = () => {
     //     profile_pic: "http://127.0.0.1:8000/profile_imgs/guitar.jpg"
     // }
 
+    const handleRatingSubmit = () => {
+
+    }
+
     return (
         <div>
         <Navbar />
@@ -131,6 +171,49 @@ const Home = () => {
                         {ReactHtmlParser(event.event_description)}
                     </div>
                 </main>
+
+                <h3 className='register-heading'>
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                    <Typography component="legend"  >Average Rating</Typography>
+                    <Rating name="disabled" 
+                    // value={rating} 
+                    disabled />
+                </Box>
+                </h3>
+
+                <h3 className='register-heading'>
+                        Rate this event
+                </h3>
+
+                <div className='actual-event-register-from'>
+                    <div className={classes.root}>
+
+                    <Rating
+                        name="hover-feedback"
+                        // value={value}
+                        precision={0.5}
+                        // onChange={(event, newValue) => {
+                        // setValue(newValue);
+                        // }}
+                        onChangeActive={(event, newHover) => {
+                        setHover(newHover);
+                        }}
+                    />
+                    {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+                    
+                    </div>
+
+                    <div className='event-register-button-container'>
+                            <Button variant="contained" color="primary" 
+                            onClick={handleRatingSubmit}
+                            >
+                                Save Rating
+                            </Button>
+                        </div>
+
+                    
+                </div>
+
                 { isreg ? 
                     <div className='event-register-button-container'>
                     <Button variant="contained" color="primary" 

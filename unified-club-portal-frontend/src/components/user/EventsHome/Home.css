@@ -60,6 +60,8 @@
     justify-content: space-around;
     align-items: center;
     margin: 10px;
+    max-width: 700px;
+    margin: 10px auto;
 }
 
 .event-register-button-container{

@@ -46,7 +46,12 @@ const NormalHome = (props) => {
                 data => data.json()
             ).then(
                 data => {
-                    setchecked(data.user)
+                    if(data.user === 'true'){
+                        setchecked(true)
+                    }else{
+                        setchecked(false);
+                    }
+                    
                     console.log(data.user)
                 }
             )

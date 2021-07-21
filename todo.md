@@ -16,4 +16,4 @@
 3. Display appropriate msg at login/signup
 4. Display Date Formatting
 5. Shareable event link
-
+6. Place Rating with title
