@@ -18,7 +18,9 @@ from rest_framework import parsers
 from rest_framework import renderers
 from rest_framework.authtoken.models import Token
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMessage, send_mail
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
@@ -725,14 +727,17 @@ class announcement(APIView):
                 for registered_ml in registered_mls:
                     emails_list.append(registered_ml.user.email)
                 
-            # email_subject = title
-            # email_body = ann_description
-            # email_send = EmailMessage(
-            #     email_subject,
-            #     email_body,
-            #     'unifiedclub2021au@gmail.com',
-            #     emails_list,
-            # )
+            email_subject = title
+            context = {"desc":ann_description}
+            message = render_to_string('email_sender.html', context)
+            plain_message = strip_tags(message)
+            send_mail(
+                email_subject,
+                plain_message,
+                'unifiedclub2021au@gmail.com',
+                emails_list,
+                html_message=message
+            )
             
             # email_send.send(fail_silently=False)
             print(emails_list)    
