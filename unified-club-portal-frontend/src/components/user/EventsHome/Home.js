@@ -55,6 +55,7 @@ const Home = () => {
     const [isreg, setisreg] = useState(false);
 
     const [event, setevent] = useState({});
+    
 
     const handleChange = (e) => {
         e.preventDefault();

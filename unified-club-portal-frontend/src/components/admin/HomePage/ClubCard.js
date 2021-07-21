@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { useMediaQuery } from "react-responsive";
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -33,35 +34,46 @@ const ClubCard = ({club}) => {
         return title.split(' ').join('-');
     }
 
+    let history = useHistory();
+
     const classes = useStyles();
     const mobileClasses = mobileStyles();
 
     const isMobile = useMediaQuery({ maxWidth: 400});
 
     const handleDelete = () => {
-        
+        let formData = new FormData();
+        formData.append('title', club.title);
+        fetch('http://localhost:8000/api/club/club_delete',{
+            method: "POST",
+            body: formData
+        }).then(
+            history.push('/')
+        )
     }
 
     return (
         <div className='card-margin'>
-        <a className="card-links" href={'/user/club-profiles/'+ get_title(club.title)}>
+        
         <Card className={isMobile ? mobileClasses.root : classes.root}>
             <CardActionArea>
-            <CardMedia
-                component="img"
-                alt={club.title}
-                height="240"
-                image={club.profile}
-                title={club.title}
-            />
-            <CardContent className='card-content'>
-                <Typography gutterBottom variant="h5" component="h2">
-                {club.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                {club.tag_line}
-                </Typography>
-            </CardContent>
+            <a className="card-links" href={'/user/club-profiles/'+ get_title(club.title)}>
+                <CardMedia
+                    component="img"
+                    alt={club.title}
+                    height="240"
+                    image={club.profile}
+                    title={club.title}
+                />
+                <CardContent className='card-content'>
+                    <Typography gutterBottom variant="h5" component="h2">
+                    {club.title}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                    {club.tag_line}
+                    </Typography>
+                </CardContent>
+            </a>
             </CardActionArea>
             <CardActions>
                 <Button 
@@ -74,7 +86,7 @@ const ClubCard = ({club}) => {
                 </Button>
             </CardActions>
         </Card>
-        </a>
+        
         </div>
     )
 }
