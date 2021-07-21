@@ -190,10 +190,8 @@ class club_data_create(APIView):
             token = request.data["token"]
             title = request.data["title"]
             desc = request.data["description"]
-            if("profile" in request.data):
-                img = request.data["profile"]
-            else:
-                img = request.data["profile_image"]
+            img = request.data["profile"]
+            
             print(request.data, type(img))
             tag_line = request.data["tag_line"]
             

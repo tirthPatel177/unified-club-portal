@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import Header from '../HomePage/header/index'
 import Navbar from './../NavBar/Navbar'
@@ -10,43 +10,7 @@ const AnnouncementList = () => {
 
     const history = useHistory();
 
-    const data = [
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-        {
-            clubname: 'Programming Club',
-            subject: "Opportunity at MIT",
-            date: '26-12-2020'
-        },
-    ]
+    const [data, setdata] = useState([])
 
     let {club} = useParams();
 
@@ -54,6 +18,27 @@ const AnnouncementList = () => {
         let path = `/club/${club}/create-announcement`; 
         history.push(path);
     }
+
+    const fetchannouncements = (token) => {
+        let formData = new FormData();
+        formData.append("token", token);
+        formData.append("club_name", club.split('-').join(' '))
+        fetch('http://localhost:8000/api/club/get_announcements', {
+            method: "POST",
+            body: formData
+        }).then( dataapi => dataapi.json()).then(
+            dataapi => {
+                console.log(dataapi);
+                setdata(dataapi);
+            }
+        ).catch(e => console.log(e))
+    }
+    
+      useEffect(() => {
+        let token = localStorage.getItem('token');
+        fetchannouncements(token);
+        
+      }, [])
 
     return (
         <div>

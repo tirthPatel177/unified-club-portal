@@ -13,5 +13,4 @@
 # 20-7-2021 Tirth
 1. Events Page for User and Club
 2. Announcement Page for User and Club
-3. Club User Header Edit Profile Error 
-4. Admin Club Create Page
+3. Display appropriate msg at login/signup

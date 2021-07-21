@@ -20,7 +20,7 @@ const CreateAnnouncements = () => {
     const [announcement, setannouncement] = useState({
         event_title: '',
         title: '',
-        send_registered: false,
+        send_notification: false,
         to_announce: ''
     })
 
@@ -60,6 +60,7 @@ const CreateAnnouncements = () => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('ann_description', editordata)
+        formData.append("club_name", club.split('-').join(' '))
         for (const property in announcement) {
             formData.append(property, announcement[property])
             console.log(property, announcement[property], formData[property]);
