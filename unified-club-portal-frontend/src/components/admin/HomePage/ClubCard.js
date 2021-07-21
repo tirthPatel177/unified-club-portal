@@ -8,12 +8,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { useMediaQuery } from "react-responsive";
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   root: {
     minWidth: 200,
     width: 345,
-    heigth: 370,
+    heigth: 360,
   },
 });
 
@@ -36,6 +38,10 @@ const ClubCard = ({club}) => {
 
     const isMobile = useMediaQuery({ maxWidth: 400});
 
+    const handleDelete = () => {
+        
+    }
+
     return (
         <div className='card-margin'>
         <a className="card-links" href={'/user/club-profiles/'+ get_title(club.title)}>
@@ -46,7 +52,7 @@ const ClubCard = ({club}) => {
                 alt={club.title}
                 height="240"
                 image={club.profile}
-                title="Contemplative Reptile"
+                title={club.title}
             />
             <CardContent className='card-content'>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -57,6 +63,16 @@ const ClubCard = ({club}) => {
                 </Typography>
             </CardContent>
             </CardActionArea>
+            <CardActions>
+                <Button 
+                // size="small" 
+                variant='outlined'
+                color="secondary"
+                onClick={handleDelete}
+                >
+                Delete
+                </Button>
+            </CardActions>
         </Card>
         </a>
         </div>

@@ -50,6 +50,8 @@ const Home = () => {
         }
     )
 
+    let averageRating = 0;
+
     const [isreg, setisreg] = useState(false);
 
     const [event, setevent] = useState({});
@@ -102,7 +104,10 @@ const Home = () => {
             method: 'POST',
             body: formData
         }).then( data => data.json()).then(
-            data => setevent(data)
+            data => {setevent(data)
+                console.log(typeof(data.rating))
+                averageRating = data.rating;
+            }
         )
     }
 
@@ -135,6 +140,7 @@ const Home = () => {
         console.log(id);
         fetchEventDetails();
         checkReg();
+
     }, [])
 
     // const data = {
@@ -148,7 +154,14 @@ const Home = () => {
     // }
 
     const handleRatingSubmit = () => {
-
+        let formData = new FormData();
+        formData.append("token", localStorage.getItem('token'));
+        formData.append('event_title', event.event_title);
+        formData.append('rating', value);
+        fetch('http://127.0.0.1:8000/api/user/rating', {
+            method: 'POST',
+            body: formData
+        }).then(data => data.json())
     }
 
     return (
@@ -173,12 +186,16 @@ const Home = () => {
                 </main>
 
                 <h3 className='register-heading'>
+                { event.rating ?
                 <Box component="fieldset" mb={3} borderColor="transparent">
                     <Typography component="legend"  >Average Rating</Typography>
-                    <Rating name="disabled" 
-                    // value={rating} 
-                    disabled />
-                </Box>
+                    <Rating name="simple-controlled" 
+                    value={event.rating} 
+                    precision={0.5}
+                    readOnly />
+                </Box>:
+                null
+                }
                 </h3>
 
                 <h3 className='register-heading'>
@@ -190,11 +207,11 @@ const Home = () => {
 
                     <Rating
                         name="hover-feedback"
-                        // value={value}
+                        value={value}
                         precision={0.5}
-                        // onChange={(event, newValue) => {
-                        // setValue(newValue);
-                        // }}
+                        onChange={(event, newValue) => {
+                        setValue(newValue);
+                        }}
                         onChangeActive={(event, newHover) => {
                         setHover(newHover);
                         }}
