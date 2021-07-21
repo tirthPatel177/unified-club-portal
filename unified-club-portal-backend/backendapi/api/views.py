@@ -3,12 +3,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .serializers import (
-    UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer, RatingSerializer
+    UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer, RatingSerializer, UserSerializer_club
     )
 from rest_framework.response import Response
 from .models import (
     Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement, Rating
     )
+from django.shortcuts import render
 from rest_framework import status
 from django.contrib import auth
 from rest_framework.generics import GenericAPIView
@@ -35,7 +36,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             user = User.objects.get(email = serializer.data["email"])
-            Type_of_User.objects.create(author=user, type_of_user=request.data["type_of_user"])
+            Type_of_User.objects.create(author=user, type_of_user="user")
             
             user.is_active = False
             user.save()
@@ -63,6 +64,46 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class UserViewSet_club(viewsets.ModelViewSet):
+    serializer_class = UserSerializer_club
+
+    def post(self, request):
+        passing_data = {"email":request.data["email"], "password":request.data["password"]}
+        serializer = UserSerializer_club(data=passing_data)
+        print("--->>>",request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer)
+            user = User.objects.get(email = serializer.data["email"])
+            Type_of_User.objects.create(author=user, type_of_user="club")
+            
+            user.is_active = False
+            user.save()
+            token, created = Token.objects.get_or_create(user=user)
+            
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain
+            link = reverse('activate', kwargs={'uidb64':uidb64,'token':token.key})
+            
+            activate_url="http://"+domain+link
+            email_subject = "Activate Your Account"
+            email_body = "Hii "+user.first_name+" "+user.last_name+" , please use the below link for activating your account\n" + activate_url
+            email_send = EmailMessage(
+                email_subject,
+                email_body,
+                'unifiedclub2021au@gmail.com',
+                [user.email],
+            )
+            
+            email_send.send(fail_silently=False)
+            if(request.data["profile_image"]!=""):
+                Club_profile.objects.create(user=user, title=request.data["title"], profile_pic=request.data["profile_image"], description=request.data["description"], tag_line = request.data["tag_line"])
+            else:        
+                Club_profile.objects.create(user=user, title=request.data["title"], description=request.data["description"], tag_line = request.data["tag_line"])
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class VerificationView(APIView):    
     def get(self, request, uidb64, token):
@@ -74,7 +115,7 @@ class VerificationView(APIView):
         user.is_active = True
         user.save()
         
-        return Response(data)
+        return render(request, "varify.html")
     
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
@@ -143,23 +184,34 @@ class get_data_user(APIView):
             return Response(content)
         
 class club_data_create(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         try:
             token = request.data["token"]
             title = request.data["title"]
             desc = request.data["description"]
-            img = request.data["profile_image"]
+            if("profile" in request.data):
+                img = request.data["profile"]
+            else:
+                img = request.data["profile_image"]
+            print(request.data, type(img))
             tag_line = request.data["tag_line"]
             
             user = Token.objects.get(key=token).user
 
+            obj = Club_profile.objects.get(user=user)
+
+            obj.title = title
+            obj.description = desc
+            obj.tag_line = tag_line
             # print("------>",img, type(img))
             #  After hosting change the path to the hosting server 
             if(type(img)==str):
                 if("http://127.0.0.1:8000/images" in img):
                     img = img[len("http://127.0.0.1:8000/images"):]
-            
-            Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
+            obj.profile_pic = img
+            obj.save()            
+            # Club_profile.objects.update_or_create(user=user, defaults=dict(title=title, description=desc, profile_pic = img, tag_line = tag_line))
             
             
             cont = {

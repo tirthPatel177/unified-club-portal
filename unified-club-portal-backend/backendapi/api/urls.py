@@ -4,6 +4,7 @@ from django.conf.urls import include
 from rest_framework import routers
 from .views import (
     UserViewSet, 
+    UserViewSet_club, 
     BookViewSet, 
     ObtainAuthToken, 
     get_data_user, 
@@ -39,6 +40,7 @@ urlpatterns = [
     path('', include(router.urls)),
     # url(r'^api/api-token-auth/', obtain_auth_token),
     path('users', UserViewSet.as_view({'get': 'list'})),
+    path('clubs', UserViewSet_club.as_view({'get': 'list'})),
     path('login', ObtainAuthToken.as_view()),
     path('user/get_info', get_data_user.as_view()),
     path('user/get_type_user', get_type_user.as_view()),
