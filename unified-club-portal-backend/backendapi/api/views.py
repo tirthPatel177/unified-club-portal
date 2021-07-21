@@ -115,7 +115,7 @@ class VerificationView(APIView):
         user.is_active = True
         user.save()
         
-        return render(request, "varify.html")
+        return render(request, "verify.html")
     
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
