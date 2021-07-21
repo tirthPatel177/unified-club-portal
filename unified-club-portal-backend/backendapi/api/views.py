@@ -478,8 +478,18 @@ class events_all_admin(APIView):
         
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
-    
-    
+
+class approval(APIView):
+    def post(self, request):
+        id_event = request.data["id_event"]
+        fut_state = request.data["fut_state"]
+
+        obj = Event.objects.get(id=id_event)
+        obj.approved = fut_state
+        obj.save()
+
+        return Response({"success":"state changed"})
+        
 class events_club(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
 

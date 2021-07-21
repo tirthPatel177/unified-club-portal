@@ -137,3 +137,8 @@ parameters(Form-Data) : title
 URL = http://127.0.0.1:8000/api/club/events_all_admin
 Type = "GET"
 parameters: No Parameters
+
+(29) approval : to change the satate of an event
+URL = http://127.0.0.1:8000/api/club/approval
+Type = "POST"
+parameters(Form-Data) : id_event, fut_state
