@@ -559,7 +559,20 @@ class member_delete(APIView):
         
         return Response(det, status=status.HTTP_201_CREATED)
 
-
+class Is_member(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (parsers.FormParser,parsers.MultiPartParser,parsers.JSONParser,)
+    renderer_classes = (renderers.JSONRenderer,)
+    def post(self, request):
+        token = request.data["token"]
+        title = request.data["title"]
+        title = Club_profile.objects.get(title=title)
+        user = Token.objects.get(key=token).user
+        if(Member.objects.filter(user=user, club_name=title).exists()):
+            return Response({"user":"true"})
+        return Response({"user":"false"})
+        
 class Event_register(APIView):
     throttle_classes = ()
     permission_classes = ()
