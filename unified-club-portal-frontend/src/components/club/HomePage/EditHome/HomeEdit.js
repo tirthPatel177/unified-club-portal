@@ -19,9 +19,11 @@ const HomeEdit = (props) => {
             title: '',
             tag_line: '',
             description: '',
-            profile_image: ''
+            profile: ''
         }
     )
+
+    let history = useHistory();
 
     const [preview, setPreview] = useState('');
     
@@ -58,11 +60,11 @@ const HomeEdit = (props) => {
         const changename= e.target.name;
         const changevalue = e.target.value;
         console.log(changename, changevalue, 'Hello');
-        if(changename === 'profile_image'){
+        if(changename === 'profile'){
             if(e.target.files[0]) {
                 setclubDetails({...clubDetails, 
                     // profile_image: URL.createObjectURL(e.target.files[0])
-                    profile_image: e.target.files[0]
+                    profile: e.target.files[0]
                 });
                 setPreview(URL.createObjectURL(e.target.files[0]));
             }   
@@ -88,7 +90,7 @@ const HomeEdit = (props) => {
 
             data => {console.log(data)
             // <Redirect to='/' />
-
+            history.push('/');
         }
         );
     }
@@ -113,7 +115,7 @@ const HomeEdit = (props) => {
                         type="file" 
                         accept=".png, .jpg, .jpeg" 
                         id="photo" 
-                        name='profile_image'
+                        name='profile'
                         className="club-image-upload-button"
                         onChange={handleChange}
                     />

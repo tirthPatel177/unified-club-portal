@@ -54,24 +54,19 @@ const CreateClub = () => {
             console.log("Passwords are not matching!");
             return;
         }
-        let formData = new FormData();
-        formData.append("token", localStorage.getItem('token'));
-        for (const property in clubDetails) {
-            formData.append(property, clubDetails[property])
-            console.log(property, clubDetails[property], formData[property]);
-        }
-        console.log(formData.tag_line);
-        fetch('http://localhost:8000/api/club/profile_club_create',
-        {
-            method: 'POST',
-            body: formData
+        fetch('http://localhost:8000/api/clubs',{
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(clubDetails)
         }).then( data => data.json()).then(
-
             data => {console.log(data)
-            // <Redirect to='/' />
-
-        }
-        );
+            // let errorType = Object.keys(data);
+            // console.log(errorType[0], errorType);
+            //     // alert(data[errorType[0]])
+            //     setError(data[errorType[0]]);
+            }
+        ) 
+        
     }
 
     return (
