@@ -721,23 +721,36 @@ class get_announcements(APIView):
         for obj in data1:
             announce_dt = AnnouncementSerializer(obj, many=True)
             for announce in announce_dt.data:
-                event_nm = Event.objects.get(id=announce["event_name"])
-                clb_name = Club_profile.objects.get(user=event_nm.user)
+                user_cl = User.objects.get(id=announce["user"])
+                clb_name = Club_profile.objects.get(user=user_cl)
                 Club_prof = Club_profileSerializer(clb_name)
                 # print(announce["date_srt"][0:19])
                 if(Club_prof.data["profile_pic"][0]!='/'):
                     Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
 
                 if(Club_prof.data["title"]==club_nm):
-                    ann_data = {
-                        "event_name":event_nm.event_title,
-                        "to_announce":announce["to_announce"],
-                        "title":announce["title"],
-                        "ann_description":announce["ann_description"],
-                        "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
-                        "club_title": Club_prof.data["title"],
-                        "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
-                    }
+                    ann_data={}
+                    if(announce["event_name"]!=None):
+                        event_nm = Event.objects.get(id=announce["event_name"])
+                        ann_data = {
+                            "event_name":event_nm.event_title,
+                            "to_announce":announce["to_announce"],
+                            "title":announce["title"],
+                            "ann_description":announce["ann_description"],
+                            "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                            "club_title": Club_prof.data["title"],
+                            "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                        }
+                    else:
+                        ann_data = {
+                            "event_name":None,
+                            "to_announce":announce["to_announce"],
+                            "title":announce["title"],
+                            "ann_description":announce["ann_description"],
+                            "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                            "club_title": Club_prof.data["title"],
+                            "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                        }
                     data.append(ann_data)
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
@@ -756,16 +769,28 @@ class get_announcement_club(APIView):
         
         data = []
         for announce in announce_dt.data:
-            event_nm = Event.objects.get(id=announce["event_name"])
-            ann_data = {
-                "event_name":event_nm.event_title,
-                "to_announce":announce["to_announce"],
-                "title":announce["title"],
-                "ann_description":announce["ann_description"],
-                "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
-                "club_title": Club_prof.data["title"],
-                "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
-            }
+            ann_data = {}
+            if(announce["event_name"]!=None):
+                event_nm = Event.objects.get(id=announce["event_name"])
+                ann_data = {
+                    "event_name":event_nm.event_title,
+                    "to_announce":announce["to_announce"],
+                    "title":announce["title"],
+                    "ann_description":announce["ann_description"],
+                    "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                    "club_title": Club_prof.data["title"],
+                    "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                }
+            else:
+                ann_data = {
+                    "event_name":None,
+                    "to_announce":announce["to_announce"],
+                    "title":announce["title"],
+                    "ann_description":announce["ann_description"],
+                    "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                    "club_title": Club_prof.data["title"],
+                    "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                }
             data.append(ann_data)
         
         data.sort(key = lambda a:a["date_srt"], reverse=True)
