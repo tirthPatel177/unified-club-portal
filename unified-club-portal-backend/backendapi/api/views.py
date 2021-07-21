@@ -103,8 +103,16 @@ class UserViewSet_club(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class club_delete(APIView):
+    def post(self, request):
+        title = request.data["title"]
+        user = Club_profile.objects.get(title=title).user
 
-
+        User.objects.get(id=user.id).delete()
+        
+        return Response({"success": "Club user deleted successfully"})
+        
 class VerificationView(APIView):    
     def get(self, request, uidb64, token):
         data = {

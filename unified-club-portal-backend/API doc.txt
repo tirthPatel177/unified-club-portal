@@ -127,3 +127,8 @@ parameters : email, password, title, description, profile_image, tag_line
 URL = http://127.0.0.1:8000/api/club/is_member
 Type = "POST"
 parameters(Form-Data) : token, title
+
+(27) club_delete: to delete a club user
+URl = http://127.0.0.1:8000/api/club/club_delete
+Type = "POST"
+parameters(Form-Data) : title
