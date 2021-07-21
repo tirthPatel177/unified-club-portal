@@ -419,12 +419,62 @@ class events_all(APIView):
                     "visible" : event["visible"],
                     "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                     "completed": event["completed"],
+                    "approved": event["approved"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     "rating" : rating,
                 }
                 
                 data.append(event_data)
+        
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        return Response(data)
+    
+class events_all_admin(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
+
+    def get(self, request):
+
+        events = Event.objects.all()
+        
+        serializer = EventSerializer(events, many=True)
+        
+        data = []
+        i = 0
+        for event in serializer.data:
+            club_prof = Club_profile.objects.get(user=events[i].user)
+            Club_prof = Club_profileSerializer(club_prof)
+            i+=1
+            if(event["poster"][0]!='/'):
+                event["poster"] = '/'+event["poster"]
+            if(Club_prof.data["profile_pic"][0]!='/'):
+                Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
+            rating = 0
+            event_name = Event.objects.get(event_title=event["event_title"])
+            rating_get = Rating.objects.filter(event_name=event_name)
+            for rate in rating_get:
+                rating+=rate.rating
+            if(len(rating_get)!=0):
+                rating = rating/len(rating_get)
+            rating = rating//0.5
+            rating = rating*0.5
+            event_data = {
+                "id_event" : event["id"],
+                "event_title" : event["event_title"],
+                "event_description" : event["event_description"],
+                "poster" : ("http://127.0.0.1:8000"+event["poster"]),
+                "date" : event["date"],
+                "visible" : event["visible"],
+                "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                "completed": event["completed"],
+                "approved": event["approved"],
+                "club_name" : Club_prof.data["title"],
+                "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                "rating" : rating,
+            }
+            
+            data.append(event_data)
         
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         return Response(data)
@@ -472,6 +522,7 @@ class events_club(APIView):
                     "visible" : event["visible"],
                     "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                     "completed": event["completed"],
+                    "approved": event["approved"],
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     "rating" : rating,
@@ -538,6 +589,7 @@ class event_data_id(APIView):
             "visible" : event.data["visible"],
             "date_srt": datetime.strptime(event.data["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
             "completed": event.data["completed"],
+            "approved": event.data["approved"],
             "club_name" : Club_prof.data["title"],
             "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
             "rating": rating,

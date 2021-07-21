@@ -132,3 +132,8 @@ parameters(Form-Data) : token, title
 URl = http://127.0.0.1:8000/api/club/club_delete
 Type = "POST"
 parameters(Form-Data) : title
+
+(28) events_all_admin : get all events for admin
+URL = http://127.0.0.1:8000/api/club/events_all_admin
+Type = "GET"
+parameters: No Parameters
