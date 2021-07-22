@@ -303,11 +303,14 @@ const EventsHome = () => {
                         </form>
                     </div>
                     :
-                    <div >
+                    <div className='margin-checkin'>
+                        <h2 className='club-event-welcome'>
+                            Registered Participants
+                        </h2>
                         {
                             checkin.map(checkit =>{
                                 
-                                return <CheckIn checkin={checkit}/>
+                                return <CheckIn checkin={checkit} id_event={id}/>
                             })
                         }
                     </div>
