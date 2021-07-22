@@ -952,3 +952,25 @@ class views_of_event(APIView):
         for vi in obj:
             total_views+=vi.count_views
         return Response({"Unique views":unique_views, "Total views":total_views})
+
+class check_in_true(APIView):
+    def post(self, request):
+        email = request.data["user_email"]
+        id_event = request.data["id_event"]
+        user = User.objects.get(email=email)
+        event_name = Event.objects.get(id=id_event)
+        obj = Register_Event.objects.get(user=user, event_name=event_name)
+        obj.check_in = True
+        obj.save()
+        return Response({"success":"User checked"})
+
+class check_in_false(APIView):
+    def post(self, request):
+        email = request.data["user_email"]
+        id_event = request.data["id_event"]
+        user = User.objects.get(email=email)
+        event_name = Event.objects.get(id=id_event)
+        obj = Register_Event.objects.get(user=user, event_name=event_name)
+        obj.check_in = False
+        obj.save()
+        return Response({"success":"User unchecked"})

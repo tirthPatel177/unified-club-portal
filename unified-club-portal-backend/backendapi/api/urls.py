@@ -36,6 +36,8 @@ from .views import (
     approval,
     Event_view,
     views_of_event,
+    check_in_true,
+    check_in_false,
     )
 
 router = routers.DefaultRouter()
@@ -73,6 +75,8 @@ urlpatterns = [
     path('club/registered_users/<event_name>', Registered_users.as_view()),
     path('club/announcement', announcement.as_view()),
     path('club/event_view', Event_view.as_view()),
+    path('club/check_in_true', check_in_true.as_view()),
+    path('club/check_in_false', check_in_false.as_view()),
     path('club/views_of_event', views_of_event.as_view()),
     path('club/get_announcements', get_announcements.as_view()),
     path('club/get_announcement_club/<club_name>', get_announcement_club.as_view()),
