@@ -52,6 +52,7 @@ class Register_Event(models.Model):
 class event_view(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
     event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    count_views = models.IntegerField(default=0)
 
 class Announcement(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)

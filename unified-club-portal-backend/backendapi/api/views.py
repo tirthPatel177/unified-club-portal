@@ -738,6 +738,7 @@ class Registered_users(APIView):
             part_data["email"]=user.email
             part_data["mobile_no"]=participant["mobile_no"]
             part_data["roll_no"]=participant["roll_no"]
+            part_data["check_in"]=participant["check_in"]
             part_data["date_srt"]=datetime.strptime(participant["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
             data.append(part_data)
         
@@ -934,13 +935,20 @@ class Event_view(APIView):
         user = Token.objects.get(key=token).user
         event_name = Event.objects.get(id=id_event)
         if(event_view.objects.filter(user=user, event_name=event_name).exists()):
-            return Response({"Error":"Already viewed"})
-        event_view.objects.create(user=user, event_name=event_name)
+            obj = event_view.objects.get(user=user, event_name=event_name)
+            obj.count_views+=1
+            obj.save()
+        else:
+            event_view.objects.create(user=user, event_name=event_name, count_views=1)
         return Response({"Success":"Viewed successfully"})
 
 class views_of_event(APIView):
     def post(self, request):
         id_event = request.data["id_event"]
         event_name = Event.objects.get(id=id_event)
-        views = len(event_view.objects.filter(event_name=event_name))
-        return Response({"views":views})
+        obj = event_view.objects.filter(event_name=event_name)
+        unique_views = len(obj)
+        total_views = 0
+        for vi in obj:
+            total_views+=vi.count_views
+        return Response({"Unique views":unique_views, "Total views":total_views})
