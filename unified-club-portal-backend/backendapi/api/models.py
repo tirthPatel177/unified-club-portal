@@ -61,7 +61,7 @@ class Announcement(models.Model):
     title = models.CharField(max_length=150)
     ann_description = models.TextField()
     date_srt = models.DateTimeField(default=datetime.now, blank=True)
-    
+    link = models.CharField(max_length=1000, default="None")    
 
     
 class Rating(models.Model):

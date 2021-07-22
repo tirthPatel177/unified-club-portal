@@ -774,7 +774,8 @@ class announcement(APIView):
         user = Token.objects.get(key=token).user
         if(event_title!="None"):
             event_name = Event.objects.get(event_title=event_title)
-            Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description)
+            link = "http://localhost:3000/user/events/"+str(event_name.id)
+            Announcement.objects.create(user=user, event_name=event_name, to_announce=to_announce, title=title,ann_description=ann_description, link=link)
         else:
             Announcement.objects.create(user=user, to_announce=to_announce, title=title,ann_description=ann_description)
         if(send_notification=="true"):
