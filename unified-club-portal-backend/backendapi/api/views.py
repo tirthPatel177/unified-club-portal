@@ -3,11 +3,11 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .serializers import (
-    UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer, RatingSerializer, UserSerializer_club
+    UserSerializer, BookSerializer, AuthCustomTokenSerializer, Club_profileSerializer, EventSerializer, MemberSerializer, Register_EventSerializer, AnnouncementSerializer, RatingSerializer, UserSerializer_club, event_viewSerializer
     )
 from rest_framework.response import Response
 from .models import (
-    Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement, Rating
+    Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement, Rating, event_view
     )
 from django.shortcuts import render
 from rest_framework import status
@@ -202,7 +202,6 @@ class club_data_create(APIView):
             desc = request.data["description"]
             img = request.data["profile"]
             
-            print(request.data, type(img))
             tag_line = request.data["tag_line"]
             
             user = Token.objects.get(key=token).user
@@ -927,3 +926,21 @@ class rating(APIView):
         
         Rating.objects.create(user=user, event_name=event_name, rating=rating)
         return Response({"success":"Rated successfully"})
+    
+class Event_view(APIView):
+    def post(self, request):
+        token = request.data["token"]
+        id_event = request.data["id_event"]
+        user = Token.objects.get(key=token).user
+        event_name = Event.objects.get(id=id_event)
+        if(event_view.objects.filter(user=user, event_name=event_name).exists()):
+            return Response({"Error":"Already viewed"})
+        event_view.objects.create(user=user, event_name=event_name)
+        return Response({"Success":"Viewed successfully"})
+
+class views_of_event(APIView):
+    def post(self, request):
+        id_event = request.data["id_event"]
+        event_name = Event.objects.get(id=id_event)
+        views = len(event_view.objects.filter(event_name=event_name))
+        return Response({"views":views})
