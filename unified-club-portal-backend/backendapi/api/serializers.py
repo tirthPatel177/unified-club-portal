@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .models import Book, Club_profile, Event, Member, Register_Event, Announcement, Rating
+from .models import Book, Club_profile, Event, Member, Register_Event, Announcement, Rating, event_view
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from django.core import exceptions
@@ -143,4 +143,9 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
+        fields = '__all__'
+
+class event_viewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = event_view
         fields = '__all__'

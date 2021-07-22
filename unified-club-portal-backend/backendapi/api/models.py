@@ -46,7 +46,13 @@ class Register_Event(models.Model):
     event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
     mobile_no = models.CharField(max_length=10)
     roll_no = models.CharField(max_length=10)
+    check_in = models.BooleanField(default=False)
     date_srt = models.DateTimeField(default=datetime.now, blank=True)
+
+class event_view(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
+    event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    count_views = models.IntegerField(default=0)
 
 class Announcement(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
