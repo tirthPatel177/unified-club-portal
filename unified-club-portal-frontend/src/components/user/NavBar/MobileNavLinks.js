@@ -21,7 +21,7 @@ const LinksWrapper = styled.ul`
   position: fixed;
   top: 65px;
   left: 0;
-  z-index: 5;
+  z-index: 10 !important;
 `;
 
 const LinkItem = styled.li`
@@ -63,9 +63,9 @@ export default function MobileNavLinks(props) {
           <LinkItem>
             <Link href="/user/events">Events</Link>
           </LinkItem>
-          <LinkItem>
+          {/* <LinkItem>
             <Link href="#">About us</Link>
-          </LinkItem>
+          </LinkItem> */}
           <Marginer />
           <CenterLogout>
             <Logout />

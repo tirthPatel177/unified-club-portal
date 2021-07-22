@@ -3,6 +3,7 @@ import "./header.css";
 import Mobile from "./mobile/index";
 import Web from "./web/index";
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import { useParams } from "react-router-dom";
 
 function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,12 +25,14 @@ function Header(props) {
   // useEffect(() => {
   //   settitle(get_title(props.club.title));
   // }, [])
+
+  let {club} = useParams();
   
 
   return (
     <div className="header">
       <div onClick={handleLogoClick} className="logo">
-        Club
+        {club.split('-').join(' ')}
       </div>
       <div className="menu">
         <div className="web-menu">

@@ -3,35 +3,15 @@ import React, {useEffect, useState} from 'react'
 import { useHistory, useParams } from 'react-router-dom';
 import Header from '../../HomePage/header';
 import Navbar from '../../NavBar/Navbar';
+import EventCard from './EventCard';
+import './Event.css'
 
 const Events = () => {
 
     const history = useHistory();
 
-    const [title, settitle] = useState('')
-
-    const fetchdetails = async (token) => {
-        let formData = new FormData();
-        formData.append("token", token);
-        fetch('http://localhost:8000/api/club/club_profile', {
-            method: "POST",
-            body: formData
-        }).then( data => data.json()).then(
-            data => {
-                console.log(data);
-                settitle(data.title);
-                // props.setUser(data.type_of_user)
-                
-            }
-        ).catch(e => console.log(e))
-    }
-
-    useEffect(() => {
-        // fetch('http://127.0.0.1:8000/api/profile_club/' + get_title(user))
-        // console.log(user);
-        let token = localStorage.getItem('token');
-        fetchdetails(token);
-    }, [])
+    const [events, setEvents] = useState([]);
+    let {club} = useParams();
 
 
     const get_title = (title) => {
@@ -42,10 +22,27 @@ const Events = () => {
 
 
     const handleCreateEvent = () => {
-        let path = `/club/${get_title(title)}/create-event`; 
+        let path = `/club/${club}/create-event`; 
         history.push(path);
     }
 
+    
+
+    const get_events = async () => {
+        fetch(`http://127.0.0.1:8000/api/club/events/${club}`, {
+            method : 'GET'
+        }).then(
+            data => data.json()
+        ).then(data => {
+            setEvents(data);
+            console.log(data);
+        })
+    };
+
+    useEffect(() => {
+        get_events();
+    }, [])
+    
 
     return (
         <div>
@@ -54,9 +51,20 @@ const Events = () => {
 
             
             <Header />
-            <Button variant="contained" color="primary" onClick={handleCreateEvent}>
-                Create Event
-            </Button>
+            <div className='event-create-button'>
+                <Button variant="outlined" color="primary" onClick={handleCreateEvent}>
+                    Create Event
+                </Button>
+            </div>
+            <div>
+                    {
+                        events.map( event => 
+                            {
+                                return <EventCard event={event} key={event.id_event}/>
+                            }
+                        )
+                    }
+                </div>
             </div>
         </div>
     )

@@ -210,7 +210,7 @@ function Login(props) {
             <div className='login_card'>
                 
                 <header>
-                    <img src={logo} alt='unified club portal' className='logo'/>
+                    <img src={logo} alt='unified club portal' className='logo-login'/>
                     <h1>Unified Club Portal</h1>
                 </header>
                 {/* { Display() } */}

@@ -8,7 +8,7 @@ function Web() {
   return (
     <div className="web">
       <div className="web-option">
-        <a href="#skills">
+        <a href={"/user/" + club + "/events"}>
           Events
         </a>
       </div>
@@ -17,11 +17,11 @@ function Web() {
           Announcements
         </a>
       </div>
-      <div className="web-option">
+      {/* <div className="web-option">
         <a href="#contact">
           Contact
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }

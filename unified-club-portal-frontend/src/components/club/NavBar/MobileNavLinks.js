@@ -22,7 +22,7 @@ const LinksWrapper = styled.ul`
   position: fixed;
   top: 65px;
   left: 0;
-  z-index: 5;
+  z-index: 10;
 `;
 
 const LinkItem = styled.li`
@@ -62,12 +62,12 @@ export default function MobileNavLinks(props) {
           <LinkItem>
             <Link href="/">Home</Link>
           </LinkItem>
-          <LinkItem>
+          {/* <LinkItem>
             <Link href="#">Events</Link>
           </LinkItem>
           <LinkItem>
             <Link href="#">Announcements</Link>
-          </LinkItem>
+          </LinkItem> */}
           <Marginer />
           <CenterLogout>
           <Logout />

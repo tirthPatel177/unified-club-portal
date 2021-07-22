@@ -17,3 +17,4 @@
 4. Display Date Formatting
 5. Shareable event link
 6. Place Rating with title
+7. Sucess Message from APIs Print (e.g After Events Register)

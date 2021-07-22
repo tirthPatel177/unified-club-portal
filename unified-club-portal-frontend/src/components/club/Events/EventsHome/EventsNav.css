@@ -1,0 +1,14 @@
+.events-nav{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+    border-bottom: 1px solid black;
+}
+
+.three-button{
+    width: 30%;
+    text-align: center;
+}
+

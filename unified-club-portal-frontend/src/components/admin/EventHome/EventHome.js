@@ -131,23 +131,24 @@ const EventHome = () => {
                     {
                         event.approved !== 0 ?
                             event.approved === 1 ? <Button variant="outlined" color="secondary" onClick={handleDis} >
-                                                        Disapprove
+                                                        Disable
                                                     </Button> : 
                                                     <ThemeProvider theme={theme}>
-                                                    <Button variant="outlined" color="primary" onClick={handleApprove}>
-                                                    Approve
-                                                    </Button> 
+                                                        <Button variant="outlined" color="primary" onClick={handleApprove}>
+                                                        Approve
+                                                        </Button> 
                                                     </ThemeProvider>
                             :
                             <div>
                                 <ThemeProvider theme={theme}>
-                                <Button variant="outlined" color="primary" style={{margin: "0 10px"}} onClick={handleApprove}>
-                                    Approve
-                                </Button> 
+                                    <Button variant="outlined" color="primary" style={{margin: "0 10px"}} onClick={handleApprove}>
+                                        Approve
+                                    </Button> 
+                                    <Button variant="outlined" color="secondary" style={{margin: "0 10px"}} onClick={handleDis}>
+                                        Disable
+                                    </Button>  
                                 </ThemeProvider>
-                                <Button variant="outlined" color="secondary" style={{margin: "0 10px"}} onClick={handleDis}>
-                                    Disapprove
-                                </Button>  
+                                
                             </div>
                             
                         

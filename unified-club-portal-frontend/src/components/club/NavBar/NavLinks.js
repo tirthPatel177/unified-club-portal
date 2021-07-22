@@ -45,12 +45,12 @@ export default function NavLinks(props) {
         <LinkItem>
           <Link href="/">Home</Link>
         </LinkItem>
-        <LinkItem>
+        {/* <LinkItem>
           <Link href="#">Events</Link>
         </LinkItem>
         <LinkItem>
           <Link href="#">Announcments</Link>
-        </LinkItem>
+        </LinkItem> */}
       </LinksWrapper>
     </NavLinksContainer>
   );

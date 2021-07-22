@@ -9,7 +9,7 @@
   top: -6px;
   display: flex;
   flex-direction: column;
-
+  z-index: 5 !important;
   flex: 1;
 }
 .close-icon-container {
@@ -31,6 +31,8 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  /* position: absolute; */
+  
 }
 
 .mobile-option {

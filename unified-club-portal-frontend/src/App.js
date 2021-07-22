@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as actions from './Helpers/actions/actionTypes'
 import ClubProfile from './components/user/clubs_profile/ClubProfile';
 import UserEventsPage from './components/user/events/Events'
-import CreateEvent from './components/club/Events/CreateEvents/CreateEvents'
+import ClubCreateEvent from './components/club/Events/CreateEvents/CreateEvents'
 import ClubEvents from './components/club/Events/ListEvents/Events'
 import UserEventHomePage from './components/user/EventsHome/Home'
 import UserAnnouncementsPage from './components/user/announcements/AnnouncementList'
@@ -18,6 +18,8 @@ import ClubEditProfile from './components/club/HomePage/EditHome/HomeEdit'
 import AdminCreateClub from './components/admin/CreateClub/CreateClub'
 import AdminEvents from './components/admin/events/Events'
 import AdminEventsHome from './components/admin/EventHome/EventHome'
+import UserClubEvents from './components/user/ClubEvents/EventList'
+import ClubEventsHome from './components/club/Events/EventsHome/EventsHome'
 
 
 function App() {
@@ -79,14 +81,19 @@ function App() {
         <PrivateRoute exact path='/user/club-profiles/:club' component={ClubProfile} />
         <PrivateRoute exact path='/user/events' component={UserEventsPage} />
         <PrivateRoute exact path='/user/:club/announcements' component={UserAnnouncementsPage} />
+        <PrivateRoute exact path='/user/:club/events' component={UserClubEvents}/>
         <PrivateRoute exact path='/user/events/:id' component={UserEventHomePage} />
+        
+        
         <PrivateRoute exact path='/club/edit-profile' component={ClubEditProfile} />
         <PrivateRoute exact path='/club/:club/events' component={ClubEvents} />
         <PrivateRoute exact path='/club/:club/announcements' component={ClubAnnouncementsPage} />
         <PrivateRoute exact path='/club/:club/create-announcement' component={CreateClubAnnouncements} />
-        <PrivateRoute exact path='/club/:club/create-event' component={CreateEvent} />
+        <PrivateRoute exact path='/club/:club/create-event' component={ClubCreateEvent} />
+        <PrivateRoute exact path='/club/events/:id' component={ClubEventsHome} />
+        
+        
         <PrivateRoute exact path='/create-club' component={AdminCreateClub} />
-
         <PrivateRoute exact path='/admin/events' component={AdminEvents} />
         <PrivateRoute exact path='/admin/events/:id' component={AdminEventsHome} />
       </Switch>
