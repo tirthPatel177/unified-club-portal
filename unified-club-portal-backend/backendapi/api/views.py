@@ -769,7 +769,8 @@ class announcement(APIView):
         send_notification  = request.data["send_notification"]
         club_name = request.data["club_name"]
         club_name = club_name.replace('-', ' ')
-
+        if(to_announce=="all"):
+            to_announce = "members"
         user = Token.objects.get(key=token).user
         if(event_title!="None"):
             event_name = Event.objects.get(event_title=event_title)
@@ -789,8 +790,13 @@ class announcement(APIView):
                 for registered_ml in registered_mls:
                     emails_list.append(registered_ml.user.email)
                 
+            event_id = Event.objects.get(event_title=event_title).id
+            link_event = "None"
+            if(event_title!="None"):
+                link_event = "http://localhost:3000/user/events/"+str(event_id)
+            
             email_subject = title
-            context = {"desc":ann_description}
+            context = {"desc":ann_description, "link":link_event, "event_title":event_title}
             message = render_to_string('email_sender.html', context)
             plain_message = strip_tags(message)
             send_mail(
