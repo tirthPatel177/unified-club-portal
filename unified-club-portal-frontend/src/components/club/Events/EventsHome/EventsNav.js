@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive'
 
 
 
-const EventsNav = () => {
+const EventsNav = (props) => {
 
     const isMobile = useMediaQuery({ query: '(max-width: 450px)' })
 
@@ -16,6 +16,7 @@ const EventsNav = () => {
             <Button color="primary"
                 size={isMobile ? 'small' : 'medium'}
                 style={{width: '100%'}}
+                onClick={() => props.setactive('details')}
                 >Details
             </Button>
             </div>
@@ -23,6 +24,7 @@ const EventsNav = () => {
             <Button color="primary"
                 size={isMobile ? 'small' : 'medium'}
                 style={{width: '100%'}}
+                onClick={() => props.setactive('update')}
                 >Update
             </Button>
             </div>
@@ -30,6 +32,7 @@ const EventsNav = () => {
             <Button color="primary"
                 size={isMobile ? 'small' : 'medium'}
                 style={{width: '100%'}}
+                onClick={() => props.setactive('checkin')}
                 >Check-in
             </Button>
             </div>

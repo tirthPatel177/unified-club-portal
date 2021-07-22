@@ -14,7 +14,7 @@ function Mobile({ isOpen, setIsOpen, title }) {
       </div>
       <div className="mobile-options">
         <div className="mobile-option">
-          <a href={"/user/" + club + "/evetns"}>
+          <a href={"/user/" + club + "/events"}>
             Events
           </a>
         </div>

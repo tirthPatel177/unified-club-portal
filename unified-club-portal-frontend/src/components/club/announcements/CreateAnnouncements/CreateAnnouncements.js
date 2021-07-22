@@ -123,8 +123,11 @@ const CreateAnnouncements = () => {
                     id="demo-simple-select"
                     value={announcement.event_title}
                     onChange={handleChange}
+                    default={'None'}
                     name='event_title'
-                    >{
+                    >
+                        <MenuItem value={'None'}>General Announcement</MenuItem>
+                        {
                         // ListEvents()
                         events.map((event) => {
                                return <MenuItem value={event.event_title}>{event.event_title}</MenuItem>
@@ -162,8 +165,25 @@ const CreateAnnouncements = () => {
                     onChange={handleChange}
                     name='to_announce'
                     >
-                    <MenuItem value={'members'}>Members</MenuItem>
-                    <MenuItem value={'registered'}>Registered Participants</MenuItem>
+                        {
+                            announcement.event_title !== 'None' ?
+                            <MenuItem value={'members'}>Members</MenuItem>:
+                            null
+                        }
+                        {
+                            announcement.event_title !== 'None' ?
+                            <MenuItem value={'registered'}>Registered Participants</MenuItem>:
+                            <MenuItem value={'members'}>Members</MenuItem>
+                        }
+                        {
+                            announcement.send_notification ? 
+                            
+                            null
+                            :
+                            <MenuItem value={'all'}>All</MenuItem>
+                           
+                        }
+                    
                     </Select>
                     </FormControl>
                     </div>

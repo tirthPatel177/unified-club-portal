@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import Navbar from '../NavBar/Navbar'
 import EventCard from './../events/EventCard';
+import Header from './../clubs_profile/header/index'
 
 const EventList = () => {
 
@@ -30,7 +31,9 @@ const EventList = () => {
     return (
         <div>
             <Navbar />
-            
+
+                <Header />
+
                 <div>
                     {
                         events.map( event => 
