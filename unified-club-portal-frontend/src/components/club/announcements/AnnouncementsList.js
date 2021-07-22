@@ -43,9 +43,11 @@ const AnnouncementList = () => {
             <Navbar />
             <div className='club-home'>
                 <Header />
-                <Button variant="contained" color="primary" onClick={handleCreateAnnouncement}>
-                    Create Announcement
-                </Button>
+                <div className='announcement-create-button'>
+                    <Button variant="outlined" color="primary" onClick={handleCreateAnnouncement}>
+                        Create Announcement
+                    </Button>
+                </div>
                 <div className='announcement-list'>
                 {
                     data.map(announcement => {

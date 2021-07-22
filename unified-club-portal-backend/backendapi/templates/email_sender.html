@@ -1,13 +1,6 @@
 {% autoescape off %}
-
-    {% if link!="None" %}
-        <h1> {{event_title}} </h1>
-    {% else %}
-        <h1> General Announcement </h1>
-    {% endif %}
+    <h1> {{event_title}} </h1>
     {{desc}}
     </br>
-    {% if link!="None" %}
-        Link for the event: {{link}}
-    {% endif %}
+    Link for the event: {{link}}
 {% endautoescape %}

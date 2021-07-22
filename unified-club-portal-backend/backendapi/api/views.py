@@ -791,23 +791,34 @@ class announcement(APIView):
                 for registered_ml in registered_mls:
                     emails_list.append(registered_ml.user.email)
                 
-            event_id = Event.objects.get(event_title=event_title).id
-            link_event = "None"
             if(event_title!="None"):
+                event_id = Event.objects.get(event_title=event_title).id
                 link_event = "http://localhost:3000/user/events/"+str(event_id)
             
-            email_subject = title
-            context = {"desc":ann_description, "link":link_event, "event_title":event_title}
-            message = render_to_string('email_sender.html', context)
-            plain_message = strip_tags(message)
-            send_mail(
-                email_subject,
-                plain_message,
-                'unifiedclub2021au@gmail.com',
-                emails_list,
-                html_message=message
-            )
-            
+                email_subject = title
+                context = {"desc":ann_description, "link":link_event, "event_title":event_title}
+                message = render_to_string('email_sender.html', context)
+                plain_message = strip_tags(message)
+                send_mail(
+                    email_subject,
+                    plain_message,
+                    'unifiedclub2021au@gmail.com',
+                    emails_list,
+                    html_message=message
+                )
+            else:
+                email_subject = title
+                context = {"desc":ann_description}
+                message = render_to_string('email_sender_gen.html', context)
+                plain_message = strip_tags(message)
+                send_mail(
+                    email_subject,
+                    plain_message,
+                    'unifiedclub2021au@gmail.com',
+                    emails_list,
+                    html_message=message
+                )
+
             # email_send.send(fail_silently=False)
             print(emails_list)    
         
