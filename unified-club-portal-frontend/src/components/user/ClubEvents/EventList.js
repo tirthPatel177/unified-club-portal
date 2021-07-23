@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Navbar from '../NavBar/Navbar'
 import EventCard from './../events/EventCard';
 import Header from './../clubs_profile/header/index'
+import './EventList.css'
 
 const EventList = () => {
 
@@ -32,6 +33,7 @@ const EventList = () => {
         <div>
             <Navbar />
 
+                <div className='club-home'>
                 <Header />
 
                 <div>
@@ -43,7 +45,7 @@ const EventList = () => {
                         )
                     }
                 </div>
-            
+                </div>
         </div>
     )
 }

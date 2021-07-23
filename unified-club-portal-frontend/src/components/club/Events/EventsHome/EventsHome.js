@@ -307,6 +307,14 @@ const EventsHome = () => {
                         <h2 className='club-event-welcome'>
                             Registered Participants
                         </h2>
+                        <div className='table-header'>
+                            <p className='one'>
+                                User
+                            </p>
+                            <p className='two'>
+                                Checked-in?
+                            </p>
+                        </div>
                         {
                             checkin.map(checkit =>{
                                 
