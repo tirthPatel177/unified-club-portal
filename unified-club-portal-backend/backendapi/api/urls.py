@@ -31,6 +31,7 @@ from .views import (
     get_announcements,
     uncompleted_events,
     get_announcement_club,
+    get_all_announcements,
     rating,
     club_delete,
     approval,
@@ -79,6 +80,7 @@ urlpatterns = [
     path('club/check_in_false', check_in_false.as_view()),
     path('club/views_of_event', views_of_event.as_view()),
     path('club/get_announcements', get_announcements.as_view()),
+    path('club/get_all_announcements', get_all_announcements.as_view()),
     path('club/get_announcement_club/<club_name>', get_announcement_club.as_view()),
     path('user/rating', rating.as_view()),
 ]

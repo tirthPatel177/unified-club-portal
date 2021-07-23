@@ -162,3 +162,8 @@ parameters(Form-Data) : user_email, id_event
 URL = http://127.0.0.1:8000/api/club/check_in_false
 Type = "POST"
 parameters(Form-Data) : user_email, id_event
+
+(28) get_all_announcements : get all announcements for admin
+URL = http://127.0.0.1:8000/api/club/get_all_announcements
+Type = "GET"
+parameters: No Parameters

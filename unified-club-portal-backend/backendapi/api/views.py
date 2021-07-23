@@ -992,3 +992,43 @@ class check_in_false(APIView):
         obj.check_in = False
         obj.save()
         return Response({"success":"User unchecked"})
+    
+    
+class get_all_announcements(APIView):
+    def get(self, request):
+        announcements = Announcement.objects.all()
+        announce_dt = AnnouncementSerializer(announcements, many=True)
+        data = []
+        for announce in announce_dt.data:
+            user = User.objects.get(id=announce["user"])
+            club = Club_profile.objects.get(user=user)
+            Club_prof = Club_profileSerializer(club)
+            if(Club_prof.data["profile_pic"][0]!='/'):
+                Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
+            ann_data = {}
+            if(announce["event_name"]!=None):
+                event_nm = Event.objects.get(id=announce["event_name"])
+                ann_data = {
+                    "event_name":event_nm.event_title,
+                    "to_announce":announce["to_announce"],
+                    "title":announce["title"],
+                    "ann_description":announce["ann_description"],
+                    "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                    "club_title": Club_prof.data["title"],
+                    "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                }
+            else:
+                ann_data = {
+                    "event_name":None,
+                    "to_announce":announce["to_announce"],
+                    "title":announce["title"],
+                    "ann_description":announce["ann_description"],
+                    "date_srt": datetime.strptime(announce["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
+                    "club_title": Club_prof.data["title"],
+                    "club_profile_pic": ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
+                }
+            data.append(ann_data)
+        
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        
+        return Response(data)
