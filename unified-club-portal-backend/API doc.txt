@@ -45,8 +45,8 @@ parameters(Form-Data) : token, id_event, event_title, event_description, poster,
 
 (10) Events of a particular club: Get data of all the events of a club
 URL = http://127.0.0.1:8000/api/club/events/<club_name>
-Type = "GET"
-parameters: No Parameters
+Type = "POST"
+parameters: token, club_name
 
 (11) events_all: Get the data of all the events
 URL = http://127.0.0.1:8000/api/club/events_all 
