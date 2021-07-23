@@ -556,7 +556,6 @@ class events_club(APIView):
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
-                    "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],

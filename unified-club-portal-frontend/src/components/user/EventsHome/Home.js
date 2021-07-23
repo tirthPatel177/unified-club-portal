@@ -54,7 +54,9 @@ const Home = () => {
 
     const [isreg, setisreg] = useState(false);
 
-    const [event, setevent] = useState({});
+    const [event, setevent] = useState({
+        date: ''
+    });
     
 
     const handleChange = (e) => {

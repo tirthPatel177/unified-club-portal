@@ -8,6 +8,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
+import Separator from './separator';
+import Calendar from './Calendar/Calendar';
 
 
 const NormalHome = (props) => {
@@ -88,21 +90,28 @@ const NormalHome = (props) => {
             <section id='description'>
                 <Description club={props.club}/>
             </section>
-            <section id='contact'>
-            <FormControlLabel
-                label={
-                    checked ? "You are a member" : "Become a member"
-                }
-                control={   
-                <Switch
-                    checked={checked ? true: false}
-                    onChange={handleChange}
-                    name="checked"
-                    color="primary"
+            <section id='member'>
+            <Separator />
+            <label className="section-title">Register as Member</label>
+            <div className='become-member'>
+                <FormControlLabel
+                    label={
+                        checked ? "You are a member" : "Become a member"
+                    }
+                    control={   
+                    <Switch
+                        checked={checked ? true: false}
+                        onChange={handleChange}
+                        name="checked"
+                        color="primary"
+                    />
+                    }
+                    
                 />
-                }
-                
-            />
+            </div>
+            </section>
+            <section id='calendar'>
+                <Calendar />
             </section>
             </div>
         </div>
