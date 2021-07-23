@@ -486,6 +486,37 @@ class approval(APIView):
         obj = Event.objects.get(id=id_event)
         obj.approved = fut_state
         obj.save()
+        
+        event = Event.objects.get(id=id_event)
+        club = club_profile.objects.get(user=event.user)
+        email_list = [event.user.email]
+        if(fut_state==1):
+            email_subject = "Approval of event"
+            context = {"event_name":event.event_name, "club_name":club.title}
+            message = render_to_string('email_sender_approval.html', context)
+            plain_message = strip_tags(message)
+
+            send_mail(
+                email_subject,
+                plain_message,
+                'unifiedclub2021au@gmail.com',
+                emails_list,
+                html_message=message
+            )
+        else:
+            email_subject = "Rejection of event"
+            context = {"event_name":event.event_name, "club_name":club.title}
+            message = render_to_string('email_sender_reject.html', context)
+            plain_message = strip_tags(message)
+
+            send_mail(
+                email_subject,
+                plain_message,
+                'unifiedclub2021au@gmail.com',
+                emails_list,
+                html_message=message
+            )
+
 
         return Response({"success":"state changed"})
         
@@ -796,7 +827,7 @@ class announcement(APIView):
                 link_event = "http://localhost:3000/user/events/"+str(event_id)
             
                 email_subject = title
-                context = {"desc":ann_description, "link":link_event, "event_title":event_title}
+                context = {"desc":ann_description, "club_name":club_name, "link":link_event, "event_title":event_title}
                 message = render_to_string('email_sender.html', context)
                 plain_message = strip_tags(message)
                 send_mail(
@@ -808,7 +839,7 @@ class announcement(APIView):
                 )
             else:
                 email_subject = title
-                context = {"desc":ann_description}
+                context = {"desc":ann_description, "club_name":club_name}
                 message = render_to_string('email_sender_gen.html', context)
                 plain_message = strip_tags(message)
                 send_mail(
