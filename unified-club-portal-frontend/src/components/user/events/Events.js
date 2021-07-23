@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Navbar from '../NavBar/Navbar'
 import EventCard from './EventCard';
+import './Events.css'
 
 const Events = () => {
 
@@ -28,7 +29,7 @@ const Events = () => {
     return (
         <div>
             <Navbar />
-            
+                <div className='user-main-events-list'>
                 <div>
                     {
                         events.map( event => 
@@ -38,7 +39,7 @@ const Events = () => {
                         )
                     }
                 </div>
-            
+                </div>
         </div>
     )
 }

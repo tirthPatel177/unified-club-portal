@@ -147,3 +147,31 @@
 .margin-checkin{
     margin: 20px 0;
 }
+
+.table-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2px solid blue; 
+    border-top: 2px solid blue;
+}
+
+.table-header .one{
+    width: 70%;
+    border-right: 2px solid blue;
+    
+
+}
+
+.table-header .two{
+    width: 30%;
+   
+}
+
+.table-header  p {
+    display: block;
+    /* width: 50%; */
+    /* margin: 0 auto;
+     */
+     text-align: center;
+}

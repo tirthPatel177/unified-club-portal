@@ -175,7 +175,7 @@ const Home = () => {
                         {event.event_title}
                     </h2>
                     <div className='by-container'>
-                        <h3>{event.date}</h3>
+                        <h3>{event.date.split('T').join(' ')}</h3>
                         <h3>By {event.club_name}</h3>
                     </div>
                     <div className='event-poster'>

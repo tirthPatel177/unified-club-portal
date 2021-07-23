@@ -32,12 +32,15 @@ const CheckIn = (props) => {
 
     return (
         <div className='checkin-container'>
-            <p>
+            <div className='registered-details'>
+            <p className='registered-name'>
                 {`${props.checkin.first_name} ${props.checkin.last_name}`}
             </p>
-            <p>
+            <p className='registered-email'>
                 {props.checkin.email}
             </p>
+            </div>
+            <div className='registered-action'>
             <FormControlLabel
                 control={
                 <Checkbox
@@ -45,10 +48,12 @@ const CheckIn = (props) => {
                     onChange={handleChange}
                     name="visible"
                     color="primary"
+                    size='medium'
                 />
                 }
-                label="Checked In"
+                label=""
             />
+            </div>
         </div>
     )
 }

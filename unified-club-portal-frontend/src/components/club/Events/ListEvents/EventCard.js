@@ -13,7 +13,7 @@ const EventCard = ({event}) => {
                     <span className="club_name_event">{event.club_name}</span>
                 </div>
                 <span className="card-event-title">{event.event_title}</span>
-                <span className="card-event-date">{event.date}</span>
+                <span className="card-event-date">{event.date.split('T').join(' ')}</span>
             </div>
             </a>
             
