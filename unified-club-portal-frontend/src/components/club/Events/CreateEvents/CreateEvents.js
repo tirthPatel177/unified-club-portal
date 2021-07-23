@@ -29,7 +29,8 @@ const CreateEvents = () => {
 
     const handleClickVariant = (variant, message) => () => {
         // variant could be success, error, warning, info, or default
-         enqueueSnackbar(message, { variant });        
+         enqueueSnackbar(message, { variant });   
+        
     };
 
 
@@ -76,10 +77,12 @@ const CreateEvents = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(event);}
-    ,[event])
+    // useEffect(() => {
+    //     console.log(event);
+    // }
+    // ,[event])
     
+    const [submited, setsubmited] = useState(false)
     
 
     const handleSubmit =  async () => {
@@ -97,11 +100,27 @@ const CreateEvents = () => {
             method: 'POST',
             body: formData
         }).then( data => data.json()).then(
-
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                }else{
+                    handleClickVariant('error', data)()
+                }
+                
+            }
         )
-        console.log(editordata)
-        history.push(`/club/${club}/events`);
+        // console.log(editordata)
+        setsubmited(true);
     }
+
+    useEffect( () => {
+        if(submited === true){
+        const timer = setTimeout(() => history.push(`/club/${club}/events`), 3000);
+        return () => clearTimeout(timer);
+        }
+    }, [submited])
 
 
     return (
@@ -166,10 +185,10 @@ const CreateEvents = () => {
                     </div>
 
                     <div className="club-event-poster-upload-button-area">
-                        <h4 style={{'text-align': 'center'}}> Extra Documents </h4>
+                        <h4 style={{'textAlign': 'center'}}> Extra Documents </h4>
                         <div className='doc-upload-continer'>
                             <div className='doc-upload'>
-                                <label for="document1">Document 1</label>
+                                <label htmlFor="document1">Document 1</label>
                                 <br />
                                 <input 
                                     type="file" 
@@ -181,7 +200,7 @@ const CreateEvents = () => {
                                 />
                             </div>
                             <div className='doc-upload'>
-                                <label for="document1">Document 2</label>
+                                <label htmlFor="document1">Document 2</label>
                                 <br />
                                 <input 
                                     type="file" 
@@ -263,7 +282,7 @@ const CreateEvents = () => {
 
 export default function IntegrationNotistack() {
     return (
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
         <CreateEvents />
       </SnackbarProvider>
     );
