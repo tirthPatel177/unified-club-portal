@@ -7,26 +7,29 @@ import Navbar from '../NavBar/Navbar'
 const ClubProfile = () => {
 
     const {club} = useParams();
-    const [clubDetails, setclubDetails] = useState([])
+    const [clubDetails, setclubDetails] = useState({
+        title: '',
+        description: '',
+        
+    })
 
     const fetch_club_detials = () => {
-        fetch('http://127.0.0.1:8000/api/club/profile_club/' + club, {
+        fetch(`http://localhost:8000/api/club/profile_club/${club}`, {
             method: 'GET'
         }).then(
             data => data.json()
         ).then(
             data => {
-            // console.log(data);
+            console.log(data);
             setclubDetails(data);
             }
-        )
+        ).catch (error => {
+            console.log(error)
+        })
     }
 
     useEffect(()=> {
-        
-        let isSubscribed = true;
         fetch_club_detials();
-        return () => (isSubscribed = false);
     }, [])
 
     return (

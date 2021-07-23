@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import './CreateAnnouncement.css'
 import { useHistory, useParams } from 'react-router-dom';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const CreateAnnouncements = () => {
 
@@ -23,6 +24,14 @@ const CreateAnnouncements = () => {
         send_notification: false,
         to_announce: ''
     })
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
 
     let {club} = useParams();
 
@@ -57,6 +66,13 @@ const CreateAnnouncements = () => {
     };
 
     const handleSubmit = () => {
+        if(announcement.title === ''){
+            handleClickVariant('error', "Announcement Title is Required!")()
+            return;
+        }else if(announcement.to_announce === ''){
+            handleClickVariant('error', "Announce To is Required!")()
+            return;
+        }
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('ann_description', editordata)
@@ -68,9 +84,21 @@ const CreateAnnouncements = () => {
         fetch('http://127.0.0.1:8000/api/club/announcement', {
             method: 'POST',
             body: formData
-        }).then( data => data.json())
-        console.log(editordata)
-        history.push(`/club/${club}/announcements`)
+        }).then( data => data.json()).then(
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                }else{
+                    handleClickVariant('error', data)()
+                }
+                
+            }
+        )
+        setTimeout(() => history.push(`/club/${club}/announcements`), 2500);
+        // console.log(editordata)
+        
     }
 
     const ListEvents = (event) => {
@@ -203,4 +231,10 @@ const CreateAnnouncements = () => {
     )
 }
 
-export default CreateAnnouncements
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
+        <CreateAnnouncements />
+      </SnackbarProvider>
+    );
+  }

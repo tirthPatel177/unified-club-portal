@@ -48,6 +48,15 @@
     text-align: center;
 }
 
+.doc-upload-continer {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.doc-upload {
+    margin: 1% auto;
+}
+
 @media screen and (max-width: 1000px){
     .club-event-poster-image-upload {
         display: flex;
@@ -60,5 +69,15 @@
         /* background-color: blue; */
         text-align: center;
     }
+
+    
     
 } 
+
+@media screen and (max-width: 700px){
+    .doc-upload-continer {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+}

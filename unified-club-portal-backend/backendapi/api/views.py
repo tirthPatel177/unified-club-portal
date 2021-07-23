@@ -619,6 +619,7 @@ class events_club(APIView):
                     }
                     data.append(event_data)
             else:
+                print("---->")
                 if(event["poster"][0]!='/'):
                     event["poster"] = '/'+event["poster"]
                 if(Club_prof.data["profile_pic"][0]!='/'):
@@ -717,6 +718,7 @@ class event_data_id(APIView):
             rating = rating/len(rating_get)
         rating = rating//0.5
         rating = rating*0.5
+        print(event.data)
         # print(serializer.data["poster"])
         if(event.data["poster"][0]!='/'):
             event.data["poster"] = '/'+event.data["poster"]

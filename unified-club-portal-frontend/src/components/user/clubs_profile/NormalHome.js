@@ -10,9 +10,18 @@ import { withStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import Separator from './separator';
 import Calendar from './Calendar/Calendar';
-
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const NormalHome = (props) => {
+
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
 
     const [checked, setchecked] = useState(false);
 
@@ -25,14 +34,37 @@ const NormalHome = (props) => {
             fetch('http://127.0.0.1:8000/api/club/member_add',{
                 method: "POST",
                 body: formData
-            })
+            }).then( data => data.json()).then(
+                data => {
+                    if(data.success){
+                        handleClickVariant('success', data.success)()
+                    }else if(data.error){
+                        handleClickVariant('error', data.error)()
+                    }else{
+                        handleClickVariant('error', data)()
+                    }
+                    
+                }
+            )
         }else{
             fetch('http://127.0.0.1:8000/api/club/member_delete',{
                 method: "POST",
                 body: formData
-            })
+            }).then( data => data.json()).then(
+                data => {
+                    if(data.success){
+                        handleClickVariant('success', data.success)()
+                    }else if(data.error){
+                        handleClickVariant('error', data.error)()
+                    }else{
+                        handleClickVariant('error', data)()
+                    }
+                    
+                }
+            )
         }
-        setchecked(!checked)
+        setTimeout(() => setchecked(!checked), 100);
+        
     };
 
     let {club} = useParams();
@@ -118,4 +150,10 @@ const NormalHome = (props) => {
     )
 }
 
-export default NormalHome
+export default function IntegrationNotistack(props) {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={1000}>
+        <NormalHome club={props.club}/>
+      </SnackbarProvider>
+    );
+  }

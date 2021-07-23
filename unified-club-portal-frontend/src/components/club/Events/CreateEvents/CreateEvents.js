@@ -13,6 +13,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {useHistory, useParams} from 'react-router-dom'
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -23,6 +24,15 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const CreateEvents = () => {
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
+
 
     const classes = useStyles();
 
@@ -35,8 +45,12 @@ const CreateEvents = () => {
         date: '',
         poster: '',
         visible: false,
+        document1: '',
+        document2: ''
     })
     const [editordata, seteditordata] = useState('')
+    const [document1, setdocument1] = useState('')
+    const [document2, setdocument2] = useState('')
 
     const handleChange = (e) => {
         // e.preventDefault();
@@ -50,43 +64,44 @@ const CreateEvents = () => {
             if(e.target.files[0]) {
                 setevent({...event, 
                     // profile_image: URL.createObjectURL(e.target.files[0])
-                    poster: e.target.files[0]
+                    [changename]: e.target.files[0]
                 });
                 setPreview(URL.createObjectURL(e.target.files[0]));
             }   
-        }else{
+        }else if(changename=== 'document1' || changename === 'document2'){
+            setevent({...event, 
+                // profile_image: URL.createObjectURL(e.target.files[0])
+                [changename]: e.target.files[0]
+            });
+            if(changename === 'document1'){
+                setdocument1(URL.createObjectURL(e.target.files[0]));
+            }else{
+                setdocument2(URL.createObjectURL(e.target.files[0]));
+            }
+        }
+        else{
             setevent({...event, [changename]: changevalue});
         }
     };
 
-    useEffect(() => {
-        console.log(event);}
-    ,[event])
+    // useEffect(() => {
+    //     console.log(event);
+    // }
+    // ,[event])
     
-    const beforeSubmit = () => {
-        setevent((event)=>{
-            return {...event, event_description : editordata}
-        });
-    };
-
-    const sendData = () => {
-        let formData = new FormData();
-        formData.append("token", localStorage.getItem('token'));
-        for (const property in event) {
-            formData.append(property, event[property])
-            console.log(property, event[property], formData[property]);
-        }
-        fetch('http://127.0.0.1:8000/api/club/event_create', {
-            method: 'POST',
-            body: formData
-        }).then( data => data.json())
-        console.log(editordata)
-    }
-
+    const [submited, setsubmited] = useState(false)
+    
 
     const handleSubmit =  async () => {
 
         // sendData();
+        if(event.event_title === ''){
+            handleClickVariant('error', "Event Title is Required!")()
+            return;
+        }else if(event.date === ''){
+            handleClickVariant('error', "Event Date is Required!")()
+            return;
+        }
 
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
@@ -98,10 +113,28 @@ const CreateEvents = () => {
         fetch('http://127.0.0.1:8000/api/club/event_create', {
             method: 'POST',
             body: formData
-        }).then( data => data.json())
-        console.log(editordata)
-        history.push(`/club/${club}/events`);
+        }).then( data => data.json()).then(
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                }else{
+                    handleClickVariant('error', data)()
+                }
+                
+            }
+        )
+        // console.log(editordata)
+        setsubmited(true);
     }
+
+    useEffect( () => {
+        if(submited === true){
+        const timer = setTimeout(() => history.push(`/club/${club}/events`), 2500);
+        return () => clearTimeout(timer);
+        }
+    }, [submited])
 
 
     return (
@@ -144,12 +177,15 @@ const CreateEvents = () => {
                     
 
                     <div className='club-event-poster-image-upload'>
-                        <img 
+                        
+                        {   preview ?
+                            <img 
                         src={preview} 
-                        style={{ height : '280px'}} ></img>
+                        style={{ height : '280px'}} ></img>: null
+                        }
                             
                         <div className="club-event-poster-upload-button-area">
-                        <h3> Poster </h3>
+                        <h4> Poster </h4>
                         <input 
                             type="file" 
                             accept=".png, .jpg, .jpeg" 
@@ -159,7 +195,52 @@ const CreateEvents = () => {
                             onChange={handleChange}
                         />
                         </div>
+                        
                     </div>
+
+                    <div className="club-event-poster-upload-button-area">
+                        <h4 style={{'textAlign': 'center'}}> Extra Documents </h4>
+                        <div className='doc-upload-continer'>
+                            <div className='doc-upload'>
+                                <label htmlFor="document1">Document 1</label>
+                                <br />
+                                <input 
+                                    type="file" 
+                                    // accept=".png, .jpg, .jpeg" 
+                                    id="document1" 
+                                    name='document1'
+                                    className="club-event-poster-upload-button"
+                                    onChange={handleChange}
+                                />
+                                { event.document1 &&
+                                        <a href={document1} target='_blank'>
+                                            Document-1
+                                        </a>
+                                }
+                            </div>
+                            <div className='doc-upload'>
+                                <label htmlFor="document1">Document 2</label>
+                                <br />
+                                <input 
+                                    type="file" 
+                                    // accept=".png, .jpg, .jpeg" 
+                                    id="document2" 
+                                    name='document2'
+                                    className="club-event-poster-upload-button"
+                                    onChange={handleChange}
+                                />
+                                { event.document2 &&
+                                        <a href={document2} target="_blank">
+                                            Document-2
+                                        </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    {/* </div> */}
+
+
+
 
                     <div className='form-marginer'>
                         {/* <TextField
@@ -186,6 +267,7 @@ const CreateEvents = () => {
                             InputLabelProps={{
                             shrink: true,
                             }}
+                            required={true}
                         />
                     </div>
 
@@ -220,4 +302,12 @@ const CreateEvents = () => {
     )
 }
 
-export default CreateEvents
+
+
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
+        <CreateEvents />
+      </SnackbarProvider>
+    );
+  }
