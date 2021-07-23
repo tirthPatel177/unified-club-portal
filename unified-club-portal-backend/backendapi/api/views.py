@@ -583,9 +583,9 @@ class events_club_cal(APIView):
         for event in serializer.data:
             if(event["approved"]==1 and event["visible"]):
                 event_data = {
-                    "id_event" : event["id"],
-                    "event_title" : event["event_title"],
-                    "date" : event["date"],
+                    "id" : event["id"],
+                    "title" : event["event_title"],
+                    "date" : event["date"].split('T')[0],
                     "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                 }
             

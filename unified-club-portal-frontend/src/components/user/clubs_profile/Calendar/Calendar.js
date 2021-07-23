@@ -5,25 +5,35 @@ import Separator from '../separator'
 // import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import './Calendar.css'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Calendar = () => {
 
     const [eventdate, seteventdate] = useState([])
 
+    let {club} = useParams();
 
     const fetchEvents = () => {
-
+        fetch(`http://127.0.0.1:8000/api/club/events_club_cal/${club}`, {
+            method: 'GET'
+        }).then(
+            data => data.json()
+        ).then( data => 
+            {
+            seteventdate(data)
+            console.log(data);
+            }
+        )
     }
 
     let history = useHistory();
 
     useEffect(() => {
         fetchEvents();
-        seteventdate([
-            { title: 'event 1', date: '2021-07-17', id: 23 },
-            { title: 'event 2', date: '2021-07-22' }
-        ])
+        // seteventdate([
+        //     { title: 'event 1', date: '2021-07-17', id: 23 },
+        //     { title: 'event 2', date: '2021-07-22' }
+        // ])
     }, [])
 
     return (
@@ -37,6 +47,7 @@ const Calendar = () => {
                 events={eventdate}
                 eventClick= {
                     (e) => {
+                        // console.log(e.event)
                         history.push(`/user/events/${e.event.id}`)
                     }
                 }

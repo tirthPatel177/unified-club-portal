@@ -7,12 +7,12 @@ import { useParams } from "react-router-dom";
 
 function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const handleLogoClick = () => {
-    window.scrollTo(0, 0);
-  };
-  window.onscroll = function () {
-    setIsOpen(false);
-  };
+  // const handleLogoClick = () => {
+  //   window.scrollTo(0, 0);
+  // };
+  // window.onscroll = function () {
+  //   setIsOpen(false);
+  // };
 
   const get_title = (title) => {
     // console.log(title);
@@ -31,7 +31,9 @@ function Header(props) {
 
   return (
     <div className="header">
-      <div onClick={handleLogoClick} className="logo">
+      <div 
+      // onClick={handleLogoClick} 
+      className="logo">
         {club.split('-').join(' ')}
       </div>
       <div className="menu">
