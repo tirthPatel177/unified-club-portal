@@ -16,7 +16,7 @@ const ClubProfile = () => {
             data => data.json()
         ).then(
             data => {
-            console.log(data);
+            // console.log(data);
             setclubDetails(data);
             }
         )

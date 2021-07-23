@@ -21,7 +21,7 @@ const Calendar = () => {
         ).then( data => 
             {
             seteventdate(data)
-            console.log(data);
+            // console.log(data);
             }
         )
     }
