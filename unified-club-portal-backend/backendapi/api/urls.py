@@ -40,6 +40,7 @@ from .views import (
     check_in_true,
     check_in_false,
     events_club_cal,
+    stats_of_club,
     )
 
 router = routers.DefaultRouter()
@@ -55,7 +56,7 @@ urlpatterns = [
     path('login', ObtainAuthToken.as_view()),
     path('user/get_info', get_data_user.as_view()),
     path('user/get_type_user', get_type_user.as_view()),
-    path('user/activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
+    path('activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
     path('club/profile_club_create', club_data_create.as_view()),
     path('club/event_create', event_create.as_view()),
     path('club/event_update', event_update.as_view()),
@@ -81,6 +82,7 @@ urlpatterns = [
     path('club/check_in_true', check_in_true.as_view()),
     path('club/check_in_false', check_in_false.as_view()),
     path('club/stats_of_event', stats_of_event.as_view()),
+    path('club/stats_of_club', stats_of_club.as_view()),
     path('club/get_announcements', get_announcements.as_view()),
     path('club/get_all_announcements', get_all_announcements.as_view()),
     path('club/get_announcement_club/<club_name>', get_announcement_club.as_view()),

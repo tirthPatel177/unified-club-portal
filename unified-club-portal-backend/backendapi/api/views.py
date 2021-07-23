@@ -389,7 +389,6 @@ class event_update(APIView):
             
             obj.event_title = event_title
             obj.event_description = event_description
-            
             if(type(poster)==str):
                 if("http://127.0.0.1:8000/images" in poster):
                     poster = poster[len("http://127.0.0.1:8000/images"):]
@@ -400,8 +399,13 @@ class event_update(APIView):
                 if("http://127.0.0.1:8000/images" in document2):
                     document2 = document2[len("http://127.0.0.1:8000/images"):]
             
-            obj.document1 = document1
-            obj.document2 = document2
+            if(document1!="" and document2!=""):
+                obj.document1 = document1
+                obj.document2 = document2
+            elif(document1!="" and document2==""):
+                obj.document1 = document1
+            elif(document2!="" and document1==""):
+                obj.document2 = document2
             obj.poster = poster
             obj.date = date
             obj.visible = visible
@@ -1189,3 +1193,35 @@ class get_all_announcements(APIView):
         data.sort(key = lambda a:a["date_srt"], reverse=True)
         
         return Response(data)
+
+class stats_of_club(APIView):
+    def post(self, request):
+        club_name = request.data["club_name"]
+        user = Club_profile.objects.get(title=club_name).user
+        club_key = []
+        club_val = []
+        evnts = Event.objects.filter(user=user)
+        total_views = 0
+        st = set()
+        for evnt in evnts:
+            var = Register_Event.objects.filter(event_name=evnt)
+            cnt = 0
+            for j in var:
+                if(j.check_in==True):
+                    cnt+=1
+            club_val.append([len(var), cnt])
+            club_key.append(evnt.event_title)
+            views = event_view.objects.filter(event_name=evnt)
+            for j in views:
+                total_views+=j.count_views
+                st.add(j.user)
+        
+        
+        resp = {
+            "club_key":club_key,
+            "club_val":club_val,
+            "total_views":total_views,
+            "total_unique_views":len(st)
+        }
+        return Response(resp)
+        

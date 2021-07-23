@@ -4,11 +4,80 @@
     <meta charset="utf-8">
     <title>Verified Email</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
+    {% load static %}
+    <link rel="icon" href="{% static 'images\Unified_Club_Portal.png' %}" type="image/gif" sizes="16x16">  
+    <style>
+      body{
+        background: WhiteSmoke;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .img {
+        width: 250px;
+        height: 250px;
+      }
+      .whole{
+        background: white;
+        width: 25%;
+        text-align: center;
+        height: 100%;
+        padding:40px;
+        margin: auto auto;
+        margin-top: 150px;
+        border-radius: 50px;
+        box-shadow: 1px 1px 3px grey;
+        {% comment %} border: px solid gray; {% endcomment %}
+      }
+
+      @media screen and (max-width: 992px) {
+        .whole {
+          width: 40%;
+        }
+      }
+      @media screen and (max-width: 820px) {
+        .whole {
+          width: 50%;
+        }
+      }
+      @media screen and (max-width: 610px) {
+        .whole {
+          width: 65%;
+        }
+        .img {
+        width: 200px;
+        height: 200px;
+      }
+      }
+      @media screen and (max-width: 400px) {
+        .whole {
+          width: 75%;
+        }
+        .img {
+        width: 150px;
+        height: 150px;
+      }
+      }
+      .link {
+        text-decoration:none;
+        {% comment %} border: 2px solid black; {% endcomment %}
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 5px;
+        background: RoyalBlue;
+        color: white;
+        font-weight: bolder;
+        box-shadow: 1px 1px 3px black;
+      }
+      a:hover {
+        box-shadow: 0px 0px 0px black;
+      }
+    </style>
   </head>
   <body>
-    <h1> Your Email is Verified </h1>
-    <a href="http://localhost:3000/login"> back to login </a>
-    
+    <div class="whole">
+      <img src="{% static 'images\Unified_Club_Portal.png' %}" alt="logo" class="img">
+      <h1 class="heading"> Your Email is Verified </h1>
+      <a class="link" href="http://localhost:3000/login"> Go to login </a>
+    </div>
   </body>
 </html>
