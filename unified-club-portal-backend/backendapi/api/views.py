@@ -307,17 +307,29 @@ class event_create(APIView):
             event_description = request.data["event_description"]
             poster = request.data["poster"]
             date = request.data["date"]
-            approved = False
+            completed = False
+            if(request.data["completed"].lower() == 'true'):
+                completed = True
+            approved = 0
             visible = True
-            if(request.data["visible"] == 'true'):
+            if(request.data["visible"].lower() == 'true'):
                 visible = True
-            else:
-                visible = False
-
             user = Token.objects.get(key=token).user
+            document1, document2 = request.data["document1"], request.data["document2"]
+            if(document1!="" and document2!=""):
+                document1 = request.data["document1"]
+                document2 = request.data["document2"]
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed, document1=document1, document2=document2)
+            elif(document1!="" and document2==""):
+                document1 = request.data["document1"]
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed, document1=document1)
+            elif(document2!="" and document1==""):
+                document2 = request.data["document2"]
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed, document2=document2)
+            else:
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed)
             
             # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
-            Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
             
             cont = {
                 "status" : "Event Created Successfully"
@@ -326,10 +338,10 @@ class event_create(APIView):
             return Response(cont,status=status.HTTP_201_CREATED)
     
         except IntegrityError:
-                resp = {
-                    'Error': 'Event with this title already exists!'
-                }
-                return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+            resp = {
+                'Error': 'Event with this title already exists!'
+            }
+            return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
 class event_update(APIView):
     def post(self, request):
@@ -339,13 +351,15 @@ class event_update(APIView):
             event_title = request.data["event_title"]
             event_description = request.data["event_description"]
             poster = request.data["poster"]
+            document1 = request.data["document1"]
+            document2 = request.data["document2"]
             date = request.data["date"]
-            approved = False
             visible = True
+            completed = False
+            if(request.data["completed"].lower() == 'true'):
+                completed = True
             if(request.data["visible"].lower() == 'true'):
                 visible = True
-            else:
-                visible = False
 
             user = Token.objects.get(key=token).user
             
@@ -353,15 +367,23 @@ class event_update(APIView):
             
             obj.event_title = event_title
             obj.event_description = event_description
+            
             if(type(poster)==str):
                 if("http://127.0.0.1:8000/images" in poster):
                     poster = poster[len("http://127.0.0.1:8000/images"):]
+            if(type(document1)==str):
+                if("http://127.0.0.1:8000/images" in document1):
+                    document1 = document1[len("http://127.0.0.1:8000/images"):]
+            if(type(document2)==str):
+                if("http://127.0.0.1:8000/images" in document2):
+                    document2 = document2[len("http://127.0.0.1:8000/images"):]
             
-
+            obj.document1 = document1
+            obj.document2 = document2
             obj.poster = poster
             obj.date = date
             obj.visible = visible
-            
+            obj.completed = completed
             obj.save()        
             # # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
             # Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
@@ -583,9 +605,9 @@ class events_club_cal(APIView):
         for event in serializer.data:
             if(event["approved"]==1 and event["visible"]):
                 event_data = {
-                    "id_event" : event["id"],
-                    "event_title" : event["event_title"],
-                    "date" : event["date"],
+                    "id" : event["id"],
+                    "title" : event["event_title"],
+                    "date" : event["date"].split('T')[0],
                     "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                 }
             

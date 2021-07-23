@@ -36,6 +36,8 @@ class Event(models.Model):
     visible = models.BooleanField(default=False)
     date_srt = models.DateTimeField(default=datetime.now, blank=True)
     completed = models.BooleanField(default=False)
+    document1 = models.FileField(blank=True, null=True, default='default.jpg')
+    document2 = models.FileField(blank=True, null=True, default='default.jpg')
 
 class Member(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,)
