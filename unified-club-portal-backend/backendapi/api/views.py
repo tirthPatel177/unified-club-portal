@@ -72,10 +72,9 @@ class UserViewSet_club(viewsets.ModelViewSet):
     def post(self, request):
         passing_data = {"email":request.data["email"], "password":request.data["password"]}
         serializer = UserSerializer_club(data=passing_data)
-        print("--->>>",request.data)
+        
         if serializer.is_valid():
             serializer.save()
-            print(serializer)
             user = User.objects.get(email = serializer.data["email"])
             Type_of_User.objects.create(author=user, type_of_user="club")
             
@@ -160,7 +159,7 @@ class ObtainAuthToken(APIView):
             return Response(content)
         except ValidationError as e:
             content = {
-                "Credential": e
+                "error": e
             }
             return Response(content)
         
@@ -189,7 +188,7 @@ class get_data_user(APIView):
             return Response(content)
         except ObjectDoesNotExist:
             content = {
-                "Exception" : "User not found"
+                "error" : "User not found"
             }
             return Response(content)
         
@@ -222,13 +221,13 @@ class club_data_create(APIView):
             
             
             cont = {
-                "status" : "Updated Successfully"
+                "success" : "Updated Successfully"
             }
             
             return Response(cont,status=status.HTTP_201_CREATED)
         except IntegrityError:
             resp = {
-                'Error': 'Club with this name already exists!'
+                'error': 'Club with this name already exists!'
             }
             return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
@@ -307,6 +306,9 @@ class event_create(APIView):
             event_description = request.data["event_description"]
             poster = request.data["poster"]
             date = request.data["date"]
+            if(date==""):
+                date=datetime.now()
+            
             # completed = False
             # if(request.data["completed"].lower() == 'true'):
             #     completed = True
@@ -316,32 +318,52 @@ class event_create(APIView):
                 visible = True
             user = Token.objects.get(key=token).user
             document1, document2 = request.data["document1"], request.data["document2"]
-            if(document1!="" and document2!=""):
-                document1 = request.data["document1"]
-                document2 = request.data["document2"]
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document1=document1, document2=document2)
-            elif(document1!="" and document2==""):
-                document1 = request.data["document1"]
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document1=document1)
-            elif(document2!="" and document1==""):
-                document2 = request.data["document2"]
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document2=document2)
+            if(poster!=""):
+                if(document1!="" and document2!=""):
+                    document1 = request.data["document1"]
+                    document2 = request.data["document2"]
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document1=document1, document2=document2)
+                elif(document1!="" and document2==""):
+                    document1 = request.data["document1"]
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document1=document1)
+                elif(document2!="" and document1==""):
+                    document2 = request.data["document2"]
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document2=document2)
+                else:
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
             else:
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
+                if(document1!="" and document2!=""):
+                    document1 = request.data["document1"]
+                    document2 = request.data["document2"]
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, date = date, approved=approved, visible=visible, document1=document1, document2=document2)
+                elif(document1!="" and document2==""):
+                    document1 = request.data["document1"]
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, date = date, approved=approved, visible=visible, document1=document1)
+                elif(document2!="" and document1==""):
+                    document2 = request.data["document2"]
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, date = date, approved=approved, visible=visible, document2=document2)
+                else:
+                    Event.objects.create(user=user, event_title=event_title, event_description=event_description, date = date, approved=approved, visible=visible)
             
             # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
             
             cont = {
-                "status" : "Event Created Successfully"
+                "success" : "Event Created Successfully"
             }
             
             return Response(cont,status=status.HTTP_201_CREATED)
     
         except IntegrityError:
             resp = {
-                'Error': 'Event with this title already exists!'
+                'error': 'Event with this title already exists!'
             }
             return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as e:
+            resp = {
+                'error': 'Please enter a valid date'
+            }
+            return Response(resp, status=status.HTTP_400_BAD_REQUEST)
+            
 
 class event_update(APIView):
     def post(self, request):
@@ -389,14 +411,14 @@ class event_update(APIView):
             # Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
             
             cont = {
-                "status" : "Event Updated Successfully"
+                "success" : "Event Updated Successfully"
             }
             
             return Response(cont,status=status.HTTP_201_CREATED)
 
         except IntegrityError:
             resp = {
-                'Error': 'Event with this title already exists!'
+                'error': 'Event with this title already exists!'
             }
             return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
@@ -743,7 +765,7 @@ class member_add(APIView):
         title = Club_profile.objects.get(title=title)
         user = Token.objects.get(key=token).user
         if(Member.objects.filter(user=user, club_name=title).exists()):
-            det = {"Error": "You are already a member"}
+            det = {"error": "You are already a member"}
             return Response(det, status=status.HTTP_400_BAD_REQUEST)
         else:
             Member.objects.create(user=user, club_name=title)
@@ -810,7 +832,7 @@ class Event_register(APIView):
         event_name = Event.objects.get(id=id_event)
         
         if(Register_Event.objects.filter(user=user, event_name=event_name).exists()):
-            det = {"Error": "Already registered"}
+            det = {"error": "Already registered"}
             return Response(det, status=status.HTTP_400_BAD_REQUEST)
         else:
             Register_Event.objects.create(user=user, event_name=event_name, mobile_no=mobile_no, roll_no=roll_no)
@@ -1060,7 +1082,7 @@ class rating(APIView):
         event_name = Event.objects.get(event_title=event_title)
         
         if(Rating.objects.filter(user=user, event_name=event_name).exists()):
-            return Response({"Error":"Already rated"})
+            return Response({"error":"Already rated"})
         
         Rating.objects.create(user=user, event_name=event_name, rating=rating)
         return Response({"success":"Rated successfully"})
@@ -1083,12 +1105,29 @@ class views_of_event(APIView):
     def post(self, request):
         id_event = request.data["id_event"]
         event_name = Event.objects.get(id=id_event)
-        obj = event_view.objects.filter(event_name=event_name)
-        unique_views = len(obj)
-        total_views = 0
-        for vi in obj:
-            total_views+=vi.count_views
-        return Response({"Unique views":unique_views, "Total views":total_views})
+        event = EventSerializer(event_name)
+        date_event = datetime.strptime(event.data["date"][0:19], '%Y-%m-%dT%H:%M:%S')
+        if(date_event<datetime.now()):            
+            obj = event_view.objects.filter(event_name=event_name)
+            unique_views = len(obj)
+            total_views = 0
+            for vi in obj:
+                total_views+=vi.count_views
+            registered = Register_Event.objects.filter(event_name=event_name)
+            registered_part = len(registered)
+            checked_in = 0
+            for i in registered:
+                if(i.check_in==True):
+                    checked_in+=1
+            
+            return Response({
+                "unique_views":unique_views,
+                "total_views":total_views,
+                "registered": registered_part,
+                "checked_in": checked_in
+                })
+        else:
+            return Response({"data":""})
 
 class check_in_true(APIView):
     def post(self, request):
