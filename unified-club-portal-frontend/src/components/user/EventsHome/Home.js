@@ -102,6 +102,7 @@ const Home = () => {
     const fetchEventDetails = () => {
         let formData = new FormData();
         formData.append('id_event', id)
+        formData.append("token", localStorage.getItem('token'));
         fetch('http://127.0.0.1:8000/api/club/event_data_id',
         {
             method: 'POST',

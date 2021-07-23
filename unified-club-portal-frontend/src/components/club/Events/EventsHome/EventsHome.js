@@ -248,6 +248,37 @@ const EventsHome = () => {
                                 </div>
                             </div>
 
+
+                            <div className="club-event-poster-upload-button-area">
+                                <h4 style={{'text-align' : 'center'}}> Extra Documents </h4>
+                                <div className='doc-upload-continer-update'>
+                                    <div className='doc-upload'>
+                                        <label for="document1">Document 1</label>
+                                        <br />
+                                        <input 
+                                            type="file" 
+                                            // accept=".png, .jpg, .jpeg" 
+                                            id="document1" 
+                                            name='document1'
+                                            className="club-event-poster-upload-button"
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className='doc-upload'>
+                                        <label for="document1">Document 2</label>
+                                        <br />
+                                        <input 
+                                            type="file" 
+                                            // accept=".png, .jpg, .jpeg" 
+                                            id="document2" 
+                                            name='document2'
+                                            className="club-event-poster-upload-button"
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className='form-marginer'>
                                 {/* <TextField
                                     name='datetime-local'

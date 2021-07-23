@@ -5,8 +5,7 @@ import * as actions from './../../Helpers/actions/actionTypes'
 import AdminHome from './../admin/HomePage/Home';
 import ClubHome from './../club/HomePage/Home';
 import NormalHome from './../user/HomePage/Home';
-// import { Redirect } from 'react-router';
-import Logout from '../Auth/Logout';
+
 
 export const Dashboard = () => {
 
@@ -46,8 +45,9 @@ export const Dashboard = () => {
             return <AdminHome />
         }else if(type_of_user === 'club'){
             return <ClubHome />
+        }else if(type_of_user === 'user'){
+            return <NormalHome />
         }
-        return <NormalHome />
     }
 
     return (
@@ -56,12 +56,15 @@ export const Dashboard = () => {
                 !localStorage.getItem('token') ? (<Redirect to='/login' />) : null
             }
             {
+                
                 multiView(type_of_user)
+               
             }
             {/* <button onClick={logout} >
                 Logout
             </button> */}
             {/* <Logout /> */}
+
         </div>
     )
 }

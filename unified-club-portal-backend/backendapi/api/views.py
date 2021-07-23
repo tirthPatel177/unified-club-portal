@@ -593,6 +593,7 @@ class events_club(APIView):
                     }
                     data.append(event_data)
             else:
+                print("---->")
                 if(event["poster"][0]!='/'):
                     event["poster"] = '/'+event["poster"]
                 if(Club_prof.data["profile_pic"][0]!='/'):
