@@ -64,7 +64,7 @@ urlpatterns = [
     path('club/event_data_id', event_data_id.as_view()),
     path('club/profile_club/<club_name>', club_data.as_view()),
     path('club/club_profile', club_profile.as_view()),
-    path('club/events/<club_name>', events_club.as_view()),
+    path('club/events', events_club.as_view()),
     path('club/events_club_cal/<club_name>', events_club_cal.as_view()),
     path('club/uncompleted_events/<club_name>', uncompleted_events.as_view()),
     path('club/events_all', events_all.as_view()),
