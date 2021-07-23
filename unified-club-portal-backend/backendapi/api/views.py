@@ -307,9 +307,9 @@ class event_create(APIView):
             event_description = request.data["event_description"]
             poster = request.data["poster"]
             date = request.data["date"]
-            completed = False
-            if(request.data["completed"].lower() == 'true'):
-                completed = True
+            # completed = False
+            # if(request.data["completed"].lower() == 'true'):
+            #     completed = True
             approved = 0
             visible = True
             if(request.data["visible"].lower() == 'true'):
@@ -319,15 +319,15 @@ class event_create(APIView):
             if(document1!="" and document2!=""):
                 document1 = request.data["document1"]
                 document2 = request.data["document2"]
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed, document1=document1, document2=document2)
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document1=document1, document2=document2)
             elif(document1!="" and document2==""):
                 document1 = request.data["document1"]
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed, document1=document1)
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document1=document1)
             elif(document2!="" and document1==""):
                 document2 = request.data["document2"]
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed, document2=document2)
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, document2=document2)
             else:
-                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible, completed=completed)
+                Event.objects.create(user=user, event_title=event_title, event_description=event_description, poster = poster, date = date, approved=approved, visible=visible)
             
             # Event.objects.update_or_create(user=user, defaults=dict(event_title=event_title, event_description=event_description, date = date[0], approved=False))
             
@@ -685,8 +685,12 @@ class event_data_id(APIView):
         }
         if(type_of_user!="user"):
             event_data["document1"] = ("http://127.0.0.1:8000"+event.data["document1"])
+            if(event_data["document1"]=="http://127.0.0.1:8000/images/default.jpg"):
+                event_data["document1"] = ""
             event_data["document2"] = ("http://127.0.0.1:8000"+event.data["document2"])
-        
+            if(event_data["document2"]=="http://127.0.0.1:8000/images/default.jpg"):
+                event_data["document2"] = ""
+                
         return Response(event_data)
     
 class member_add(APIView):
