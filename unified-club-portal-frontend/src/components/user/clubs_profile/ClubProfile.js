@@ -23,7 +23,10 @@ const ClubProfile = () => {
     }
 
     useEffect(()=> {
+        
+        let isSubscribed = true;
         fetch_club_detials();
+        return () => (isSubscribed = false);
     }, [])
 
     return (

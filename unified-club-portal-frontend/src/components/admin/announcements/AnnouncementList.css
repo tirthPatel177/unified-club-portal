@@ -1,0 +1,9 @@
+.club-home > .announcement-list {
+    display: grid;
+    justify-items: center;
+}
+
+.announcement-space {
+    margin: 5px;
+    width: 100%;
+}

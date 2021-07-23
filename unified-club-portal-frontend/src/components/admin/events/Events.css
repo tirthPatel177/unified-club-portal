@@ -1,0 +1,7 @@
+.admin-list-events {
+    margin: auto;
+    width: 72%;
+    display: flex;
+    flex-direction: column;
+}
+

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Navbar from './../Navbar/Navbar';
 import EventCard from './EventCard';
+import './Events.css'
 
 const Events = () => {
     const [events, setEvents] = useState([]);
@@ -26,7 +27,8 @@ const Events = () => {
     return (
         <div>
             <Navbar />
-            <div>
+
+            <div className='admin-list-events'>
                     {
                         events.map( event => 
                             {
