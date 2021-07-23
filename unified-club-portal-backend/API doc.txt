@@ -148,8 +148,8 @@ URL = http://127.0.0.1:8000/api/club/event_view
 Type = "POST"
 parameters(Form-Data) : token, id_event
 
-(31) views_of_event : get total number of views of an event
-URL = http://127.0.0.1:8000/api/club/views_of_event
+(31) stats_of_event : get stats of event
+URL = http://127.0.0.1:8000/api/club/stats_of_event
 Type = "POST"
 parameters(Form-Data) : id_event
 

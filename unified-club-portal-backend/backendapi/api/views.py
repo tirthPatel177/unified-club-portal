@@ -1100,7 +1100,7 @@ class Event_view(APIView):
             event_view.objects.create(user=user, event_name=event_name, count_views=1)
         return Response({"Success":"Viewed successfully"})
 
-class views_of_event(APIView):
+class stats_of_event(APIView):
     def post(self, request):
         id_event = request.data["id_event"]
         event_name = Event.objects.get(id=id_event)
