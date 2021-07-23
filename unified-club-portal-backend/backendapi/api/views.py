@@ -556,7 +556,6 @@ class events_club(APIView):
                 event_data = {
                     "id_event" : event["id"],
                     "event_title" : event["event_title"],
-                    "event_description" : event["event_description"],
                     "poster" : ("http://127.0.0.1:8000"+event["poster"]),
                     "date" : event["date"],
                     "visible" : event["visible"],
@@ -566,6 +565,28 @@ class events_club(APIView):
                     "club_name" : Club_prof.data["title"],
                     "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
                     "rating" : rating,
+                }
+            
+                data.append(event_data)    
+        data.sort(key = lambda a:a["date_srt"], reverse=True)
+        return Response(data)
+    
+class events_club_cal(APIView):
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
+
+    def get(self, request, club_name):
+        club_name = club_name.replace('-',' ')
+        user = Club_profile.objects.get(title=club_name).user
+        events = Event.objects.filter(user=user)
+        serializer = EventSerializer(events, many=True)
+        data = []
+        for event in serializer.data:
+            if(event["approved"]==1 and event["visible"]):
+                event_data = {
+                    "id_event" : event["id"],
+                    "event_title" : event["event_title"],
+                    "date" : event["date"],
+                    "date_srt": datetime.strptime(event["date_srt"][0:19], '%Y-%m-%dT%H:%M:%S'),
                 }
             
                 data.append(event_data)    
