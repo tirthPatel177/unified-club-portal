@@ -49,6 +49,8 @@ const CreateEvents = () => {
         document2: ''
     })
     const [editordata, seteditordata] = useState('')
+    const [document1, setdocument1] = useState('')
+    const [document2, setdocument2] = useState('')
 
     const handleChange = (e) => {
         // e.preventDefault();
@@ -71,6 +73,11 @@ const CreateEvents = () => {
                 // profile_image: URL.createObjectURL(e.target.files[0])
                 [changename]: e.target.files[0]
             });
+            if(changename === 'document1'){
+                setdocument1(URL.createObjectURL(e.target.files[0]));
+            }else{
+                setdocument2(URL.createObjectURL(e.target.files[0]));
+            }
         }
         else{
             setevent({...event, [changename]: changevalue});
@@ -88,6 +95,13 @@ const CreateEvents = () => {
     const handleSubmit =  async () => {
 
         // sendData();
+        if(event.event_title === ''){
+            handleClickVariant('error', "Event Title is Required!")()
+            return;
+        }else if(event.date === ''){
+            handleClickVariant('error', "Event Date is Required!")()
+            return;
+        }
 
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
@@ -117,7 +131,7 @@ const CreateEvents = () => {
 
     useEffect( () => {
         if(submited === true){
-        const timer = setTimeout(() => history.push(`/club/${club}/events`), 3000);
+        const timer = setTimeout(() => history.push(`/club/${club}/events`), 2500);
         return () => clearTimeout(timer);
         }
     }, [submited])
@@ -198,6 +212,11 @@ const CreateEvents = () => {
                                     className="club-event-poster-upload-button"
                                     onChange={handleChange}
                                 />
+                                { event.document1 &&
+                                        <a href={document1} target='_blank'>
+                                            Document-1
+                                        </a>
+                                }
                             </div>
                             <div className='doc-upload'>
                                 <label htmlFor="document1">Document 2</label>
@@ -210,6 +229,11 @@ const CreateEvents = () => {
                                     className="club-event-poster-upload-button"
                                     onChange={handleChange}
                                 />
+                                { event.document2 &&
+                                        <a href={document2} target="_blank">
+                                            Document-2
+                                        </a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -282,7 +306,7 @@ const CreateEvents = () => {
 
 export default function IntegrationNotistack() {
     return (
-      <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
         <CreateEvents />
       </SnackbarProvider>
     );

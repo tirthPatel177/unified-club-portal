@@ -389,7 +389,6 @@ class event_update(APIView):
             
             obj.event_title = event_title
             obj.event_description = event_description
-            
             if(type(poster)==str):
                 if("http://127.0.0.1:8000/images" in poster):
                     poster = poster[len("http://127.0.0.1:8000/images"):]
@@ -400,8 +399,13 @@ class event_update(APIView):
                 if("http://127.0.0.1:8000/images" in document2):
                     document2 = document2[len("http://127.0.0.1:8000/images"):]
             
-            obj.document1 = document1
-            obj.document2 = document2
+            if(document1!="" and document2!=""):
+                obj.document1 = document1
+                obj.document2 = document2
+            elif(document1!="" and document2==""):
+                obj.document1 = document1
+            elif(document2!="" and document1==""):
+                obj.document2 = document2
             obj.poster = poster
             obj.date = date
             obj.visible = visible
@@ -714,6 +718,7 @@ class event_data_id(APIView):
             rating = rating/len(rating_get)
         rating = rating//0.5
         rating = rating*0.5
+        print(event.data)
         # print(serializer.data["poster"])
         if(event.data["poster"][0]!='/'):
             event.data["poster"] = '/'+event.data["poster"]

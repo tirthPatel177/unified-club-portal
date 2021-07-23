@@ -20,6 +20,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import TextField from '@material-ui/core/TextField';
 import CheckIn from './CheckIn';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 
 const labels = {
@@ -46,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
 
 const EventsHome = () => {
 
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
+
     const [active, setactive] = useState('details');
 
     const classes = useStyles();
@@ -56,7 +65,8 @@ const EventsHome = () => {
     let {id} = useParams();
 
     
-
+    const [document1, setdocument1] = useState('')
+    const [document2, setdocument2] = useState('')
 
     const [event, setevent] = useState({
         event_title: ' '
@@ -78,6 +88,10 @@ const EventsHome = () => {
         }).then( data => data.json()).then(
             async data => {
                 await setevent(data)
+                seteditordata(data.event_description)
+                setPreview(data.poster)
+                setdocument1(data.document1)
+                setdocument2(data.document2)
                 console.log(typeof(data.rating))
                 return data
             }
@@ -100,6 +114,8 @@ const EventsHome = () => {
            }
        )
    }
+
+
 
     useEffect(() => {
         console.log(id);
@@ -133,6 +149,16 @@ const EventsHome = () => {
                 });
                 setPreview(URL.createObjectURL(e.target.files[0]));
             }   
+        }else if(changename=== 'document1' || changename === 'document2'){
+            setevent({...event, 
+                // profile_image: URL.createObjectURL(e.target.files[0])
+                [changename]: e.target.files[0]
+            });
+            if(changename === 'document1'){
+                setdocument1(URL.createObjectURL(e.target.files[0]));
+            }else{
+                setdocument2(URL.createObjectURL(e.target.files[0]));
+            }
         }else{
             setevent({...event, [changename]: changevalue});
         }
@@ -152,9 +178,20 @@ const EventsHome = () => {
         fetch('http://127.0.0.1:8000/api/club/event_update', {
             method: 'POST',
             body: formData
-        }).then( data => data.json())
-        console.log(editordata)
-        setactive('details');
+        }).then( data => data.json()).then(
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                }else{
+                    handleClickVariant('error', data)()
+                }
+                
+            }
+        )
+        setTimeout(() => setactive('details'), 1500);
+        // console.log(editordata)
     }
 
 
@@ -217,7 +254,7 @@ const EventsHome = () => {
                                 <CKEditor
                                     name='description'
                                     editor={ ClassicEditor }
-                                    data="<p>Hello from CKEditor 5!</p>"
+                                    data={editordata}
                                     onReady={ editor => {
                                         // You can store the "editor" and use when it is needed.
                                         console.log( 'Editor is ready to use!', editor );
@@ -251,10 +288,10 @@ const EventsHome = () => {
 
 
                             <div className="club-event-poster-upload-button-area">
-                                <h4 style={{'text-align' : 'center'}}> Extra Documents </h4>
+                                <h4 style={{'textAlign' : 'center'}}> Extra Documents </h4>
                                 <div className='doc-upload-continer-update'>
                                     <div className='doc-upload'>
-                                        <label for="document1">Document 1</label>
+                                        <label htmlFor="document1">Document 1</label>
                                         <br />
                                         <input 
                                             type="file" 
@@ -264,9 +301,14 @@ const EventsHome = () => {
                                             className="club-event-poster-upload-button"
                                             onChange={handleChange}
                                         />
+                                        { event.document1 &&
+                                        <a href={document1} target='_blank'>
+                                            Document-1
+                                        </a>
+                                        }
                                     </div>
                                     <div className='doc-upload'>
-                                        <label for="document1">Document 2</label>
+                                        <label htmlFor="document1">Document 2</label>
                                         <br />
                                         <input 
                                             type="file" 
@@ -276,6 +318,11 @@ const EventsHome = () => {
                                             className="club-event-poster-upload-button"
                                             onChange={handleChange}
                                         />
+                                        { event.document2 &&
+                                        <a href={document2} target='_blank'>
+                                            Document-2
+                                        </a>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -299,6 +346,7 @@ const EventsHome = () => {
                                     id="datetime-local"
                                     label="Event Date"
                                     type="datetime-local"
+                                    value={event.date}
                                     // defaultValue="2017-05-24T10:30"
                                     className={classes.textField}
                                     onChange={handleChange}
@@ -326,7 +374,7 @@ const EventsHome = () => {
                             <Button variant="contained" color="primary" 
                             onClick={handleSubmit}
                             >
-                                Create Event
+                                Update Event
                             </Button>
                             </div>
                             
@@ -366,4 +414,11 @@ const EventsHome = () => {
     )
 }
 
-export default EventsHome
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
+        <EventsHome />
+      </SnackbarProvider>
+    );
+  }
+

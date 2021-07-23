@@ -13,6 +13,7 @@ import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const labels = {
   0.5: 'Useless',
@@ -36,6 +37,14 @@ const useStyles = makeStyles({
 });
 
 const Home = () => {
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
 
     const [value, setValue] = useState(0);
     const [hover, setHover] = useState(-1);
