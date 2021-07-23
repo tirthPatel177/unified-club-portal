@@ -643,8 +643,10 @@ class uncompleted_events(APIView):
 class event_data_id(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
+        token = request.data["token"]
         id_event = request.data["id_event"]
-        
+        user1 = Token.objects.get(key=token).user
+        type_of_user = Type_of_User.objects.get(author=user1).type_of_user
         evnt = Event.objects.get(id=id_event)
         
         club_prof = Club_profile.objects.get(user=evnt.user)
@@ -661,6 +663,10 @@ class event_data_id(APIView):
         # print(serializer.data["poster"])
         if(event.data["poster"][0]!='/'):
             event.data["poster"] = '/'+event.data["poster"]
+        if(event.data["document1"][0]!='/'):
+            event.data["document1"] = '/'+event.data["document1"]
+        if(event.data["document2"][0]!='/'):
+            event.data["document2"] = '/'+event.data["document2"]
         if(Club_prof.data["profile_pic"][0]!='/'):
             Club_prof.data["profile_pic"] = '/'+Club_prof.data["profile_pic"]
         event_data = {
@@ -677,6 +683,9 @@ class event_data_id(APIView):
             "profile_pic" : ("http://127.0.0.1:8000"+Club_prof.data["profile_pic"]),
             "rating": rating,
         }
+        if(type_of_user!="user"):
+            event_data["document1"] = ("http://127.0.0.1:8000"+event.data["document1"])
+            event_data["document2"] = ("http://127.0.0.1:8000"+event.data["document2"])
         
         return Response(event_data)
     
