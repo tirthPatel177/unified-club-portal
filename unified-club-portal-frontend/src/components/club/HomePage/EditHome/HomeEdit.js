@@ -11,10 +11,12 @@ import TextField from '@material-ui/core/TextField';
 import { useHistory } from "react-router-dom";
 import Navbar from '../../NavBar/Navbar';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import Error404 from '../../../Error/Error404';
+import { useSelector } from 'react-redux'
 
 
 const HomeEdit = (props) => {
-
+    const user = useSelector(state => state.type_of_user)
     const [clubDetails, setclubDetails] = useState(
         {
             title: '',
@@ -137,6 +139,8 @@ const HomeEdit = (props) => {
     }, [submited])
 
     return (
+        <>
+            { (user === 'xhuoxfn3') ?  
         <div>
 
             <Navbar />
@@ -195,6 +199,10 @@ const HomeEdit = (props) => {
             </div>
             </div>
         </div>
+        :
+        <Error404/> 
+        }
+        </>
     )
 }
 

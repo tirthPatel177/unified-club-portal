@@ -1,0 +1,5 @@
+fetchDetials -> http://localhost:8000/api/user/get_info
+
+user = cmkua43qrh
+club = xhuoxfn3
+admin = vbekfka29

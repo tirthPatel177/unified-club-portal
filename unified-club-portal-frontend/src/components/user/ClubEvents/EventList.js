@@ -6,9 +6,11 @@ import Header from './../clubs_profile/header/index'
 import './EventList.css'
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
+import { useSelector } from 'react-redux'
+import Error404 from '../../Error/Error404';
 
 const EventList = () => {
-
+    const user = useSelector(state => state.type_of_user)
     const itemsPerPage = 5;
     const [page, setPage] = useState(1);
     const [noOfPages, setNoOfPages] = useState(
@@ -58,6 +60,8 @@ const EventList = () => {
 
 
     return (
+        <>
+            { (user === 'cmkua43qrh') ? 
         <div>
             <Navbar />
 
@@ -84,6 +88,10 @@ const EventList = () => {
                 </div>
                 </div>
         </div>
+        :
+        <Error404/> 
+        }
+        </>
     )
 }
 

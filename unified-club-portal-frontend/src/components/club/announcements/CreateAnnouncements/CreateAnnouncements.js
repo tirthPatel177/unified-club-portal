@@ -15,8 +15,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import './CreateAnnouncement.css'
 import { useHistory, useParams } from 'react-router-dom';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux'
+import Error404 from '../../../Error/Error404';
 
 const CreateAnnouncements = () => {
+    
+    const user = useSelector(state => state.type_of_user)
 
     const [announcement, setannouncement] = useState({
         event_title: '',
@@ -106,6 +110,8 @@ const CreateAnnouncements = () => {
 
 
     return (
+        <>
+            { (user === 'xhuoxfn3') ? 
         <div>
             <Navbar />
             <div className='club-home'>
@@ -228,6 +234,10 @@ const CreateAnnouncements = () => {
             </div>
             </div>
         </div>
+        :
+        <Error404/> 
+        }
+        </>
     )
 }
 

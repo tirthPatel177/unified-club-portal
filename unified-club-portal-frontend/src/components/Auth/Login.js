@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as actions from '../../Helpers/actions/actionTypes'
 import { Redirect } from 'react-router-dom';
 
+// Refrenced it -> https://www.youtube.com/watch?v=-bll7l-BKQI&t=703s
+
 function Login(props) {
     const [activeLogin, setActiveLogin] = useState(true);
     const [password1, setPassword1] = useState('');
@@ -29,14 +31,6 @@ function Login(props) {
 
 
 
-    // useEffect(
-    //     ()=>{
-    //         // console.log(props.setUser)
-    //         console.log("Login", loginData);
-    //         console.log('Signup', registerData);
-    //         console.log("password1", password1);
-    //     }
-    // );
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -60,7 +54,14 @@ function Login(props) {
         }).then( data => data.json()).then(
             data => {
                 dispatch({type: actions.USER_LOGGGED_IN, payload: data})
-                dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
+                if(data.type_of_user === 'user'){
+                    dispatch({type: actions.SET_USER_TYPE, payload: 'cmkua43qrh'})
+                }else if(data.type_of_user === 'club'){
+                    dispatch({type: actions.SET_USER_TYPE, payload: 'xhuoxfn3'})
+                }else if(data.type_of_user === 'admin'){
+                    dispatch({type: actions.SET_USER_TYPE, payload: 'vbekfka29'})
+                }
+                // dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
                 // props.setUser(data.type_of_user)
                 
             }
@@ -136,69 +137,7 @@ function Login(props) {
         setActiveLogin(!activeLogin);
     };
 
-    // const LoginForm = () => {
-    //     return (
-    //         <>
-    //         <h2 className="login-message">Welcome Back!</h2>
-    //         <form>
-    //             <input type="email" id="emailLogin" placeholder="Email" onChange={(e) => {setEmailLogin(e.target.value)}} name="email" value={emailLogin || ''} />
-                
-    //             <input type="password" id="passwordLogin" placeholder="Password" onChange={(e)=> {setPasswordLogin(e.target.value)}} name="password" value={passwordLogin || ''} />
-
-    //             <button type='submit' onClick={handleLogin}>
-    //                 Login
-    //             </button>
-    //         </form>
-    //         <p>
-    //             Don't have an account? {" "}
-    //             <a onClick={changethestate} href="#"> SignUp</a>
-    //         </p>
-    //         </>
-    //     )
-    // };
-
-    // const SignupForm = () => {
-    //     return (
-    //         <>
-    //         <h2 className="login-message">Create an account</h2>
-    //         <form>
-            
-    //             <input type="text" placeholder="First Name" id='first_name' onChange={(e)=>setFirstnameSignup(e.target.value)} name="first_name" value={firstnameSignup || ''}>
-    //             </input>
-            
-            
-    //             <input type="text" placeholder="Last Name" id='last_name' onChange={(e) => setLastnameSignup(e.target.value)} name="last_name" value={lastnameSignup || ''}>
-    //             </input>
-            
-            
-    //             <input type="email" placeholder="Email" id='emailSignup' onChange={(e) => setEmailSignup(e.target.value)} name="email" value={emailSignup || ''}>
-    //             </input>
-            
-            
-    //             <input type="password" placeholder="Password" id="password" onChange={(e) => setPasswordSignup(e.target.value)} name="password" value={passwordSignup || ''}>
-    //             </input>
-
-    //             <input type="password" placeholder="Enter Password Again" id='password1' onChange={(e) => setPassword1(e.target.value)} name="password1" value={password1 || ''}>
-    //             </input>
-
-    //             <button type='submit' onClick={handleSignup}>
-    //                 Sign Up
-    //             </button>
-    //         </form>
-    //         <p>
-    //             Already have an account? {" "}
-    //             <a onClick={changethestate} href='#'> Login </a>
-    //         </p>
-    //         </>
-    //     )
-    // };
     
-    // const Display = () => {
-    //     if(activeLogin){
-    //         return <LoginForm />
-    //     }
-    //     return <SignupForm />
-    // }
 
     return (
         <div className='Login' id='temp'>

@@ -7,11 +7,13 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Input from '@material-ui/core/Input';
 import { Button } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField';
-
+import { useSelector } from 'react-redux'
+import Error404 from '../../Error/Error404';
 
 
 const CreateClub = () => {
 
+    const user = useSelector(state => state.type_of_user)
     const [clubDetails, setclubDetails] = useState({
         email: '',
         password: '',
@@ -67,6 +69,8 @@ const CreateClub = () => {
     }
 
     return (
+        <>
+        { (user === 'vbekfka29') ? 
         <div>
             <Navbar />
             <div className='create-club-from-container'>
@@ -157,6 +161,10 @@ const CreateClub = () => {
                 </div>
             </div>
         </div>
+        :
+        <Error404 />
+        } 
+    </>
     )
 }
 

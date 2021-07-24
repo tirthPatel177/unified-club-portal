@@ -4,9 +4,12 @@ import AnnouncementCard from './../../club/announcements/AnnouncementCard'
 import './AnnouncementList.css'
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
+import { useSelector } from 'react-redux'
+import Error404 from '../../Error/Error404';
 
 
 const AnnouncementList = () => {
+    const user = useSelector(state => state.type_of_user)
 
     const [data, setdata] = useState([])
 
@@ -51,6 +54,8 @@ const AnnouncementList = () => {
     
 
     return (
+        <>
+        { (user === 'vbekfka29') ? 
         <div>
             <Navbar />
             <div className='club-home'>
@@ -75,6 +80,10 @@ const AnnouncementList = () => {
                 </div>
             </div>
         </div>
+        :
+        <Error404 />
+        } 
+    </>
     )
 }
 

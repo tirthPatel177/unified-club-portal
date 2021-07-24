@@ -3,8 +3,11 @@ import { useParams } from 'react-router-dom'
 import Home from './NormalHome'
 import './ClubProfile.css'
 import Navbar from './../Navbar/Navbar'
+import { useSelector } from 'react-redux'
+import Error404 from '../../Error/Error404';
 
 const ClubProfile = () => {
+    const user = useSelector(state => state.type_of_user)
 
     const {club} = useParams();
     const [clubDetails, setclubDetails] = useState({
@@ -35,11 +38,17 @@ const ClubProfile = () => {
 
     return (
         <>
+        { (user === 'vbekfka29') ? 
+        <>
         <Navbar />
         <div className='.home'>
             <Home club={clubDetails}/>
         </div>
         </>
+        :
+        <Error404 />
+        } 
+    </>
     )
 }
 

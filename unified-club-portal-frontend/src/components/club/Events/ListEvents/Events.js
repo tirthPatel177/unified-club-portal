@@ -7,8 +7,10 @@ import EventCard from './EventCard';
 import './Event.css'
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
+import { useSelector } from 'react-redux'
 
 const Events = () => {
+    const user = useSelector(state => state.type_of_user)
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
     const itemsPerPage = 5;

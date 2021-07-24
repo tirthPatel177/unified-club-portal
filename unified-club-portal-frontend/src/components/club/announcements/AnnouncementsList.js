@@ -7,10 +7,15 @@ import './AnnouncementList.css'
 import { Button } from '@material-ui/core';
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
+import { useSelector } from 'react-redux'
+import Error404 from '../../Error/Error404'
 
 const AnnouncementList = () => {
 
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
+
+    const user = useSelector(state => state.type_of_user)
+
 
     const history = useHistory();
 
@@ -63,6 +68,8 @@ const AnnouncementList = () => {
     }, [data])
 
     return (
+        <>
+            { (user === 'xhuoxfn3') ? 
         <div>
             <Navbar />
             <div className='club-home'>
@@ -92,6 +99,10 @@ const AnnouncementList = () => {
                 </div>
             </div>
         </div>
+        :
+        <Error404 />
+        }
+        </>
     )
 }
 

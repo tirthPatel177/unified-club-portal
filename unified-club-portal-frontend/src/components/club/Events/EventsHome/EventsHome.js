@@ -22,6 +22,8 @@ import TextField from '@material-ui/core/TextField';
 import CheckIn from './CheckIn';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useSelector } from 'react-redux'
+import Error404 from '../../../Error/Error404';
 
 // const labels = {
 //   0.5: 'Useless',
@@ -46,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const EventsHome = () => {
+    const user = useSelector(state => state.type_of_user)
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -220,6 +223,8 @@ const EventsHome = () => {
 
 
     return (
+        <>
+            { (user === 'xhuoxfn3') ? 
         <div>
         <Navbar />
         <div className='marginer'>
@@ -532,6 +537,10 @@ const EventsHome = () => {
         </div>
     
         </div>
+        :
+        <Error404 /> 
+        }
+        </>
     )
 }
 
