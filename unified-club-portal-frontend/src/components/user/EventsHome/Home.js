@@ -79,12 +79,17 @@ const Home = () => {
 
 
     const handleSubmit = () => {
+        let iserror = false
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('id_event', id);
 
-        if(register["mobile_no"] === '' || register["roll_no"] === ''){
-            console.log("Feilds can not be empty");
+        if(register["mobile_no"] === ''){
+            handleClickVariant('error', "Mobile No. is Required!")()
+            return;
+        }
+        else if (register["roll_no"] === ''){
+            handleClickVariant('error', "Roll No. is Required!")()
             return;
         }
 
@@ -99,11 +104,21 @@ const Home = () => {
             method: 'POST',
             body: formData
         }).then( data => data.json()).then(
-
-            data => {console.log(data)
-            // <Redirect to='/' />
-        }
-        );
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                    iserror = true;
+                }else{
+                    for (const property in data){
+                        handleClickVariant('error', data[property])()
+                    }
+                    iserror = true;
+                }
+                
+            }
+        )
         setisreg(!isreg);
     }
 
@@ -139,21 +154,47 @@ const Home = () => {
     }
 
     const handle_unreg = () => {
+        let iserror = false
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('id_event', id);
         fetch('http://127.0.0.1:8000/api/club/event_unregister', {
             method: 'POST',
             body: formData
-        }).then(data => data.json())
+        }).then(data => data.json()).then(
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                    iserror = true;
+                }else{
+                    for (const property in data){
+                        handleClickVariant('error', data[property])()
+                    }
+                    iserror = true;
+                }
+                
+            }
+        )
         setisreg(!isreg)
+    }
+
+    const update_views = () => {
+        let fromData = new FormData();
+        fromData.append('token', localStorage.getItem('token'));
+        fromData.append('id_event', id);
+        fetch('http://127.0.0.1:8000/api/club/event_view', {
+            method: 'POST',
+            body: fromData
+        })
     }
 
     useEffect(() => {
         console.log(id);
         fetchEventDetails();
         checkReg();
-
+        update_views();
     }, [])
 
     // const data = {
@@ -167,6 +208,7 @@ const Home = () => {
     // }
 
     const handleRatingSubmit = () => {
+        let iserror = false;
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('event_title', event.event_title);
@@ -174,7 +216,23 @@ const Home = () => {
         fetch('http://127.0.0.1:8000/api/user/rating', {
             method: 'POST',
             body: formData
-        }).then(data => data.json())
+        }).then(data => data.json()).then(
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                    iserror = true;
+                }else{
+                    for (const property in data){
+                        handleClickVariant('error', data[property])()
+                    }
+                    iserror = true;
+                }
+                
+            }
+        )
+
     }
 
     return (
@@ -299,6 +357,12 @@ const Home = () => {
         </div>
         </div>
     )
-}
+};
 
-export default Home
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
+        <Home />
+      </SnackbarProvider>
+    );
+  }

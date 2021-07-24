@@ -1,15 +1,38 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { useParams } from 'react-router-dom';
 import Navbar from '../NavBar/Navbar'
 import EventCard from './../events/EventCard';
 import Header from './../clubs_profile/header/index'
 import './EventList.css'
+import Pagination from "@material-ui/lab/Pagination";
+import { useMediaQuery } from 'react-responsive'
 
 const EventList = () => {
+
+    const itemsPerPage = 5;
+    const [page, setPage] = useState(1);
+    const [noOfPages, setNoOfPages] = useState(
+        // Math.ceil(projectsList.length / itemsPerPage)
+        1
+    );
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
     // const user = useSelector(state => state.user)
     const [events, setEvents] = useState([]);
     let {club} = useParams();
+
+    const isFirstRender = useRef(0)
+
+      useEffect(() => {
+        if (isFirstRender.current === 0) {
+            isFirstRender.current = 1
+            return;
+        }else if(isFirstRender.current === 1){
+            setNoOfPages(Math.ceil(events.length / itemsPerPage))
+            // console.log('Something Happened')
+        }
+
+    }, [events])
 
     const get_events = async () => {
         let formData = new FormData();
@@ -42,12 +65,21 @@ const EventList = () => {
 
                 <div>
                     {
-                        events.map( event => 
+                        events.slice((page - 1) * itemsPerPage, page * itemsPerPage).map( event => 
                             {
                                 return <EventCard event={event} key={event.id_event}/>
                             }
                         )
                     }
+                </div>
+                <div className='pagination-container'>
+                    <Pagination count={noOfPages} page={page} 
+                    color="primary"
+                    size={isTabletOrMobile ? 'medium' : 'large'}
+                    showFirstButton
+                    showLastButton
+                    onChange={(event, value) => {setPage(value)}} />
+                    
                 </div>
                 </div>
         </div>

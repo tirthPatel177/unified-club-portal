@@ -78,6 +78,7 @@
 
 .card-links {
     text-decoration: none;
+    color: inherit;
 }
 
 .card-links:active {
