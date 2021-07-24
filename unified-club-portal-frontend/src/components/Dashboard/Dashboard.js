@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import * as actions from './../../Helpers/actions/actionTypes'
+import { useSelector } from 'react-redux';
+// import * as actions from './../../Helpers/actions/actionTypes'
 import AdminHome from './../admin/HomePage/Home';
 import ClubHome from './../club/HomePage/Home';
 import NormalHome from './../user/HomePage/Home';
@@ -10,7 +10,7 @@ import NormalHome from './../user/HomePage/Home';
 export const Dashboard = () => {
 
     const type_of_user = useSelector(state => state.type_of_user)
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
 
     // const logout = () => {

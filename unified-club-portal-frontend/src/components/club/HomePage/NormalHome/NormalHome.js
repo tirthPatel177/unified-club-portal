@@ -5,7 +5,7 @@ import Header from "./../header/index";
 import './NormalHome.css'
 import Calendar from './Calendar/Calendar';
 import Description from './description/index'
-import ClubStats from './Stats/ClubStats';
+// import ClubStats from './Stats/ClubStats';
 
 const NormalHome = (props) => {
     return (

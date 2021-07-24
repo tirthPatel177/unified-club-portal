@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./header.css";
 import Mobile from "./mobile/index";
 import Web from "./web/index";
@@ -14,11 +14,6 @@ function Header(props) {
   //   setIsOpen(false);
   // };
 
-  const get_title = (title) => {
-    // console.log(title);
-    if (title)
-      return title.split(' ').join('-');  
-  }
 
   // const [title, settitle] = useState('');
 

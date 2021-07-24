@@ -6,10 +6,10 @@ const EventCard = ({event}) => {
     return (
         <div className="card_event">
             <a className="card-links" href={'/club/events/'+ event.id_event}>
-            <img src={event.poster} width="100%" height="300px" className="poster_event"/>
+            <img src={event.poster} alt='poster' width="100%" height="300px" className="poster_event"/>
             <div className="data_event">
                 <div className="card-event-club">
-                    <img src={event.poster} className="club_profile_pic"/>
+                    <img src={event.poster} alt='profile' className="club_profile_pic"/>
                     <span className="club_name_event">{event.club_name}</span>
                 </div>
                 <span className="card-event-title">{event.event_title}</span>

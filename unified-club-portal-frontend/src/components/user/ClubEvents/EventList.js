@@ -31,7 +31,7 @@ const EventList = () => {
             setNoOfPages(Math.ceil(events.length / itemsPerPage))
             // console.log('Something Happened')
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [events])
 
     const get_events = async () => {
@@ -51,6 +51,7 @@ const EventList = () => {
 
     useEffect(() => {
         get_events();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
 

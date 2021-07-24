@@ -201,7 +201,7 @@ function Login(props) {
     // }
 
     return (
-        <div className='Login'>
+        <div className='Login' id='temp'>
             { type_of_user ? (<Redirect to='/' />) : null  }
             {
                 error ? 
@@ -228,7 +228,7 @@ function Login(props) {
                     </form>
                     <p className='already-account'>
                         Don't have an account? {" "}
-                        <a onClick={changethestate} href="#"> SignUp</a>
+                        <a onClick={changethestate} href="#temp"> SignUp</a>
                     </p>
                     </>
                     :
@@ -246,7 +246,7 @@ function Login(props) {
                     </form>
                     <p className='already-account'>
                         Already have an account? {" "}
-                        <a onClick={changethestate} href='#'> Login </a>
+                        <a onClick={changethestate} href='#temp'> Login </a>
                     </p>
                     </>
                 }

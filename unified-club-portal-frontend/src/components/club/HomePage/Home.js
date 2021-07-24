@@ -1,15 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 // import { useParams } from 'react-router-dom'
 import Navbar from './../NavBar/Navbar'
-import HomeEdit from './EditHome/HomeEdit';
+// import HomeEdit from './EditHome/HomeEdit';
 import NormalHome from './NormalHome/NormalHome';
 import './Home.css'
 // import tempImage from './../../../Resources/club-profile.jpg'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Home = () => {
-    const user = useSelector(state => state.user)
+    // const user = useSelector(state => state.user)
     // const {club} = useParams();
     // const [edit, setedit] = useState(false);
     const [clubDetails, setclubDetails] = useState(
@@ -36,10 +36,7 @@ const Home = () => {
         ).catch(e => console.log(e))
     }
 
-    const get_title = (title) => {
-        console.log(title);
-        return title.split(' ').join('-');
-    }
+
 
     const isFirstRender = useRef(0)
 

@@ -142,6 +142,7 @@ const CreateEvents = () => {
         const timer = setTimeout(() => history.push(`/club/${club}/events`), 1500);
         return () => clearTimeout(timer);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submited])
 
 
@@ -189,6 +190,7 @@ const CreateEvents = () => {
                         {   preview ?
                             <img 
                         src={preview} 
+                        alt='preview'
                         style={{ height : '280px'}} ></img>: null
                         }
                             
@@ -221,7 +223,7 @@ const CreateEvents = () => {
                                     onChange={handleChange}
                                 />
                                 { event.document1 &&
-                                        <a href={document1} target='_blank'>
+                                        <a href={document1}  rel="noopener noreferrer" target='_blank'>
                                             Document-1
                                         </a>
                                 }
@@ -238,7 +240,7 @@ const CreateEvents = () => {
                                     onChange={handleChange}
                                 />
                                 { event.document2 &&
-                                        <a href={document2} target="_blank">
+                                        <a href={document2} rel="noopener noreferrer" target="_blank">
                                             Document-2
                                         </a>
                                 }

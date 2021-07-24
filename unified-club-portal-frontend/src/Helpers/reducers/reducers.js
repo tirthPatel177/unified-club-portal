@@ -6,7 +6,7 @@ const initialState = {
 }
 
 
-export default function(state = initialState, action) {
+export default function reducers (state = initialState, action) {
     switch (action.type) {
         case SET_USER_TYPE:
             return {

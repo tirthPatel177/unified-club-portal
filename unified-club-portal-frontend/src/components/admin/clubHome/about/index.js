@@ -13,6 +13,7 @@ function About({club}) {
           <img
             src={club.profile}
             className="picture"
+            alt='club profile'
           />
         </div>
       </div>

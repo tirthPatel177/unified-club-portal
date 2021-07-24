@@ -24,10 +24,6 @@ const Events = () => {
     let {club} = useParams();
 
 
-    const get_title = (title) => {
-        // console.log(title);
-        return title.split(' ').join('-');
-    }
 
 
 
@@ -55,6 +51,7 @@ const Events = () => {
 
     useEffect(() => {
         get_events();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     const isFirstRender = useRef(0)
@@ -67,7 +64,7 @@ const Events = () => {
             setNoOfPages(Math.ceil(events.length / itemsPerPage))
             // console.log('Something Happened')
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [events])
 
     return (

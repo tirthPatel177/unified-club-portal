@@ -4,13 +4,13 @@ import About from "./about/index";
 import Header from "./header/index";
 import './NormalHome.css'
 import Description from './description/index'
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import Calendar from './Calendar/Calendar';
 
 
 const NormalHome = (props) => {
 
-    let {club} = useParams();
+    // let {club} = useParams();
 
     
 

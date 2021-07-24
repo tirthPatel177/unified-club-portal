@@ -5,7 +5,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import { Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -47,6 +47,7 @@ const CreateAnnouncements = () => {
                 console.log(data)
             }
         )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const [editordata, seteditordata] = useState('')
@@ -103,9 +104,6 @@ const CreateAnnouncements = () => {
         
     }
 
-    const ListEvents = (event) => {
-        <MenuItem value={event.event_title}>{event.event_title}</MenuItem>                    
-    }
 
     return (
         <div>

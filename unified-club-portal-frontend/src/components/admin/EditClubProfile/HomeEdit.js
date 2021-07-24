@@ -47,7 +47,7 @@ const HomeEdit = (props) => {
             
         }).then( data => data.json()).then(
             data => {
-                console.log(data);
+                // console.log(data);
                 setclubDetails(data);
                 // props.setUser(data.type_of_user)
                 setPreview(data.profile)
@@ -61,7 +61,7 @@ const HomeEdit = (props) => {
         // console.log(user);
         let token = localStorage.getItem('token');
         fetchdetails(token);
-        console.log("tHIS Page")
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     
@@ -83,7 +83,7 @@ const HomeEdit = (props) => {
         }else{
             setclubDetails({...clubDetails, [changename]: changevalue});
         }
-        console.log(clubDetails.name)
+        // console.log(clubDetails.name)
     };
 
     const [submited, setsubmited] = useState(false)
@@ -120,7 +120,7 @@ const HomeEdit = (props) => {
             }
         )
         if(iserror){
-            console.log("It")
+            // console.log("It")
             return;
         }
         setsubmited(true);
@@ -131,6 +131,7 @@ const HomeEdit = (props) => {
         const timer = setTimeout(() => history.push(``), 1500);
         return () => clearTimeout(timer);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submited])
 
     return (
@@ -145,7 +146,7 @@ const HomeEdit = (props) => {
                 <h2 className='edit-profile-welcome'>Edit Profile</h2>
             <form className='club-profile-form'>
                 <div className='club-profile-image-upload'>
-                    <img src={preview} style={{ height : '280px'}} ></img>
+                    <img src={preview} style={{ height : '280px'}} alt='club ptofile'></img>
                         
                     <div className="club-image-upload-button-area">
                     <h3> Profile Photo </h3>

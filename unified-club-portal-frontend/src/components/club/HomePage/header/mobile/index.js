@@ -1,10 +1,10 @@
 import React from "react";
 import "./mobile.css";
 import CancelIcon from '@material-ui/icons/Cancel';
-import Edit from "../../Edit";
+// import Edit from "../../Edit";
 import { useParams } from "react-router-dom";
 
-function Mobile({ isOpen, setIsOpen, edit, setEdit, title }) {
+function Mobile({ isOpen, setIsOpen, title }) {
 
   let {club} = useParams();
 

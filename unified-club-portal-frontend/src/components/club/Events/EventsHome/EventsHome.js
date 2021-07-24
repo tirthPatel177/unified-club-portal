@@ -23,18 +23,18 @@ import CheckIn from './CheckIn';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const labels = {
-  0.5: 'Useless',
-  1: 'Useless+',
-  1.5: 'Poor',
-  2: 'Poor+',
-  2.5: 'Ok',
-  3: 'Ok+',
-  3.5: 'Good',
-  4: 'Good+',
-  4.5: 'Excellent',
-  5: 'Excellent+',
-};
+// const labels = {
+//   0.5: 'Useless',
+//   1: 'Useless+',
+//   1.5: 'Poor',
+//   2: 'Poor+',
+//   2.5: 'Ok',
+//   3: 'Ok+',
+//   3.5: 'Good',
+//   4: 'Good+',
+//   4.5: 'Excellent',
+//   5: 'Excellent+',
+// };
 
 
 const useStyles = makeStyles((theme) => ({
@@ -143,6 +143,7 @@ const EventsHome = () => {
         console.log(id);
         fetchEventDetails();
         fetch_event_stats();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // const data = {
@@ -270,7 +271,7 @@ const EventsHome = () => {
                         <div>
                         { event.document1 &&
                         <Button color='primary' variant="contained" >
-                        <a href={document1} target='_blank' style={{'color': 'inherit'}}>
+                        <a href={document1} target='_blank'  rel="noopener noreferrer" style={{'color': 'inherit'}}>
                             Document-1
                         </a>
                         </Button>
@@ -280,7 +281,7 @@ const EventsHome = () => {
                         <div>
                         { event.document2 &&
                             <Button color='primary' variant="contained" >
-                            <a href={document2} target='_blank' style={{'color': 'inherit'}}>
+                            <a href={document2} target='_blank' rel="noopener noreferrer" style={{'color': 'inherit'}}>
                                 Document-2
                             </a>
                             </Button>
@@ -309,22 +310,22 @@ const EventsHome = () => {
                                 <h3 style={{'textAlign': 'center'}}>
                                     Event Stats
                                 </h3>
-                                <section class="data">
+                                <section className="data">
                                     <div>
-                                    <p class="stat">{eventStats.unique_views}</p>
-                                    <p class="stat-info">Unique Visitors</p>
+                                    <p className="stat">{eventStats.unique_views}</p>
+                                    <p className="stat-info">Unique Visitors</p>
                                     </div>
                                     <div>
-                                    <p class="stat">{eventStats.total_views}</p>
-                                    <p class="stat-info">Total Views</p>
+                                    <p className="stat">{eventStats.total_views}</p>
+                                    <p className="stat-info">Total Views</p>
                                     </div>
                                     <div>
-                                    <p class="stat">{eventStats.registered}</p>
-                                    <p class="stat-info">User Registered</p>
+                                    <p className="stat">{eventStats.registered}</p>
+                                    <p className="stat-info">User Registered</p>
                                     </div>
                                     <div>
-                                    <p class="stat">{eventStats.checked_in}</p>
-                                    <p class="stat-info">Checked In</p>
+                                    <p className="stat">{eventStats.checked_in}</p>
+                                    <p className="stat-info">Checked In</p>
                                     </div>
                                 </section>  
                             </div>
@@ -373,7 +374,7 @@ const EventsHome = () => {
                                 <div className='club-event-poster-image-upload'>
                                     <img 
                                     src={preview} 
-                                    style={{ height : '280px'}} ></img>
+                                    style={{ height : '280px'}} alt='poster'></img>
                                         
                                     <div className="club-event-poster-upload-button-area">
                                     <h3> Poster </h3>
@@ -405,7 +406,7 @@ const EventsHome = () => {
                                             />
                                             { event.document1 &&
                                             <Button color='primary' variant="contained" >
-                                            <a href={document1} target='_blank' style={{'color': 'inherit'}}>
+                                            <a href={document1} rel="noopener noreferrer" target='_blank' style={{'color': 'inherit'}}>
                                                 Document-1
                                             </a>
                                             </Button>
@@ -424,7 +425,7 @@ const EventsHome = () => {
                                             />
                                             { event.document2 &&
                                              <Button color='primary' variant="contained" >
-                                             <a href={document2} target='_blank' style={{'color': 'inherit'}}>
+                                             <a href={document2} rel="noopener noreferrer" target='_blank' style={{'color': 'inherit'}}>
                                                  Document-2
                                              </a>
                                              </Button>

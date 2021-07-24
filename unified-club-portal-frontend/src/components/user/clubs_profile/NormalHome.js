@@ -6,7 +6,7 @@ import './NormalHome.css'
 import Description from './description/index'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { withStyles } from '@material-ui/core/styles';
+// import { withStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import Separator from './separator';
 import Calendar from './Calendar/Calendar';
@@ -89,6 +89,7 @@ const NormalHome = (props) => {
                     console.log(data.user)
                 }
             )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     // useEffect(() => {
