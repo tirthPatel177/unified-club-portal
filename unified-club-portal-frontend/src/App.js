@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './components/Auth/Login';
 import { PrivateRoute } from './Helpers/PrivateRoute';
 import { Dashboard } from './components/Dashboard/Dashboard';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import * as actions from './Helpers/actions/actionTypes'
 import ClubProfile from './components/user/clubs_profile/ClubProfile';
 import UserEventsPage from './components/user/events/Events'

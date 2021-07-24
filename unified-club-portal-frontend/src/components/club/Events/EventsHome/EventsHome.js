@@ -119,12 +119,30 @@ const EventsHome = () => {
        )
    }
 
+   const [eventStats, seteventStats] = useState({})
 
+
+   const fetch_event_stats = () => {
+        let formData = new FormData();
+        formData.append('id_event', id)
+        fetch("http://127.0.0.1:8000/api/club/stats_of_event", {
+            method: 'POST',
+            body: formData
+        }).then(
+            data => data.json()
+        ).then(
+            data => {
+                seteventStats(data)
+                console.log(data)
+            }
+
+        )
+   }
 
     useEffect(() => {
         console.log(id);
         fetchEventDetails();
-        
+        fetch_event_stats();
     }, [])
 
     // const data = {
@@ -142,7 +160,7 @@ const EventsHome = () => {
         const changename= e.target.name;
         const changevalue = e.target.value;
         console.log(changename, changevalue, 'Hello');
-        if(changename === 'visible'){
+        if(changename === 'visible' || changename=== 'completed'){
             setevent({...event, [changename]: e.target.checked})
         }
         else if(changename === 'poster'){
@@ -179,6 +197,7 @@ const EventsHome = () => {
             formData.append(property, event[property])
             console.log(property, event[property], formData[property]);
         }
+        formData.append('event_description', editordata)
         fetch('http://127.0.0.1:8000/api/club/event_update', {
             method: 'POST',
             body: formData
@@ -194,7 +213,7 @@ const EventsHome = () => {
                 
             }
         )
-        setTimeout(() => setactive('details'), 1500);
+        setTimeout(() => setactive('details'), 2000);
         // console.log(editordata)
     }
 
@@ -218,14 +237,16 @@ const EventsHome = () => {
                                 {event.event_title}
                             </h2>
                             <div className='by-container'>
-                                <h3>{event.date}</h3>
+                                <h3>{event.date.split('T').join(' ')}</h3>
                                 <h3>By {event.club_name}</h3>
                             </div>
                             <div className='event-poster'>
                                 <img src={event.poster} alt='event poster'></img>
                             </div>
+                            <div className='form-marginer'>
                             <div className='event-description'>
                                 {ReactHtmlParser(event.event_description)}
+                            </div>
                             </div>
                         </main>
 
@@ -241,6 +262,77 @@ const EventsHome = () => {
                         null
                         }
                         </h3>
+                        
+                        <div style={{'textAlign': 'center'}}>
+                            <h3>
+                                Extra Documents
+                            </h3>
+                        <div>
+                        { event.document1 &&
+                        <Button color='primary' variant="contained" >
+                        <a href={document1} target='_blank' style={{'color': 'inherit'}}>
+                            Document-1
+                        </a>
+                        </Button>
+                        }
+                        </div>
+                        <br />
+                        <div>
+                        { event.document2 &&
+                            <Button color='primary' variant="contained" >
+                            <a href={document2} target='_blank' style={{'color': 'inherit'}}>
+                                Document-2
+                            </a>
+                            </Button>
+                            }
+                        </div>
+                        </div>
+
+                        <div style={{'textAlign': 'center'}}>
+                        <h3>
+                            Admin Approval
+                        </h3>
+                        <Button variant="contained" 
+                        color={event.approved === 0 ? "default" : event.approved === 1 ? "primary" : "secondary"}
+                        // disabled
+                        >
+            
+                                {
+                                    event.approved === 0 ? "Pending" : event.approved === 1 ? "Approved" : "Disapproved"
+                                }
+                        </Button>
+                        </div>
+
+                        {
+                            !eventStats.data ?  
+                            <div>
+                                <h3 style={{'textAlign': 'center'}}>
+                                    Event Stats
+                                </h3>
+                                <section class="data">
+                                    <div>
+                                    <p class="stat">{eventStats.unique_views}</p>
+                                    <p class="stat-info">Unique Visitors</p>
+                                    </div>
+                                    <div>
+                                    <p class="stat">{eventStats.total_views}</p>
+                                    <p class="stat-info">Total Views</p>
+                                    </div>
+                                    <div>
+                                    <p class="stat">{eventStats.registered}</p>
+                                    <p class="stat-info">User Registered</p>
+                                    </div>
+                                    <div>
+                                    <p class="stat">{eventStats.checked_in}</p>
+                                    <p class="stat-info">Checked In</p>
+                                    </div>
+                                </section>  
+                            </div>
+                            : null
+                        }
+
+                        
+
                         </div>
                         :
                         (active === 'update') ? 
@@ -312,9 +404,11 @@ const EventsHome = () => {
                                                 onChange={handleChange}
                                             />
                                             { event.document1 &&
-                                            <a href={document1} target='_blank'>
+                                            <Button color='primary' variant="contained" >
+                                            <a href={document1} target='_blank' style={{'color': 'inherit'}}>
                                                 Document-1
                                             </a>
+                                            </Button>
                                             }
                                         </div>
                                         <div className='doc-upload'>
@@ -329,9 +423,11 @@ const EventsHome = () => {
                                                 onChange={handleChange}
                                             />
                                             { event.document2 &&
-                                            <a href={document2} target='_blank'>
-                                                Document-2
-                                            </a>
+                                             <Button color='primary' variant="contained" >
+                                             <a href={document2} target='_blank' style={{'color': 'inherit'}}>
+                                                 Document-2
+                                             </a>
+                                             </Button>
                                             }
                                         </div>
                                     </div>
@@ -376,7 +472,21 @@ const EventsHome = () => {
                                         color="primary"
                                     />
                                     }
-                                    label="Visible"
+                                    label="Make Visible to everyone"
+                                />
+                                </div>
+
+                                <div className='form-marginer'>
+                                <FormControlLabel
+                                    control={
+                                    <Checkbox
+                                        checked={event.completed ? true: false}
+                                        onChange={handleChange}
+                                        name="completed"
+                                        color="primary"
+                                    />
+                                    }
+                                    label="Completed?"
                                 />
                                 </div>
 
@@ -426,7 +536,7 @@ const EventsHome = () => {
 
 export default function IntegrationNotistack() {
     return (
-      <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
         <EventsHome />
       </SnackbarProvider>
     );
