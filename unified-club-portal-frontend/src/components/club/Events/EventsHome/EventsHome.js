@@ -21,7 +21,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import TextField from '@material-ui/core/TextField';
 import CheckIn from './CheckIn';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const labels = {
   0.5: 'Useless',
@@ -75,7 +75,7 @@ const EventsHome = () => {
 
     const [checkin, setcheckin] = useState([])
 
-    
+    const [isloading, setisloading] = useState(true);
 
     const fetchEventDetails = () => {
         let formData = new FormData();
@@ -97,6 +97,10 @@ const EventsHome = () => {
             }
         ).then( (data) =>
             fetchRegistered(data.event_title)
+        ).then(
+            setTimeout(() => {
+                setisloading(false);
+            }, 400)
         )
     }
 
@@ -200,214 +204,220 @@ const EventsHome = () => {
         <Navbar />
         <div className='marginer'>
             <div className='event-home-card'>
-                <EventsNav active={active} setactive={setactive}/>
-                {   (active === 'details') ?
+                {
+                    isloading ?
+                    <div style={{ margin: '0 auto', 'textAlign' : 'center'}}>
+                    <CircularProgress />
+                    </div> :
                     <div>
-                    <main>
-                        <h2 className='event-title'>
-                            {event.event_title}
-                        </h2>
-                        <div className='by-container'>
-                            <h3>{event.date}</h3>
-                            <h3>By {event.club_name}</h3>
-                        </div>
-                        <div className='event-poster'>
-                            <img src={event.poster} alt='event poster'></img>
-                        </div>
-                        <div className='event-description'>
-                            {ReactHtmlParser(event.event_description)}
-                        </div>
-                    </main>
-
-                    <h3 className='register-heading'>
-                    { event.rating ?
-                    <Box component="fieldset" mb={3} borderColor="transparent">
-                        <Typography component="legend"  >Average Rating</Typography>
-                        <Rating name="simple-controlled" 
-                        value={event.rating} 
-                        precision={0.5}
-                        readOnly />
-                    </Box>:
-                    null
-                    }
-                    </h3>
-                    </div>
-                    :
-                    (active === 'update') ? 
-                    <div >
-                        <h2 className='club-event-welcome'>
-                            Update Event
-                        </h2>
-                        <form className='club-event-form'>
-                            <div className='form-marginer'>
-                                <FormControl >
-                                    <InputLabel htmlFor="title">Event Title</InputLabel>
-                                    <Input name='event_title' id="title" 
-                                    value={event.event_title} 
-                                    onChange={handleChange}  
-                                    required/>
-                                </FormControl>
+                    <EventsNav active={active} setactive={setactive}/>
+                    {   (active === 'details') ?
+                        <div>
+                        <main>
+                            <h2 className='event-title'>
+                                {event.event_title}
+                            </h2>
+                            <div className='by-container'>
+                                <h3>{event.date}</h3>
+                                <h3>By {event.club_name}</h3>
                             </div>
-                            
-                            <h4> Description </h4>
-
-                                <CKEditor
-                                    name='description'
-                                    editor={ ClassicEditor }
-                                    data={editordata}
-                                    onReady={ editor => {
-                                        // You can store the "editor" and use when it is needed.
-                                        console.log( 'Editor is ready to use!', editor );
-                                    } }
-                                    onChange={ ( event, editor ) => {
-                                        const data = editor.getData();
-                                        // console.log( { event, editor, data } );
-                                        seteditordata(data);
-                                    } }
-                                />
-
-                            
-
-                            <div className='club-event-poster-image-upload'>
-                                <img 
-                                src={preview} 
-                                style={{ height : '280px'}} ></img>
-                                    
-                                <div className="club-event-poster-upload-button-area">
-                                <h3> Poster </h3>
-                                <input 
-                                    type="file" 
-                                    accept=".png, .jpg, .jpeg" 
-                                    id="photo" 
-                                    name='poster'
-                                    className="club-event-poster-upload-button"
-                                    onChange={handleChange}
-                                />
-                                </div>
+                            <div className='event-poster'>
+                                <img src={event.poster} alt='event poster'></img>
                             </div>
-
-
-                            <div className="club-event-poster-upload-button-area">
-                                <h4 style={{'textAlign' : 'center'}}> Extra Documents </h4>
-                                <div className='doc-upload-continer-update'>
-                                    <div className='doc-upload'>
-                                        <label htmlFor="document1">Document 1</label>
-                                        <br />
-                                        <input 
-                                            type="file" 
-                                            // accept=".png, .jpg, .jpeg" 
-                                            id="document1" 
-                                            name='document1'
-                                            className="club-event-poster-upload-button"
-                                            onChange={handleChange}
-                                        />
-                                        { event.document1 &&
-                                        <a href={document1} target='_blank'>
-                                            Document-1
-                                        </a>
-                                        }
-                                    </div>
-                                    <div className='doc-upload'>
-                                        <label htmlFor="document1">Document 2</label>
-                                        <br />
-                                        <input 
-                                            type="file" 
-                                            // accept=".png, .jpg, .jpeg" 
-                                            id="document2" 
-                                            name='document2'
-                                            className="club-event-poster-upload-button"
-                                            onChange={handleChange}
-                                        />
-                                        { event.document2 &&
-                                        <a href={document2} target='_blank'>
-                                            Document-2
-                                        </a>
-                                        }
-                                    </div>
-                                </div>
+                            <div className='event-description'>
+                                {ReactHtmlParser(event.event_description)}
                             </div>
+                        </main>
 
-                            <div className='form-marginer'>
-                                {/* <TextField
-                                    name='datetime-local'
-                                    value={event.date}
-                                    id="datetime-local"
-                                    label="Event Date"
-                                    type="datetime-local"
-                                    // defaultValue="2017-05-24"
-                                    className={classes.textField}
-                                    onChange={handleChange}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                /> */}
-                                <TextField
-                                    name='date'
-                                    id="datetime-local"
-                                    label="Event Date"
-                                    type="datetime-local"
-                                    value={event.date}
-                                    // defaultValue="2017-05-24T10:30"
-                                    className={classes.textField}
-                                    onChange={handleChange}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                />
-                            </div>
-
-                            <div className='form-marginer'>
-                            <FormControlLabel
-                                control={
-                                <Checkbox
-                                    checked={event.visible ? true: false}
-                                    onChange={handleChange}
-                                    name="visible"
-                                    color="primary"
-                                />
-                                }
-                                label="Visible"
-                            />
-                            </div>
-
-                            <div className='club-event-create-container'>
-                            <Button variant="contained" color="primary" 
-                            onClick={handleSubmit}
-                            >
-                                Update Event
-                            </Button>
-                            </div>
-                            
-                            
-                            
-                        </form>
-                    </div>
-                    :
-                    <div className='margin-checkin'>
-                        <h2 className='club-event-welcome'>
-                            Registered Participants
-                        </h2>
-                        <div className='table-header'>
-                            <p className='one'>
-                                User
-                            </p>
-                            <p className='two'>
-                                Checked-in?
-                            </p>
-                        </div>
-                        {
-                            checkin.map(checkit =>{
-                                
-                                return <CheckIn checkin={checkit} id_event={id}/>
-                            })
+                        <h3 className='register-heading'>
+                        { event.rating ?
+                        <Box component="fieldset" mb={3} borderColor="transparent">
+                            <Typography component="legend"  >Average Rating</Typography>
+                            <Rating name="simple-controlled" 
+                            value={event.rating} 
+                            precision={0.5}
+                            readOnly />
+                        </Box>:
+                        null
                         }
+                        </h3>
+                        </div>
+                        :
+                        (active === 'update') ? 
+                        <div >
+                            <h2 className='club-event-welcome'>
+                                Update Event
+                            </h2>
+                            <form className='club-event-form'>
+                                <div className='form-marginer'>
+                                    <FormControl >
+                                        <InputLabel htmlFor="title">Event Title</InputLabel>
+                                        <Input name='event_title' id="title" 
+                                        value={event.event_title} 
+                                        onChange={handleChange}  
+                                        required/>
+                                    </FormControl>
+                                </div>
+                                
+                                <h4> Description </h4>
+
+                                    <CKEditor
+                                        name='description'
+                                        editor={ ClassicEditor }
+                                        data={editordata}
+                                        onReady={ editor => {
+                                            // You can store the "editor" and use when it is needed.
+                                            console.log( 'Editor is ready to use!', editor );
+                                        } }
+                                        onChange={ ( event, editor ) => {
+                                            const data = editor.getData();
+                                            // console.log( { event, editor, data } );
+                                            seteditordata(data);
+                                        } }
+                                    />
+
+                                
+
+                                <div className='club-event-poster-image-upload'>
+                                    <img 
+                                    src={preview} 
+                                    style={{ height : '280px'}} ></img>
+                                        
+                                    <div className="club-event-poster-upload-button-area">
+                                    <h3> Poster </h3>
+                                    <input 
+                                        type="file" 
+                                        accept=".png, .jpg, .jpeg" 
+                                        id="photo" 
+                                        name='poster'
+                                        className="club-event-poster-upload-button"
+                                        onChange={handleChange}
+                                    />
+                                    </div>
+                                </div>
+
+
+                                <div className="club-event-poster-upload-button-area">
+                                    <h4 style={{'textAlign' : 'center'}}> Extra Documents </h4>
+                                    <div className='doc-upload-continer-update'>
+                                        <div className='doc-upload'>
+                                            <label htmlFor="document1">Document 1</label>
+                                            <br />
+                                            <input 
+                                                type="file" 
+                                                // accept=".png, .jpg, .jpeg" 
+                                                id="document1" 
+                                                name='document1'
+                                                className="club-event-poster-upload-button"
+                                                onChange={handleChange}
+                                            />
+                                            { event.document1 &&
+                                            <a href={document1} target='_blank'>
+                                                Document-1
+                                            </a>
+                                            }
+                                        </div>
+                                        <div className='doc-upload'>
+                                            <label htmlFor="document1">Document 2</label>
+                                            <br />
+                                            <input 
+                                                type="file" 
+                                                // accept=".png, .jpg, .jpeg" 
+                                                id="document2" 
+                                                name='document2'
+                                                className="club-event-poster-upload-button"
+                                                onChange={handleChange}
+                                            />
+                                            { event.document2 &&
+                                            <a href={document2} target='_blank'>
+                                                Document-2
+                                            </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className='form-marginer'>
+                                    {/* <TextField
+                                        name='datetime-local'
+                                        value={event.date}
+                                        id="datetime-local"
+                                        label="Event Date"
+                                        type="datetime-local"
+                                        // defaultValue="2017-05-24"
+                                        className={classes.textField}
+                                        onChange={handleChange}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                    /> */}
+                                    <TextField
+                                        name='date'
+                                        id="datetime-local"
+                                        label="Event Date"
+                                        type="datetime-local"
+                                        value={event.date}
+                                        // defaultValue="2017-05-24T10:30"
+                                        className={classes.textField}
+                                        onChange={handleChange}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                    />
+                                </div>
+
+                                <div className='form-marginer'>
+                                <FormControlLabel
+                                    control={
+                                    <Checkbox
+                                        checked={event.visible ? true: false}
+                                        onChange={handleChange}
+                                        name="visible"
+                                        color="primary"
+                                    />
+                                    }
+                                    label="Visible"
+                                />
+                                </div>
+
+                                <div className='club-event-create-container'>
+                                <Button variant="contained" color="primary" 
+                                onClick={handleSubmit}
+                                >
+                                    Update Event
+                                </Button>
+                                </div>
+                                
+                                
+                                
+                            </form>
+                        </div>
+                        :
+                        <div className='margin-checkin'>
+                            <h2 className='club-event-welcome'>
+                                Registered Participants
+                            </h2>
+                            <div className='table-header'>
+                                <p className='one'>
+                                    User
+                                </p>
+                                <p className='two'>
+                                    Checked-in?
+                                </p>
+                            </div>
+                            {
+                                checkin.map(checkit =>{
+                                    
+                                    return <CheckIn checkin={checkit} id_event={id}/>
+                                })
+                            }
+                        </div>
+
+                    }
                     </div>
-
-            }
-                
-                 
+            }     
             </div>
-
+            
         </div>
     
         </div>

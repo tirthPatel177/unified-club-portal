@@ -3,6 +3,7 @@ import About from "./about/index";
 // import Work from "./work/index";
 import Header from "./../header/index";
 import './NormalHome.css'
+import Calendar from './Calendar/Calendar';
 import Description from './description/index'
 
 const NormalHome = (props) => {
@@ -20,8 +21,8 @@ const NormalHome = (props) => {
             <section id='description'>
                 <Description club={props.club}/>
             </section>
-            <section id='contact'>
-
+            <section id='calendar'>
+                <Calendar club={props.club.title}/>
             </section>
             </div>
         </div>

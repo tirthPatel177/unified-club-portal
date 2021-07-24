@@ -1,0 +1,28 @@
+.section-title {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.calander-container {
+    font-size: 15px;
+}
+
+
+@media only screen and (max-width: 1000px)  {
+    .calander-container {
+        font-size: 13px;
+    }
+}
+
+
+@media only screen and (max-width: 600px)  {
+    .calander-container {
+        font-size: 11px;
+    }
+}
+
+@media only screen and (max-width: 350px)  {
+    .calander-container {
+        font-size: 9px;
+    }
+}
