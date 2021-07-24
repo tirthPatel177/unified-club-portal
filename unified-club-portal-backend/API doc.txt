@@ -16,7 +16,7 @@ parameters(Form-Data) : token
 (4) profile_club_create: To create or Update the profile of a user
 URL = http://127.0.0.1:8000/api/club/profile_club_create
 Type = "POST"
-parameters(Form-Data) : token, title, description, profile_image, tag_line
+parameters(Form-Data) : token, title, description, profile_image, tag_line, old_title
 
 (5) Club_all: To get the data of all the clubs
 URL = http://127.0.0.1:8000/api/club/clubs_all

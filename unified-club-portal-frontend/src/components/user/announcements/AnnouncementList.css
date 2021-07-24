@@ -8,3 +8,9 @@
     width: 100%; 
     
 }
+
+.pagination-container {
+    margin: 5% auto;
+    /* position: absolute;
+    bottom: 0; */
+}

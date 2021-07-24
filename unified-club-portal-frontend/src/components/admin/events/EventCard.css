@@ -41,9 +41,9 @@
     margin-top: 2px;
 }
 
-.center-response{
+/* .center-response{
     text-align: center;
-}
+} */
 
 @media(max-width: 600px){
     .club_profile_pic{
@@ -82,6 +82,7 @@
 
 .card-links {
     text-decoration: none;
+    color: inherit;
 }
 
 .card-links:active {

@@ -24,6 +24,7 @@ const HomeEdit = (props) => {
         }
     )
 
+    const [old_title, setold_title] = useState('')
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -50,6 +51,7 @@ const HomeEdit = (props) => {
                 setclubDetails(data);
                 // props.setUser(data.type_of_user)
                 setPreview(data.profile)
+                setold_title(data.title)
             }
         ).catch(e => console.log(e))
     }
@@ -91,6 +93,7 @@ const HomeEdit = (props) => {
 
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
+        formData.append('old_title', old_title);
         for (const property in clubDetails) {
             formData.append(property, clubDetails[property])
             console.log(property, clubDetails[property], formData[property]);
