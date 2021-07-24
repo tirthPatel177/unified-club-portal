@@ -22,6 +22,7 @@ import UserClubEvents from './components/user/ClubEvents/EventList'
 import ClubEventsHome from './components/club/Events/EventsHome/EventsHome'
 import AdminAnnouncements from './components/admin/announcements/AnnouncementList'
 import AdminClubProfile from './components/admin/clubHome/ClubProfile'
+import AdminEditProfile from './components/admin/EditClubProfile/HomeEdit'
 
 
 function App() {
@@ -54,27 +55,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* {
-        !user ? (
-          <Login />
-        ):( 
-          user === 'admin' ? (
-            <div className="admin_user">
-              <h2>Welcome Admin</h2>
-            </div>
-          ) : (
-            user === 'club' ? (
-              <div className="club_user">
-                <h2>Welcome club</h2>
-              </div>
-            ) : (
-              <div className="normal_user">
-                <h2>Welcome Normal User</h2>
-              </div>
-            )
-          )
-        )
-      } */}
       <Router>
       <Switch>
         <PrivateRoute exact path='/' component={Dashboard}/>
@@ -100,6 +80,7 @@ function App() {
         <PrivateRoute exact path='/admin/events/:id' component={AdminEventsHome} />
         <PrivateRoute exact path='/admin/announcements' component={AdminAnnouncements} />
         <PrivateRoute exact path='/admin/club-profiles/:club' component={AdminClubProfile} />
+        <PrivateRoute exact path='/admin/:club/edit-profile' component={AdminEditProfile} />
       </Switch>
     </Router>
     </div>

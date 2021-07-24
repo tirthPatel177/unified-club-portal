@@ -1,12 +1,21 @@
 .admin-list-events {
     margin: auto;
-    width: 72%;
+    width: 90%;
     display: flex;
     flex-direction: column;
 }
 
 
 .pagination-container {
-    display: block;
+    /* display: block; */
     margin: 5% auto;
+}
+
+@media(max-width: 600px){
+    .admin-list-events {
+        margin: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 }

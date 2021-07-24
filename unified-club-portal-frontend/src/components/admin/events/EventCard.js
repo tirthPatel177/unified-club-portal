@@ -1,4 +1,6 @@
 import React from 'react'
+import Button from '@material-ui/core/Button';
+import './EventCard.css'
 
 const EventCard = ({event}) => {
 
@@ -15,12 +17,16 @@ const EventCard = ({event}) => {
                 <span className="card-event-date">{event.date.split('T').join(' ')}</span>
             </div>
             </a>
-            <div>
-                <h2>
+            <div className='center-response'>
+            <Button variant="contained" 
+            color={event.approved === 0 ? "default" : event.approved === 1 ? "primary" : "secondary"}
+            // disabled
+            >
+  
                     {
                         event.approved === 0 ? "Pending" : event.approved === 1 ? "Approved" : "Disapproved"
                     }
-                </h2>
+            </Button>
             </div>
         </div>
     )

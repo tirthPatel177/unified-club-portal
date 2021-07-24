@@ -49,7 +49,7 @@ const Events = () => {
     return (
         <div>
             <Navbar />
-
+            <div className='club-home'>
             <div className='admin-list-events'>
                     {
                         events.slice((page - 1) * itemsPerPage, page * itemsPerPage).map( event => 
@@ -59,6 +59,7 @@ const Events = () => {
                         )
                     }
             </div>
+
             <div className='pagination-container'>
                     <Pagination count={noOfPages} page={page} 
                     color="primary"
@@ -67,6 +68,7 @@ const Events = () => {
                     showLastButton
                     onChange={(event, value) => {setPage(value)}} />
                     
+            </div>
             </div>
         </div>
     )

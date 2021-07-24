@@ -14,15 +14,14 @@ function Mobile({ isOpen, setIsOpen, title }) {
       </div>
       <div className="mobile-options">
         <div className="mobile-option">
-          <a href={"/user/" + club + "/events"}>
-            Events
-          </a>
+        <a href={"/admin/club-profiles/" + club}>
+          Profile
+        </a>
         </div>
         <div className="mobile-option">
-          <a href={"/user/"+ club +"/announcements"}>
-            {" "}
-            Announcements
-          </a>
+        <a href={"/admin/"+ club + "/edit-profile"}>
+          Edit Profile
+        </a>
         </div>
         {/* <div className="mobile-option">
           <a href="#contact">

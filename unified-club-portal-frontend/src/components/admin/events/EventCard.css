@@ -1,6 +1,6 @@
 .card_event{
     /* text-align: center; */
-    background-color: rgba(89, 209, 218, 0.1);
+    background-color: rgba(108, 227, 238, 0.1);
     border-radius: 10px;
     width: 80%;
     height: 100%;
@@ -16,9 +16,9 @@
     border-radius: 10px 10px 0px 0px;
 }
 
-.card_event :hover {
+/* .card_event :hover {
     background-color: white;
-}
+} */
 
 .card-event-title{
     margin-left: 23px;
@@ -39,6 +39,10 @@
     height: 30px;
     border-radius: 20px;
     margin-top: 2px;
+}
+
+.center-response{
+    text-align: center;
 }
 
 @media(max-width: 600px){

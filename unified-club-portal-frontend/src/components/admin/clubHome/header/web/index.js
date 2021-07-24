@@ -8,17 +8,17 @@ function Web() {
   return (
     <div className="web">
       <div className="web-option">
-        <a href={"/user/" + club + "/events"}>
-          Events
+        <a href={"/admin/club-profiles/" + club}>
+          Profile
         </a>
       </div>
       <div className="web-option">
-        <a href={"/user/"+ club +"/announcements"}>
-          Announcements
+        <a href={"/admin/"+ club + "/edit-profile"}>
+          Edit Profile
         </a>
       </div>
       {/* <div className="web-option">
-        <a href="#contact">
+        <a href="/contact">
           Contact
         </a>
       </div> */}
