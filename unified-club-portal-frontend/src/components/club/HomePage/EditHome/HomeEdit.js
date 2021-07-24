@@ -10,6 +10,7 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from "react-router-dom";
 import Navbar from '../../NavBar/Navbar';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 
 const HomeEdit = (props) => {
@@ -22,6 +23,15 @@ const HomeEdit = (props) => {
             profile: ''
         }
     )
+
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
 
     let history = useHistory();
 
@@ -74,7 +84,11 @@ const HomeEdit = (props) => {
         console.log(clubDetails.name)
     };
 
+    const [submited, setsubmited] = useState(false)
+
     const handleSubmit = () => {
+        let iserror = false;
+
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         for (const property in clubDetails) {
@@ -87,13 +101,34 @@ const HomeEdit = (props) => {
             method: 'POST',
             body: formData
         }).then( data => data.json()).then(
-
-            data => {console.log(data)
-            // <Redirect to='/' />
-            history.push('/');
+            data => {
+                if(data.success){
+                    handleClickVariant('success', data.success)()
+                }else if(data.error){
+                    handleClickVariant('error', data.error)()
+                    iserror = true;
+                }else{
+                    for (const property in data){
+                        handleClickVariant('error', data[property])()
+                    }
+                    iserror = true;
+                }
+                
+            }
+        )
+        if(iserror){
+            console.log("It")
+            return;
         }
-        );
+        setsubmited(true);
     }
+
+    useEffect( () => {
+        if(submited === true){
+        const timer = setTimeout(() => history.push(``), 1500);
+        return () => clearTimeout(timer);
+        }
+    }, [submited])
 
     return (
         <div>
@@ -157,4 +192,10 @@ const HomeEdit = (props) => {
     )
 }
 
-export default HomeEdit
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
+        <HomeEdit />
+      </SnackbarProvider>
+    );
+  }

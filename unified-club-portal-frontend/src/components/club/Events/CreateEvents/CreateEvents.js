@@ -94,6 +94,7 @@ const CreateEvents = () => {
 
     const handleSubmit =  async () => {
 
+        let iserror = false;
         // sendData();
         if(event.event_title === ''){
             handleClickVariant('error', "Event Title is Required!")()
@@ -119,19 +120,26 @@ const CreateEvents = () => {
                     handleClickVariant('success', data.success)()
                 }else if(data.error){
                     handleClickVariant('error', data.error)()
+                    iserror = true;
                 }else{
-                    handleClickVariant('error', data)()
+                    for (const property in data){
+                        handleClickVariant('error', data[property])()
+                    }
+                    iserror = true;
                 }
                 
             }
         )
+        if(!iserror){
+            setsubmited(true);
+        }
         // console.log(editordata)
-        setsubmited(true);
+        
     }
 
     useEffect( () => {
         if(submited === true){
-        const timer = setTimeout(() => history.push(`/club/${club}/events`), 2500);
+        const timer = setTimeout(() => history.push(`/club/${club}/events`), 1500);
         return () => clearTimeout(timer);
         }
     }, [submited])
@@ -306,7 +314,7 @@ const CreateEvents = () => {
 
 export default function IntegrationNotistack() {
     return (
-      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
         <CreateEvents />
       </SnackbarProvider>
     );

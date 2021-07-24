@@ -1,14 +1,25 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import Header from '../HomePage/header/index'
 import Navbar from './../NavBar/Navbar'
 import AnnouncementCard from './AnnouncementCard'
 import './AnnouncementList.css'
 import { Button } from '@material-ui/core';
+import Pagination from "@material-ui/lab/Pagination";
+import { useMediaQuery } from 'react-responsive'
 
 const AnnouncementList = () => {
 
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
+
     const history = useHistory();
+
+    const itemsPerPage = 5;
+    const [page, setPage] = useState(1);
+    const [noOfPages, setNoOfPages] = useState(
+        // Math.ceil(projectsList.length / itemsPerPage)
+        1
+    );
 
     const [data, setdata] = useState([])
 
@@ -38,6 +49,19 @@ const AnnouncementList = () => {
         
       }, [])
 
+      const isFirstRender = useRef(0)
+
+      useEffect(() => {
+        if (isFirstRender.current === 0) {
+            isFirstRender.current = 1
+            return;
+        }else if(isFirstRender.current === 1){
+            setNoOfPages(Math.ceil(data.length / itemsPerPage))
+            // console.log('Something Happened')
+        }
+
+    }, [data])
+
     return (
         <div>
             <Navbar />
@@ -50,13 +74,21 @@ const AnnouncementList = () => {
                 </div>
                 <div className='announcement-list'>
                 {
-                    data.map(announcement => {
+                    data.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(announcement => {
                         // Unique identifer to acnnouncement
-                        return <div className='announcement-space'>
-                            <AnnouncementCard details={announcement} />
+                        return <div className='announcement-space' key={`${announcement.title} ${announcement.date_srt}`}>
+                            <AnnouncementCard details={announcement}  />
                             </div>
                     })
                 }
+                </div>
+                <div className='pagination-container'>
+                    <Pagination count={noOfPages} page={page} 
+                    color="primary"
+                    size={isTabletOrMobile ? 'medium' : 'large'}
+                    showFirstButton
+                    showLastButton
+                    onChange={(event, value) => {setPage(value)}} />
                 </div>
             </div>
         </div>

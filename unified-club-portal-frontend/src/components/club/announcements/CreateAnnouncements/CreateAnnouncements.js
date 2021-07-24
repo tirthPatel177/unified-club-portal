@@ -91,7 +91,9 @@ const CreateAnnouncements = () => {
                 }else if(data.error){
                     handleClickVariant('error', data.error)()
                 }else{
-                    handleClickVariant('error', data)()
+                    for (const property in data){
+                    handleClickVariant('error', data[property])()
+                    }
                 }
                 
             }
@@ -158,7 +160,7 @@ const CreateAnnouncements = () => {
                         {
                         // ListEvents()
                         events.map((event) => {
-                               return <MenuItem value={event.event_title}>{event.event_title}</MenuItem>
+                               return <MenuItem key={event.event_title} value={event.event_title}>{event.event_title}</MenuItem>
                             }
                         )
                     }

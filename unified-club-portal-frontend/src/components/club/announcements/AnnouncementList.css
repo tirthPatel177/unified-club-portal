@@ -13,3 +13,7 @@
     text-align: center;
     /* z-index: 1 !important; */
 }
+
+.pagination-container{
+    margin: 5% auto;
+}
