@@ -14,7 +14,7 @@ const Calendar = ({club}) => {
     
 
     const fetchEvents = () => {
-        fetch(`http://127.0.0.1:8000/api/club/events_club_cal/${club}`, {
+        fetch(`http://127.0.0.1:8000/api/club/events_club_cal/${club.split(' ').join('-')}`, {
             method: 'GET'
         }).then(
             data => data.json()

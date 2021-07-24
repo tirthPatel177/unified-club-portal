@@ -22,7 +22,7 @@ const NormalHome = (props) => {
                 <Description club={props.club}/>
             </section>
             <section id='calendar'>
-                <Calendar club={props.club.title}/>
+                <Calendar club={props.clubtitle}/>
             </section>
             </div>
         </div>
