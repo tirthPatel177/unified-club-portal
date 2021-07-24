@@ -196,6 +196,7 @@ class club_data_create(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def post(self, request):
         try:
+            old_title = request.data["old_title"]
             token = request.data["token"]
             title = request.data["title"]
             desc = request.data["description"]
@@ -203,9 +204,9 @@ class club_data_create(APIView):
             
             tag_line = request.data["tag_line"]
             
-            user = Token.objects.get(key=token).user
+            # user = Token.objects.get(key=token).user
 
-            obj = Club_profile.objects.get(user=user)
+            obj = Club_profile.objects.get(title=old_title)
 
             obj.title = title
             obj.description = desc
