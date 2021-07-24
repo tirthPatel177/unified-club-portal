@@ -9,10 +9,17 @@ import {
     ChartCategoryAxisTitle,
     ChartCategoryAxisItem,
   } from "@progress/kendo-react-charts";
+import "hammerjs";
 
 const ClubStats = ({club}) => {
 
-    const [stats, setstats] = useState('');
+    const [stats, setstats] = useState({
+        club_val: [],
+    }
+    );
+
+
+    const [isloading, setisloading] = useState(true)
 
     const fetchStats = () => {
         let fromData = new FormData();
@@ -25,6 +32,7 @@ const ClubStats = ({club}) => {
         ).then(
             data => {setstats(data)
                 console.log(data)
+                setTimeout(setisloading(false), 500)
             }
         )
     }
@@ -33,10 +41,18 @@ const ClubStats = ({club}) => {
         fetchStats();
     }, [])
 
+    
+
     return (
         <div>
             <Separator />
             <label className="section-title">Club Stats</label>
+            <div className='my-app'>
+                { isloading ? null :
+                    <div>
+                    </div>
+                }   
+            </div>
         </div>
     )
 }
