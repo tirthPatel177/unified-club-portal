@@ -57,7 +57,7 @@ const ClubCard = ({club}) => {
         
         <Card className={isMobile ? mobileClasses.root : classes.root}>
             <CardActionArea>
-            <a className="card-links" href={'/user/club-profiles/'+ get_title(club.title)}>
+            <a className="card-links" href={'/admin/club-profiles/'+ get_title(club.title)}>
                 <CardMedia
                     component="img"
                     alt={club.title}

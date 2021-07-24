@@ -5,3 +5,8 @@
     flex-direction: column;
 }
 
+
+.pagination-container {
+    display: block;
+    margin: 5% auto;
+}

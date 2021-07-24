@@ -21,6 +21,7 @@ import AdminEventsHome from './components/admin/EventHome/EventHome'
 import UserClubEvents from './components/user/ClubEvents/EventList'
 import ClubEventsHome from './components/club/Events/EventsHome/EventsHome'
 import AdminAnnouncements from './components/admin/announcements/AnnouncementList'
+import AdminClubProfile from './components/admin/clubHome/ClubProfile'
 
 
 function App() {
@@ -78,7 +79,7 @@ function App() {
       <Switch>
         <PrivateRoute exact path='/' component={Dashboard}/>
         <Route exact path='/login' component={Login}/>
-        {/* <Route exact path='/club-profiles/:club' component={ClubProfile}/> */}
+
         <PrivateRoute exact path='/user/club-profiles/:club' component={ClubProfile} />
         <PrivateRoute exact path='/user/events' component={UserEventsPage} />
         <PrivateRoute exact path='/user/:club/announcements' component={UserAnnouncementsPage} />
@@ -98,6 +99,7 @@ function App() {
         <PrivateRoute exact path='/admin/events' component={AdminEvents} />
         <PrivateRoute exact path='/admin/events/:id' component={AdminEventsHome} />
         <PrivateRoute exact path='/admin/announcements' component={AdminAnnouncements} />
+        <PrivateRoute exact path='/admin/club-profiles/:club' component={AdminClubProfile} />
       </Switch>
     </Router>
     </div>
