@@ -88,10 +88,10 @@ const EventHome = () => {
     // }
 
     useEffect(() => {
-        console.log(id);
+        // console.log(id);
         fetchEventDetails();
         // checkReg();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // const data = {

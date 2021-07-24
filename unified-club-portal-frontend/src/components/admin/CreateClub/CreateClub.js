@@ -8,9 +8,6 @@ import Input from '@material-ui/core/Input';
 import { Button } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField';
 
-const limitwidth = {
-    "max-width": 300,
-}
 
 
 const CreateClub = () => {
@@ -118,7 +115,7 @@ const CreateClub = () => {
 
                     {/* <div className='form-marginer'> */}
                         <div className='club-profile-image-upload'>
-                        {preview ? <img src={preview} style={{ height : '280px'}} ></img> : null}
+                        {preview ? <img src={preview} style={{ height : '280px'}} alt='club-profile'></img> : null}
                             
                             <div className="club-image-upload-button-area">
                                 <h3> Profile Photo </h3>

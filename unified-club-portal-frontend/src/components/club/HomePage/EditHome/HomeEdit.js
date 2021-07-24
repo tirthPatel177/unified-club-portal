@@ -61,7 +61,8 @@ const HomeEdit = (props) => {
         // console.log(user);
         let token = localStorage.getItem('token');
         fetchdetails(token);
-        console.log("tHIS Page")
+        // console.log("tHIS Page")
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     
@@ -132,6 +133,7 @@ const HomeEdit = (props) => {
         const timer = setTimeout(() => history.push(``), 1500);
         return () => clearTimeout(timer);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submited])
 
     return (
@@ -146,7 +148,7 @@ const HomeEdit = (props) => {
                 <h2 className='edit-profile-welcome'>Edit Profile</h2>
             <form className='club-profile-form'>
                 <div className='club-profile-image-upload'>
-                    <img src={preview} style={{ height : '280px'}} ></img>
+                    <img src={preview} style={{ height : '280px'}} alt='poster' ></img>
                         
                     <div className="club-image-upload-button-area">
                     <h3> Profile Photo </h3>

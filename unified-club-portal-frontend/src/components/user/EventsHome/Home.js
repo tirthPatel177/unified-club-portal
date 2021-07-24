@@ -59,7 +59,7 @@ const Home = () => {
         }
     )
 
-    let averageRating = 0;
+    // let averageRating = 0;
 
     const [isreg, setisreg] = useState(false);
 
@@ -79,7 +79,7 @@ const Home = () => {
 
 
     const handleSubmit = () => {
-        let iserror = false
+        // let iserror = false
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('id_event', id);
@@ -109,12 +109,12 @@ const Home = () => {
                     handleClickVariant('success', data.success)()
                 }else if(data.error){
                     handleClickVariant('error', data.error)()
-                    iserror = true;
+                    // iserror = true;
                 }else{
                     for (const property in data){
                         handleClickVariant('error', data[property])()
                     }
-                    iserror = true;
+                    // iserror = true;
                 }
                 
             }
@@ -133,8 +133,8 @@ const Home = () => {
             body: formData
         }).then( data => data.json()).then(
             data => {setevent(data)
-                console.log(typeof(data.rating))
-                averageRating = data.rating;
+                // console.log(typeof(data.rating))
+                // averageRating = data.rating;
             }
         )
     }
@@ -183,6 +183,9 @@ const Home = () => {
                 
             }
         )
+        if(iserror){
+            return;
+        }
         setisreg(!isreg)
     }
 
@@ -201,6 +204,7 @@ const Home = () => {
         fetchEventDetails();
         checkReg();
         update_views();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // const data = {
@@ -214,7 +218,7 @@ const Home = () => {
     // }
 
     const handleRatingSubmit = () => {
-        let iserror = false;
+        // let iserror = false;
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('event_title', event.event_title);
@@ -228,16 +232,17 @@ const Home = () => {
                     handleClickVariant('success', data.success)()
                 }else if(data.error){
                     handleClickVariant('error', data.error)()
-                    iserror = true;
+                    // iserror = true;
                 }else{
                     for (const property in data){
                         handleClickVariant('error', data[property])()
                     }
-                    iserror = true;
+                    // iserror = true;
                 }
                 
             }
         )
+        
 
     }
 

@@ -37,7 +37,7 @@ const AnnouncementList = () => {
 
         }).then( dataapi => dataapi.json()).then(
             dataapi => {
-                console.log(dataapi);
+                // console.log(dataapi);
                 setdata(dataapi);
             }
         ).catch(e => console.log(e))
@@ -46,7 +46,7 @@ const AnnouncementList = () => {
       useEffect(() => {
         
         fetchannouncements();
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
 
       const isFirstRender = useRef(0)
@@ -59,7 +59,7 @@ const AnnouncementList = () => {
             setNoOfPages(Math.ceil(data.length / itemsPerPage))
             // console.log('Something Happened')
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     return (

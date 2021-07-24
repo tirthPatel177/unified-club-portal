@@ -29,9 +29,9 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const fetchdetails = async (token) => {
+  const fetchdetails = () => {
     let formData = new FormData();
-    formData.append("token", token);
+    formData.append("token", localStorage.getItem("token"))
     fetch('http://localhost:8000/api/user/get_info', {
         method: "POST",
         body: formData
@@ -46,11 +46,10 @@ function App() {
 
   useEffect( () => {
     if(localStorage.getItem("token")){
-        fetchdetails(localStorage.getItem("token"));
-        console.log("HElll Yah")
+        fetchdetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  // const user = useSelector( state => state.type_of_user)
 
 
   return (

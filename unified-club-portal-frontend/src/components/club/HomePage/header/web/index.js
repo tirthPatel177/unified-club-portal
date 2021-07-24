@@ -1,5 +1,5 @@
 import React from "react";
-import Edit from "../../Edit";
+// import Edit from "../../Edit";
 import "./web.css";
 import {useParams} from 'react-router-dom'
 function Web(props) {

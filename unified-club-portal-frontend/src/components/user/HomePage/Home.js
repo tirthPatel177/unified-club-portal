@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
 import ClubCard from './ClubCard';
 import Navbar from '../NavBar/Navbar';
 import './Home.css'
@@ -23,7 +21,8 @@ const Home = () => {
 
     useEffect(() => {
         get_clubs();
-        console.log(clubs);
+        // console.log(clubs);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // const selected_club = (title) => {

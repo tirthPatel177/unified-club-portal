@@ -10,6 +10,7 @@ const CheckIn = (props) => {
 
     useEffect(() => {
         console.log(`${props.checkin.first_name} ${props.checkin.last_name}`)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const handleChange = () => {

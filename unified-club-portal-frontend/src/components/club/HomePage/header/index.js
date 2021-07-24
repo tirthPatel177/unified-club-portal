@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./header.css";
 import Mobile from "./mobile/index";
 import Web from "./web/index";
@@ -6,22 +6,14 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 
 function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const handleLogoClick = () => {
-    window.scrollTo(0, 0);
-  };
-  window.onscroll = function () {
-    setIsOpen(false);
-  };
-
-  useEffect(function () {
-    console.log(props.title);
-  }, [])
+  
+  
 
 
 
   return (
     <div className="header">
-      <div onClick={handleLogoClick} className="logo">
+      <div className="logo">
         Club
       </div>
       <div className="menu">

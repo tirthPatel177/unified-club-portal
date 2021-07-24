@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import ClubCard from './ClubCard';
 import { Button } from '@material-ui/core'
@@ -18,13 +18,14 @@ const Home = () => {
             data => data.json()
         ).then(data => {
             setClubs(data);
-            console.log(data);
+            // console.log(data);
         })
     };
 
     useEffect(() => {
         get_clubs();
-        console.log(clubs);
+        // console.log(clubs);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // const selected_club = (title) => {

@@ -34,6 +34,7 @@ const Calendar = ({club}) => {
         //     { title: 'event 1', date: '2021-07-17', id: 23 },
         //     { title: 'event 2', date: '2021-07-22' }
         // ])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

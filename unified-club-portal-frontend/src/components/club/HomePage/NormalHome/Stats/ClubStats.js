@@ -1,18 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import Separator from '../separator'
-import {
-    Chart,
-    ChartTitle,
-    ChartSeries,
-    ChartSeriesItem,
-    ChartCategoryAxis,
-    ChartCategoryAxisTitle,
-    ChartCategoryAxisItem,
-  } from "@progress/kendo-react-charts";
+
 
 const ClubStats = ({club}) => {
 
-    const [stats, setstats] = useState('');
+    // const [stats, setstats] = useState({
+    //     club_val: [],
+    // }
+    // );
+
+
+    const [isloading, setisloading] = useState(true)
 
     const fetchStats = () => {
         let fromData = new FormData();
@@ -23,20 +21,31 @@ const ClubStats = ({club}) => {
         }).then(
             data => data.json()
         ).then(
-            data => {setstats(data)
+            data => {
+                // setstats(data)
                 console.log(data)
+                setTimeout(setisloading(false), 500)
             }
         )
     }
 
     useEffect(() => {
         fetchStats();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    
 
     return (
         <div>
             <Separator />
             <label className="section-title">Club Stats</label>
+            <div className='my-app'>
+                { isloading ? null :
+                    <div>
+                    </div>
+                }   
+            </div>
         </div>
     )
 }
