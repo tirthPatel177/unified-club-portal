@@ -148,7 +148,13 @@ const Home = () => {
             method: 'POST',
             body: formData
         }).then(data => data.json()).then(
-            data => setisreg(data)
+            data => {
+                if(data.user === 'false'){
+                    setisreg(false)
+                }else{
+                    setisreg(true)
+                }
+            }
         )
 
     }

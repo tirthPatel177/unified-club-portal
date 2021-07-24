@@ -537,11 +537,11 @@ class approval(APIView):
         obj.save()
         
         event = Event.objects.get(id=id_event)
-        club = club_profile.objects.get(user=event.user)
+        club = Club_profile.objects.get(user=event.user)
         email_list = [event.user.email]
-        if(fut_state==1):
+        if(fut_state=='1'):
             email_subject = "Approval of event"
-            context = {"event_name":event.event_name, "club_name":club.title}
+            context = {"event_name":event.event_title, "club_name":club.title}
             message = render_to_string('email_sender_approval.html', context)
             plain_message = strip_tags(message)
 
@@ -549,12 +549,12 @@ class approval(APIView):
                 email_subject,
                 plain_message,
                 'unifiedclub2021au@gmail.com',
-                emails_list,
+                email_list,
                 html_message=message
             )
         else:
             email_subject = "Rejection of event"
-            context = {"event_name":event.event_name, "club_name":club.title}
+            context = {"event_name":event.event_title, "club_name":club.title}
             message = render_to_string('email_sender_reject.html', context)
             plain_message = strip_tags(message)
 
@@ -562,7 +562,7 @@ class approval(APIView):
                 email_subject,
                 plain_message,
                 'unifiedclub2021au@gmail.com',
-                emails_list,
+                email_list,
                 html_message=message
             )
 
