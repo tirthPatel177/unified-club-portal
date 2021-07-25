@@ -62,9 +62,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
             # Club_profile.objects.update_or_create(user=user, defaults=dict(title=user, description="", tag_line = ""))
             
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"success":"A verification code has been sent to your email id"}, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"erorr":"data is not valid"}, status=status.HTTP_400_BAD_REQUEST)
     
 class UserViewSet_club(viewsets.ModelViewSet):
     serializer_class = UserSerializer_club
@@ -620,7 +620,6 @@ class events_club(APIView):
                     }
                     data.append(event_data)
             else:
-                print("---->")
                 if(event["poster"][0]!='/'):
                     event["poster"] = '/'+event["poster"]
                 if(Club_prof.data["profile_pic"][0]!='/'):
