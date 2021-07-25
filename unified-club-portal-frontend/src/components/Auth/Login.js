@@ -120,7 +120,8 @@ function Login(props) {
         e.preventDefault();
         if(password1 !== registerData.password){
             // Create UI For this
-            console.log("Passwords are not matching!");
+            handleClickVariant('error', "Passwords are not matching!")()
+            // console.log("Passwords are not matching!");
             return;
         }
         fetch('http://localhost:8000/api/users',{
@@ -130,8 +131,8 @@ function Login(props) {
         }).then( data => data.json()).then(
             data => {console.log(data)
             let errorType = Object.keys(data);
-            if(errorType[0] === 'first_name'){
-                setTimeout(setsuccessSignup("Email for account verification has been sent!"), 2500)
+            if(errorType[0] === 'success'){
+                setTimeout(setsuccessSignup("Email for account verification has been sent!"), 1500)
             }else{
                 setError(data[errorType[0]]);
             }
