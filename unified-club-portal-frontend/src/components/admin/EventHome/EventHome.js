@@ -7,6 +7,9 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { useSelector } from 'react-redux'
 // import Error404 from '../../Error/Error404';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 const theme = createTheme({
     palette: {
@@ -36,6 +39,7 @@ const EventHome = () => {
             body: formData
         }).then( data => data.json()).then(
             data => {setevent(data)
+                console.log(data)
                 console.log(typeof(data.rating))
                 
             }
@@ -91,10 +95,32 @@ const EventHome = () => {
     //     setisreg(!isreg)
     // }
 
+    const [document1, setdocument1] = useState('')
+    const [document2, setdocument2] = useState('')
+    const [eventStats, seteventStats] = useState({})
+
+    const fetch_event_stats = () => {
+        let formData = new FormData();
+        formData.append('id_event', id)
+        fetch("http://127.0.0.1:8000/api/club/stats_of_event", {
+            method: 'POST',
+            body: formData
+        }).then(
+            data => data.json()
+        ).then(
+            data => {
+                seteventStats(data)
+                console.log(data)
+            }
+
+        )
+   }
+
     useEffect(() => {
         // console.log(id);
         fetchEventDetails();
         // checkReg();
+        fetch_event_stats();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -133,6 +159,92 @@ const EventHome = () => {
                     </div>
                 </main>
 
+                
+                <h3 className='register-heading'>
+                        { event.rating ?
+                        <Box component="fieldset" mb={3} borderColor="transparent">
+                            <Typography component="legend"  >Average Rating</Typography>
+                            <Rating name="simple-controlled" 
+                            value={event.rating} 
+                            precision={0.5}
+                            readOnly />
+                        </Box>:
+                        null
+                        }
+                        </h3>
+                        
+                        <div style={{'textAlign': 'center'}}>
+                        { event.document1 || event.document2 ? 
+                            <h3>
+                                Extra Documents
+                            </h3>
+                            :
+                            null
+                        }
+                        <div>
+                        { event.document1 &&
+                        <Button color='primary' variant="contained" >
+                        <a href={document1} target='_blank'  rel="noopener noreferrer" style={{'color': 'inherit'}}>
+                            Document-1
+                        </a>
+                        </Button>
+                        }
+                        </div>
+                        <br />
+                        <div>
+                        { event.document2 &&
+                            <Button color='primary' variant="contained" >
+                            <a href={document2} target='_blank' rel="noopener noreferrer" style={{'color': 'inherit'}}>
+                                Document-2
+                            </a>
+                            </Button>
+                            }
+                        </div>
+                        </div>
+
+                        {/* <div style={{'textAlign': 'center'}}>
+                        <h3>
+                            Admin Approval
+                        </h3>
+                        <Button variant="contained" 
+                        color={event.approved === 0 ? "default" : event.approved === 1 ? "primary" : "secondary"}
+                        // disabled
+                        >
+            
+                                {
+                                    event.approved === 0 ? "Pending" : event.approved === 1 ? "Approved" : "Disapproved"
+                                }
+                        </Button>
+                        </div> */}
+
+                        {
+                            !eventStats.data ?  
+                            <div>
+                                <h3 style={{'textAlign': 'center'}}>
+                                    Event Stats
+                                </h3>
+                                <section className="data">
+                                    <div>
+                                    <p className="stat">{eventStats.unique_views}</p>
+                                    <p className="stat-info">Unique Visitors</p>
+                                    </div>
+                                    <div>
+                                    <p className="stat">{eventStats.total_views}</p>
+                                    <p className="stat-info">Total Views</p>
+                                    </div>
+                                    <div>
+                                    <p className="stat">{eventStats.registered}</p>
+                                    <p className="stat-info">User Registered</p>
+                                    </div>
+                                    <div>
+                                    <p className="stat">{eventStats.checked_in}</p>
+                                    <p className="stat-info">Checked In</p>
+                                    </div>
+                                </section>  
+                            </div>
+                            : null
+                        }
+
                 <div className='register-from'>
                 <form className='actual-event-register-from'>
                     {
@@ -152,7 +264,7 @@ const EventHome = () => {
                                         Approve
                                     </Button> 
                                     <Button variant="outlined" color="secondary" style={{margin: "0 10px"}} onClick={handleDis}>
-                                        Disable
+                                        Dissaprove  
                                     </Button>  
                                 </ThemeProvider>
                                 

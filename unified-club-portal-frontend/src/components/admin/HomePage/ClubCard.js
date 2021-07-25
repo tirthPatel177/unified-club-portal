@@ -11,6 +11,11 @@ import { useMediaQuery } from "react-responsive";
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +57,19 @@ const ClubCard = ({club}) => {
         )
     }
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = (action) => {
+          if(action === 'Yes'){
+            handleDelete();
+          }
+            setOpen(false);
+      };
+
     return (
         <div className='card-margin'>
         
@@ -80,11 +98,28 @@ const ClubCard = ({club}) => {
                 // size="small" 
                 variant='outlined'
                 color="secondary"
-                onClick={handleDelete}
+                onClick={handleClickOpen}
                 >
                 Delete
                 </Button>
             </CardActions>
+           <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                >
+                <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete "+ club.title+ '?'}</DialogTitle>
+                
+                <DialogActions>
+                <Button onClick={() => handleClose('Cancel')} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={() => handleClose('Yes')} color="primary" autoFocus>
+                    Yes
+                </Button>
+                </DialogActions>
+            </Dialog>
         </Card>
         
         </div>

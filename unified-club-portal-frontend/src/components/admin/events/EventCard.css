@@ -2,14 +2,21 @@
     /* text-align: center; */
     background-color: rgba(108, 227, 238, 0.1);
     border-radius: 10px;
-    width: 80%;
+    width: 90%;
     height: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
     margin-bottom: 20px;
+    max-width: 650px;
     /* border: solid black 1px; */
     box-shadow: 1px 1px 1px gray;
+}
+
+@media only screen and (max-width: 700px) {
+    .card_event{
+        width: 100%;
+    }
 }
 
 .poster_event{
