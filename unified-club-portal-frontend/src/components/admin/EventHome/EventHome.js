@@ -116,11 +116,8 @@ const EventHome = () => {
             data => data.json()
         ).then(
             data => {
-                if(data.data){
-                    seteventStats('');
-                }else{
-                    seteventStats(data)
-                }
+                seteventStats(data)
+
                 
                 console.log(data)
             }
@@ -170,6 +167,10 @@ const EventHome = () => {
     //     poster: "http://127.0.0.1:8000/images/default.jpg",
     //     profile_pic: "http://127.0.0.1:8000/profile_imgs/guitar.jpg"
     // }
+
+    useEffect(() => {
+        console.log(eventStats)
+    },[eventStats])
 
     
 
@@ -255,7 +256,7 @@ const EventHome = () => {
                         </div> */}
 
                         {
-                            !eventStats ?  
+                            !(eventStats.data === '') ?  
                             <div>
                                 <h3 style={{'textAlign': 'center'}}>
                                     Event Stats

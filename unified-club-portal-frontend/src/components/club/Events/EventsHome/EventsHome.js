@@ -166,11 +166,8 @@ const EventsHome = () => {
             data => data.json()
         ).then(
             data => {
-                if(data.data){
-                    seteventStats('');
-                }else{
-                    seteventStats(data)
-                }
+                seteventStats(data)
+
                 console.log(data)
             }
 
@@ -349,7 +346,7 @@ const EventsHome = () => {
                         </div>
 
                         {
-                            !eventStats ?  
+                            !(eventStats.data === '') ?  
                             <div>
                                 <h3 style={{'textAlign': 'center'}}>
                                     Event Stats
