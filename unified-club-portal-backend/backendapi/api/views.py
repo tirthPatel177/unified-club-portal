@@ -283,7 +283,7 @@ class club_data(APIView):
 
     def get(self, request, club_name):
         
-        club_name = club_name.replace('-',' ')
+        club_name = club_name.replace('_',' ')
         
         clb = Club_profile.objects.get(title=club_name)
         
@@ -655,7 +655,7 @@ class events_club_cal(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
 
     def get(self, request, club_name):
-        club_name = club_name.replace('-',' ')
+        club_name = club_name.replace('_',' ')
         user = Club_profile.objects.get(title=club_name).user
         events = Event.objects.filter(user=user)
         serializer = EventSerializer(events, many=True)
@@ -676,7 +676,7 @@ class events_club_cal(APIView):
 class uncompleted_events(APIView):
     def get(self, request, club_name):
         
-        club_name = club_name.replace('-',' ')
+        club_name = club_name.replace('_',' ')
         user = Club_profile.objects.get(title=club_name).user
         events = Event.objects.filter(user=user)
         serializer = EventSerializer(events, many=True)
@@ -870,7 +870,7 @@ class Event_unregister(APIView):
 class Registered_users(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def get(self, request, event_name):
-        event_name = event_name.replace('-', ' ')
+        event_name = event_name.replace('_', ' ')
         event_name = Event.objects.get(event_title=event_name)
         participants = Register_Event.objects.filter(event_name=event_name)
         participants = Register_EventSerializer(participants, many=True)
@@ -914,7 +914,7 @@ class announcement(APIView):
         ann_description = request.data["ann_description"]
         send_notification  = request.data["send_notification"]
         club_name = request.data["club_name"]
-        club_name = club_name.replace('-', ' ')
+        club_name = club_name.replace('_', ' ')
         if(to_announce=="all"):
             to_announce = "members"
         user = Token.objects.get(key=token).user
@@ -1037,7 +1037,7 @@ class get_announcements(APIView):
 class get_announcement_club(APIView):
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     def get(self, request, club_name):
-        club_name = club_name.replace('-', ' ')
+        club_name = club_name.replace('_', ' ')
         club = Club_profile.objects.get(title=club_name)
         
         announcements = Announcement.objects.filter(user=club.user)
