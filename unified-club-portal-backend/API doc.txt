@@ -177,3 +177,8 @@ parameters: No Parameters
 URL = http://127.0.0.1:8000/api/club/stats_of_club
 Type = "POST"
 parameters(Form-Data) : club_name
+
+(37) event_delete_id : delete an event
+URL : http://127.0.0.1:8000/api/club/event_delete_id
+Type = "POST"
+parameters(Form-Data) : id_event
