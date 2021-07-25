@@ -31,7 +31,7 @@ function Header(props) {
       <div 
       // onClick={handleLogoClick} 
       className="logo">
-        {club.split('-').join(' ')}
+        {club.split('_').join(' ')}
       </div>
       <div className="menu">
         <div className="web-menu">
