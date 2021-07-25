@@ -53,13 +53,13 @@ const Home = () => {
                         }
                     )
                 }
-                {
+                {/* {
                     clubs.map( club => 
                         {
                             return <ClubCard club={club} key={club.title}/>
                         }
                     )
-                }
+                } */}
                 </div>
             </div>
             : null

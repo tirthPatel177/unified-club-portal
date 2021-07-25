@@ -28,7 +28,7 @@ const ClubCard = ({club}) => {
 
     const get_title = (title) => {
         // console.log(title);
-        return title.split(' ').join('-');
+        return title.split(' ').join('_');
     }
 
     const classes = useStyles();

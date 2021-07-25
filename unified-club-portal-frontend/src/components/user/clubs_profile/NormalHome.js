@@ -29,7 +29,7 @@ const NormalHome = (props) => {
 
         let formData = new FormData();
         formData.append("token", localStorage.getItem("token"));
-        formData.append("title", club.split('-').join(' '));
+        formData.append("title", club.split('_').join(' '));
         if(!checked){
             fetch('http://127.0.0.1:8000/api/club/member_add',{
                 method: "POST",
@@ -72,7 +72,7 @@ const NormalHome = (props) => {
     useEffect(() => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem("token"));
-        formData.append("title", club.split('-').join(' '));
+        formData.append("title", club.split('_').join(' '));
         fetch('http://127.0.0.1:8000/api/club/is_member',{
                 method: "POST",
                 body: formData

@@ -39,7 +39,7 @@ const EventList = () => {
     const get_events = async () => {
         let formData = new FormData();
         formData.append('token', localStorage.getItem('token'))
-        formData.append('club_name', club.split('-').join(' '))
+        formData.append('club_name', club.split('_').join(' '))
         fetch(`http://127.0.0.1:8000/api/club/events`, {
             method : 'POST',
             body: formData

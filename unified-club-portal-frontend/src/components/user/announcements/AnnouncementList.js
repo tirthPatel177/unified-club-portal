@@ -26,7 +26,7 @@ const AnnouncementList = () => {
     const fetchannouncements = (token) => {
         let formData = new FormData();
         formData.append("token", token);
-        formData.append("club_name", club.split('-').join(' '))
+        formData.append("club_name", club.split('_').join(' '))
         fetch('http://localhost:8000/api/club/get_announcements', {
             method: "POST",
             body: formData
