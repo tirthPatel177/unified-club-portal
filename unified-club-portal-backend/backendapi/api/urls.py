@@ -40,6 +40,7 @@ from .views import (
     check_in_true,
     check_in_false,
     events_club_cal,
+    event_delete_id,
     stats_of_club,
     )
 
@@ -83,6 +84,7 @@ urlpatterns = [
     path('club/check_in_false', check_in_false.as_view()),
     path('club/stats_of_event', stats_of_event.as_view()),
     path('club/stats_of_club', stats_of_club.as_view()),
+    path('club/event_delete_id', event_delete_id.as_view()),
     path('club/get_announcements', get_announcements.as_view()),
     path('club/get_all_announcements', get_all_announcements.as_view()),
     path('club/get_announcement_club/<club_name>', get_announcement_club.as_view()),

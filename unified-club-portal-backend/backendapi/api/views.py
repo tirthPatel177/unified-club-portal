@@ -1227,4 +1227,9 @@ class stats_of_club(APIView):
             "total_unique_views":len(st)
         }
         return Response(resp)
-        
+
+class event_delete_id(APIView):
+    def post(self, request):
+        id = request.data["id_event"]
+        event = Event.objects.get(id=id).delete()
+        return Response({"success":"Event deleted successfully"})
