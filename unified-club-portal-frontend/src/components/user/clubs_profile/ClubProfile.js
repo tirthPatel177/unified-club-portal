@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import Home from './NormalHome'
 import './ClubProfile.css'
 import Navbar from '../NavBar/Navbar'
-import Error404 from '../../Error/Error404'
+// import Error404 from '../../Error/Error404'
 
 const ClubProfile = () => {
 
@@ -47,7 +47,8 @@ const ClubProfile = () => {
         </div>
         </>
         :
-        <Error404 />
+        // <Error404 />
+        null
         }
         </>
     )

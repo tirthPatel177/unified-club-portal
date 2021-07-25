@@ -70,11 +70,11 @@ const Events = () => {
     }, [events])
 
     return (
+            <>
+            { (user === 'xhuoxfn3') ? 
         <div>
             <Navbar />
             <div className='club-home'>
-
-            
             <Header />
             <div className='event-create-button'>
                 <Button variant="outlined" color="primary" onClick={handleCreateEvent}>
@@ -100,6 +100,10 @@ const Events = () => {
                 </div>
             </div>
         </div>
+        :
+        null
+        }
+        </>
     )
 }
 

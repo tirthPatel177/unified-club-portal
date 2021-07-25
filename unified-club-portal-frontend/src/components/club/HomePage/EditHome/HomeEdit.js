@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import { useHistory } from "react-router-dom";
 import Navbar from '../../NavBar/Navbar';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import Error404 from '../../../Error/Error404';
+// import Error404 from '../../../Error/Error404';
 import { useSelector } from 'react-redux'
 
 
@@ -200,7 +200,8 @@ const HomeEdit = (props) => {
             </div>
         </div>
         :
-        <Error404/> 
+        // <Error404/> 
+        null
         }
         </>
     )

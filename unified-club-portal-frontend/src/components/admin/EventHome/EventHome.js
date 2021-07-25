@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { useSelector } from 'react-redux'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 const theme = createTheme({
     palette: {
@@ -170,7 +170,8 @@ const EventHome = () => {
         </div>
         </div>
         :
-        <Error404 />
+            null
+        // <Error404 />
         } 
     </>
     )

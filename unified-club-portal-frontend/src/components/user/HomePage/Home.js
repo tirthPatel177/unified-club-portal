@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import ClubCard from './ClubCard';
 import Navbar from '../NavBar/Navbar';
 import './Home.css'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 const Home = () => {
     const user = useSelector(state => state.type_of_user)
@@ -62,7 +62,7 @@ const Home = () => {
                 }
                 </div>
             </div>
-            :<Error404 /> 
+            : null
             } 
         </>
     )

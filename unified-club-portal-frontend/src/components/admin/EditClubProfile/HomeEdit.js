@@ -12,7 +12,7 @@ import { useHistory, useParams } from "react-router-dom";
 import Navbar from './../Navbar/Navbar'
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 const HomeEdit = (props) => {
 
@@ -198,7 +198,8 @@ const HomeEdit = (props) => {
             </div>
         </div>
         :
-        <Error404 />
+        // <Error404 />
+        null
         } 
     </>
     )

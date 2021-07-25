@@ -16,7 +16,7 @@ import './CreateAnnouncement.css'
 import { useHistory, useParams } from 'react-router-dom';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux'
-import Error404 from '../../../Error/Error404';
+// import Error404 from '../../../Error/Error404';
 
 const CreateAnnouncements = () => {
     
@@ -235,7 +235,8 @@ const CreateAnnouncements = () => {
             </div>
         </div>
         :
-        <Error404/> 
+        // <Error404/> 
+        null
         }
         </>
     )

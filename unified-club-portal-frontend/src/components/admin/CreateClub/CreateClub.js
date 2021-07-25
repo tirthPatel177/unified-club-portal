@@ -8,7 +8,7 @@ import Input from '@material-ui/core/Input';
 import { Button } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField';
 import { useSelector } from 'react-redux'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 
 const CreateClub = () => {
@@ -162,7 +162,8 @@ const CreateClub = () => {
             </div>
         </div>
         :
-        <Error404 />
+        // <Error404 />
+        null
         } 
     </>
     )

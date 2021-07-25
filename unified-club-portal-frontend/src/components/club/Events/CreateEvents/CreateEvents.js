@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {useHistory, useParams} from 'react-router-dom'
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux'
-import Error404 from '../../../Error/Error404';
+// import Error404 from '../../../Error/Error404';
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -315,7 +315,8 @@ const CreateEvents = () => {
             </div>
         </div>
         :
-        <Error404 />
+        // <Error404 />
+        null
         }
         </>
     )

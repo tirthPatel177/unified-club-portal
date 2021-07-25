@@ -5,7 +5,7 @@ import './Events.css'
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
 import { useSelector } from 'react-redux'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 const Events = () => {
     const [events, setEvents] = useState([]);
@@ -75,7 +75,8 @@ const Events = () => {
             </div>
         </div>
         :
-            <Error404 />
+            // <Error404 />
+            null
             } 
         </>
     )

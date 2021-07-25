@@ -23,7 +23,7 @@ import CheckIn from './CheckIn';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector } from 'react-redux'
-import Error404 from '../../../Error/Error404';
+// import Error404 from '../../../Error/Error404';
 
 // const labels = {
 //   0.5: 'Useless',
@@ -103,7 +103,7 @@ const EventsHome = () => {
         ).then(
             setTimeout(() => {
                 setisloading(false);
-            }, 400)
+            }, 800)
         )
     }
 
@@ -217,7 +217,7 @@ const EventsHome = () => {
                 
             }
         )
-        setTimeout(() => setactive('details'), 2000);
+        setTimeout(() => setactive('details'), 2500);
         // console.log(editordata)
     }
 
@@ -538,7 +538,8 @@ const EventsHome = () => {
     
         </div>
         :
-        <Error404 /> 
+        // <Error404 /> 
+        null
         }
         </>
     )
@@ -546,7 +547,7 @@ const EventsHome = () => {
 
 export default function IntegrationNotistack() {
     return (
-      <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
         <EventsHome />
       </SnackbarProvider>
     );

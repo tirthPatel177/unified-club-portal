@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux'
-import Error404 from './../../Error/Error404'
+// import Error404 from './../../Error/Error404'
 
 const labels = {
   0.5: 'Useless',
@@ -371,7 +371,9 @@ const Home = () => {
             </div>
         </div>
         </div>
-        : <Error404 />
+        // : <Error404 />
+        :
+        null
         }
         </>
     )

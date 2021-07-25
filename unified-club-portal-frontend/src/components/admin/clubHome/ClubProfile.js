@@ -4,7 +4,7 @@ import Home from './NormalHome'
 import './ClubProfile.css'
 import Navbar from './../Navbar/Navbar'
 import { useSelector } from 'react-redux'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 const ClubProfile = () => {
     const user = useSelector(state => state.type_of_user)
@@ -46,7 +46,8 @@ const ClubProfile = () => {
         </div>
         </>
         :
-        <Error404 />
+        // <Error404 />
+        null
         } 
     </>
     )

@@ -8,7 +8,7 @@ import './Home.css'
 // import tempImage from './../../../Resources/club-profile.jpg'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector } from 'react-redux'
-import Error404 from '../../Error/Error404';
+// import Error404 from '../../Error/Error404';
 
 const Home = () => {
     // const user = useSelector(state => state.user)
@@ -88,7 +88,7 @@ const Home = () => {
                     }
                 </div>
         </div>
-        : <Error404/> 
+        : null
         }
         </>
     )

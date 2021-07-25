@@ -6,6 +6,7 @@ import Alert from "@material-ui/lab/Alert";
 import {useDispatch, useSelector} from 'react-redux';
 import * as actions from '../../Helpers/actions/actionTypes'
 import { Redirect } from 'react-router-dom';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 // Refrenced it -> https://www.youtube.com/watch?v=-bll7l-BKQI&t=703s
 
@@ -28,6 +29,13 @@ function Login(props) {
         email: '',
         password: ''
     });
+
+    const { enqueueSnackbar } = useSnackbar();
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
 
 
 
@@ -122,10 +130,17 @@ function Login(props) {
         }).then( data => data.json()).then(
             data => {console.log(data)
             let errorType = Object.keys(data);
-            console.log(errorType[0], errorType);
-                // alert(data[errorType[0]])
+            if(errorType[0] === 'first_name'){
+                setTimeout(setsuccessSignup("Email for account verification has been sent!"), 2500)
+            }else{
                 setError(data[errorType[0]]);
             }
+            console.log(errorType[0], errorType);
+                // alert(data[errorType[0]])
+                // setError(data[errorType[0]]);
+            
+            }
+            // data => console.log(data)
         ) 
         setActiveLogin(!activeLogin);
     };
@@ -137,7 +152,7 @@ function Login(props) {
         setActiveLogin(!activeLogin);
     };
 
-    
+    const [successSignup, setsuccessSignup] = useState('')
 
     return (
         <div className='Login' id='temp'>
@@ -145,6 +160,9 @@ function Login(props) {
             {
                 error ? 
                     <Alert severity="warning" onClose={()=> setError('')}>{ error }</Alert> : null
+            }
+            {
+                successSignup ? <Alert  onClose={()=> setsuccessSignup('')}>{ successSignup }</Alert> : null
             }
             <div className='login_card'>
                 
@@ -196,4 +214,10 @@ function Login(props) {
 
 
 
-export default Login;
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
+        <Login />
+      </SnackbarProvider>
+    );
+  }
