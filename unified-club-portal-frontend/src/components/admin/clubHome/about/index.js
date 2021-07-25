@@ -1,5 +1,7 @@
 import React from "react";
 import "./about.css";
+
+//  Reffered from https://www.youtube.com/watch?v=j0yZc2yfa7o&t=173s
 function About({club}) {
   return (
     <div className="about">

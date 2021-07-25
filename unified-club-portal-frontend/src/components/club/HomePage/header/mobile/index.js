@@ -3,6 +3,7 @@ import "./mobile.css";
 import CancelIcon from '@material-ui/icons/Cancel';
 // import Edit from "../../Edit";
 import { useParams } from "react-router-dom";
+//  Reffered from https://www.youtube.com/watch?v=j0yZc2yfa7o&t=173s
 
 function Mobile({ isOpen, setIsOpen, title }) {
 

@@ -7,6 +7,8 @@ import Logout from './../../Auth/Logout';
 import NavLinks from './NavLinks';
 import styled from "styled-components";
 
+//Reffered and used https://www.youtube.com/watch?v=mt7bcvsreMQ&t=210s
+
 const NavbarContainer = styled.div`
   width: 100%;
   height: 60px;

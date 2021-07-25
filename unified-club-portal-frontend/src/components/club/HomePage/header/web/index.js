@@ -2,6 +2,8 @@ import React from "react";
 // import Edit from "../../Edit";
 import "./web.css";
 import {useParams} from 'react-router-dom'
+
+//  Reffered from https://www.youtube.com/watch?v=j0yZc2yfa7o&t=173s
 function Web(props) {
 
   let {club} = useParams();
@@ -41,11 +43,6 @@ function Web(props) {
           Announcements
         </a>
       </div>
-      {/* <div className="web-option">
-        <a href="#contact">
-          Contact
-        </a>
-      </div> */}
     </div>
   );
 }

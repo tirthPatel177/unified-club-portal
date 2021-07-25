@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import "./web.css";
+
+//  Reffered from https://www.youtube.com/watch?v=j0yZc2yfa7o&t=173s
 function Web() {
 
   let {club} = useParams();
