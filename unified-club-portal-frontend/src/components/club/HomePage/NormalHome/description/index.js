@@ -2,6 +2,8 @@ import React from 'react'
 import Separator from './../separator/index'
 import './Description.css'
 
+//  Reffered from https://www.youtube.com/watch?v=j0yZc2yfa7o&t=173s
+
 const index = ({club}) => {
     return (
         <div className='description-section'>
