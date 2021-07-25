@@ -4,11 +4,12 @@ import EventCard from './EventCard';
 import './Events.css'
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
-
+import { useSelector } from 'react-redux'
+// import Error404 from '../../Error/Error404';
 
 const Events = () => {
     const [events, setEvents] = useState([]);
-
+    const user = useSelector(state => state.type_of_user)
     const itemsPerPage = 5;
     const [page, setPage] = useState(1);
     const [noOfPages, setNoOfPages] = useState(
@@ -47,6 +48,8 @@ const Events = () => {
     }, [events])
 
     return (
+        <>
+        { (user === 'vbekfka29') ? 
         <div>
             <Navbar />
             <div className='club-home'>
@@ -71,6 +74,11 @@ const Events = () => {
             </div>
             </div>
         </div>
+        :
+            // <Error404 />
+            null
+            } 
+        </>
     )
 }
 

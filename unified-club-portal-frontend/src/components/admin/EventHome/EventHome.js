@@ -5,6 +5,8 @@ import Navbar from './../Navbar/Navbar'
 import Button from '@material-ui/core/Button';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
+import { useSelector } from 'react-redux'
+// import Error404 from '../../Error/Error404';
 
 const theme = createTheme({
     palette: {
@@ -13,6 +15,8 @@ const theme = createTheme({
   });
 
 const EventHome = () => {
+
+    const user = useSelector(state => state.type_of_user)
 
     let {id} = useParams();
 
@@ -107,6 +111,8 @@ const EventHome = () => {
     
 
     return (
+        <>
+        { (user === 'vbekfka29') ? 
         <div>
         <Navbar />
         <div className='marginer'>
@@ -163,6 +169,11 @@ const EventHome = () => {
             </div>
         </div>
         </div>
+        :
+            null
+        // <Error404 />
+        } 
+    </>
     )
 }
 

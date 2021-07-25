@@ -14,6 +14,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {useHistory, useParams} from 'react-router-dom'
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux'
+// import Error404 from '../../../Error/Error404';
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateEvents = () => {
 
+    const user = useSelector(state => state.type_of_user)
     const { enqueueSnackbar } = useSnackbar();
 
     const handleClickVariant = (variant, message) => () => {
@@ -147,6 +150,8 @@ const CreateEvents = () => {
 
 
     return (
+        <>
+            { (user === 'xhuoxfn3') ? 
         <div>
             <Navbar />
             <div className='club-home'>
@@ -309,6 +314,11 @@ const CreateEvents = () => {
             </div>
             </div>
         </div>
+        :
+        // <Error404 />
+        null
+        }
+        </>
     )
 }
 

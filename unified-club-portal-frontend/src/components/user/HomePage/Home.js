@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux'
 import ClubCard from './ClubCard';
 import Navbar from '../NavBar/Navbar';
 import './Home.css'
+// import Error404 from '../../Error/Error404';
 
 const Home = () => {
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.type_of_user)
     const [clubs, setClubs] = useState([]);
 
     const get_clubs = async () => {
@@ -38,7 +39,7 @@ const Home = () => {
 
     return (
         <>
-            { !(user !== 'user') ? null : 
+            { (user === 'cmkua43qrh') ? 
             <div>
                 {/* <p> { user.email }</p>
                 <p> {user.first_name } </p>
@@ -61,6 +62,7 @@ const Home = () => {
                 }
                 </div>
             </div>
+            : null
             } 
         </>
     )

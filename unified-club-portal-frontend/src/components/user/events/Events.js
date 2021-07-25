@@ -4,10 +4,13 @@ import EventCard from './EventCard';
 import './Events.css'
 import Pagination from "@material-ui/lab/Pagination";
 import { useMediaQuery } from 'react-responsive'
+import { useSelector } from 'react-redux'
+// import Error404 from '../../Error/Error404';
 
 const Events = () => {
 
     const itemsPerPage = 5;
+    // const user = useSelector(state => state.user)
     const [page, setPage] = useState(1);
     const [noOfPages, setNoOfPages] = useState(
         // Math.ceil(projectsList.length / itemsPerPage)
@@ -15,7 +18,7 @@ const Events = () => {
     );
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
-    // const user = useSelector(state => state.user)
+    const user = useSelector(state => state.type_of_user)
     const [events, setEvents] = useState([]);
 
     const get_events = async () => {
@@ -48,6 +51,8 @@ const Events = () => {
     
 
     return (
+        <>
+        { (user === 'cmkua43qrh') ? 
         <div>
             <Navbar />
                 <div className='user-main-events-list'>
@@ -71,6 +76,10 @@ const Events = () => {
                 </div>
                 </div>
         </div>
+        : null
+        // <Error404/>
+        }
+        </>
     )
 }
 

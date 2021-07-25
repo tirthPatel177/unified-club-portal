@@ -6,6 +6,9 @@ import Alert from "@material-ui/lab/Alert";
 import {useDispatch, useSelector} from 'react-redux';
 import * as actions from '../../Helpers/actions/actionTypes'
 import { Redirect } from 'react-router-dom';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+
+// Refrenced it -> https://www.youtube.com/watch?v=-bll7l-BKQI&t=703s
 
 function Login(props) {
     const [activeLogin, setActiveLogin] = useState(true);
@@ -27,16 +30,15 @@ function Login(props) {
         password: ''
     });
 
+    const { enqueueSnackbar } = useSnackbar();
+    const handleClickVariant = (variant, message) => () => {
+        // variant could be success, error, warning, info, or default
+         enqueueSnackbar(message, { variant });   
+        
+    };
 
 
-    // useEffect(
-    //     ()=>{
-    //         // console.log(props.setUser)
-    //         console.log("Login", loginData);
-    //         console.log('Signup', registerData);
-    //         console.log("password1", password1);
-    //     }
-    // );
+
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -60,7 +62,14 @@ function Login(props) {
         }).then( data => data.json()).then(
             data => {
                 dispatch({type: actions.USER_LOGGGED_IN, payload: data})
-                dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
+                if(data.type_of_user === 'user'){
+                    dispatch({type: actions.SET_USER_TYPE, payload: 'cmkua43qrh'})
+                }else if(data.type_of_user === 'club'){
+                    dispatch({type: actions.SET_USER_TYPE, payload: 'xhuoxfn3'})
+                }else if(data.type_of_user === 'admin'){
+                    dispatch({type: actions.SET_USER_TYPE, payload: 'vbekfka29'})
+                }
+                // dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
                 // props.setUser(data.type_of_user)
                 
             }
@@ -121,10 +130,17 @@ function Login(props) {
         }).then( data => data.json()).then(
             data => {console.log(data)
             let errorType = Object.keys(data);
-            console.log(errorType[0], errorType);
-                // alert(data[errorType[0]])
+            if(errorType[0] === 'first_name'){
+                setTimeout(setsuccessSignup("Email for account verification has been sent!"), 2500)
+            }else{
                 setError(data[errorType[0]]);
             }
+            console.log(errorType[0], errorType);
+                // alert(data[errorType[0]])
+                // setError(data[errorType[0]]);
+            
+            }
+            // data => console.log(data)
         ) 
         setActiveLogin(!activeLogin);
     };
@@ -136,69 +152,7 @@ function Login(props) {
         setActiveLogin(!activeLogin);
     };
 
-    // const LoginForm = () => {
-    //     return (
-    //         <>
-    //         <h2 className="login-message">Welcome Back!</h2>
-    //         <form>
-    //             <input type="email" id="emailLogin" placeholder="Email" onChange={(e) => {setEmailLogin(e.target.value)}} name="email" value={emailLogin || ''} />
-                
-    //             <input type="password" id="passwordLogin" placeholder="Password" onChange={(e)=> {setPasswordLogin(e.target.value)}} name="password" value={passwordLogin || ''} />
-
-    //             <button type='submit' onClick={handleLogin}>
-    //                 Login
-    //             </button>
-    //         </form>
-    //         <p>
-    //             Don't have an account? {" "}
-    //             <a onClick={changethestate} href="#"> SignUp</a>
-    //         </p>
-    //         </>
-    //     )
-    // };
-
-    // const SignupForm = () => {
-    //     return (
-    //         <>
-    //         <h2 className="login-message">Create an account</h2>
-    //         <form>
-            
-    //             <input type="text" placeholder="First Name" id='first_name' onChange={(e)=>setFirstnameSignup(e.target.value)} name="first_name" value={firstnameSignup || ''}>
-    //             </input>
-            
-            
-    //             <input type="text" placeholder="Last Name" id='last_name' onChange={(e) => setLastnameSignup(e.target.value)} name="last_name" value={lastnameSignup || ''}>
-    //             </input>
-            
-            
-    //             <input type="email" placeholder="Email" id='emailSignup' onChange={(e) => setEmailSignup(e.target.value)} name="email" value={emailSignup || ''}>
-    //             </input>
-            
-            
-    //             <input type="password" placeholder="Password" id="password" onChange={(e) => setPasswordSignup(e.target.value)} name="password" value={passwordSignup || ''}>
-    //             </input>
-
-    //             <input type="password" placeholder="Enter Password Again" id='password1' onChange={(e) => setPassword1(e.target.value)} name="password1" value={password1 || ''}>
-    //             </input>
-
-    //             <button type='submit' onClick={handleSignup}>
-    //                 Sign Up
-    //             </button>
-    //         </form>
-    //         <p>
-    //             Already have an account? {" "}
-    //             <a onClick={changethestate} href='#'> Login </a>
-    //         </p>
-    //         </>
-    //     )
-    // };
-    
-    // const Display = () => {
-    //     if(activeLogin){
-    //         return <LoginForm />
-    //     }
-    //     return <SignupForm />
-    // }
+    const [successSignup, setsuccessSignup] = useState('')
 
     return (
         <div className='Login' id='temp'>
@@ -206,6 +160,9 @@ function Login(props) {
             {
                 error ? 
                     <Alert severity="warning" onClose={()=> setError('')}>{ error }</Alert> : null
+            }
+            {
+                successSignup ? <Alert  onClose={()=> setsuccessSignup('')}>{ successSignup }</Alert> : null
             }
             <div className='login_card'>
                 
@@ -257,4 +214,10 @@ function Login(props) {
 
 
 
-export default Login;
+export default function IntegrationNotistack() {
+    return (
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
+        <Login />
+      </SnackbarProvider>
+    );
+  }

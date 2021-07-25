@@ -23,7 +23,7 @@ import ClubEventsHome from './components/club/Events/EventsHome/EventsHome'
 import AdminAnnouncements from './components/admin/announcements/AnnouncementList'
 import AdminClubProfile from './components/admin/clubHome/ClubProfile'
 import AdminEditProfile from './components/admin/EditClubProfile/HomeEdit'
-
+import Error404 from './components/Error/Error404';
 
 function App() {
 
@@ -38,7 +38,14 @@ function App() {
     }).then( data => data.json()).then(
         data => {
             dispatch({type: actions.USER_LOGGGED_IN, payload: data})
-            dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
+            if(data.type_of_user === 'user'){
+              dispatch({type: actions.SET_USER_TYPE, payload: 'cmkua43qrh'})
+            }else if(data.type_of_user === 'club'){
+                dispatch({type: actions.SET_USER_TYPE, payload: 'xhuoxfn3'})
+            }else if(data.type_of_user === 'admin'){
+                dispatch({type: actions.SET_USER_TYPE, payload: 'vbekfka29'})
+            }
+            // dispatch({type: actions.SET_USER_TYPE, payload: data.type_of_user})
             // props.setUser(data.type_of_user)
         }
     ).catch(e => console.log(e))
@@ -80,6 +87,7 @@ function App() {
         <PrivateRoute exact path='/admin/announcements' component={AdminAnnouncements} />
         <PrivateRoute exact path='/admin/club-profiles/:club' component={AdminClubProfile} />
         <PrivateRoute exact path='/admin/:club/edit-profile' component={AdminEditProfile} />
+        <Route component={Error404} />
       </Switch>
     </Router>
     </div>

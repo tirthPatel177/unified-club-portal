@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import AdminHome from './../admin/HomePage/Home';
 import ClubHome from './../club/HomePage/Home';
 import NormalHome from './../user/HomePage/Home';
-
+import Error404 from './../Error/Error404'
 
 export const Dashboard = () => {
 
@@ -41,12 +41,14 @@ export const Dashboard = () => {
     // }, [])
 
     const multiView = (type_of_user) => {
-        if(type_of_user === 'admin'){
+        if(type_of_user === 'vbekfka29'){
             return <AdminHome />
-        }else if(type_of_user === 'club'){
+        }else if(type_of_user === 'xhuoxfn3'){
             return <ClubHome />
-        }else if(type_of_user === 'user'){
+        }else if(type_of_user === 'cmkua43qrh'){
             return <NormalHome />
+        }else{
+            <Error404 />
         }
     }
 

@@ -7,6 +7,8 @@ import NormalHome from './NormalHome/NormalHome';
 import './Home.css'
 // import tempImage from './../../../Resources/club-profile.jpg'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useSelector } from 'react-redux'
+// import Error404 from '../../Error/Error404';
 
 const Home = () => {
     // const user = useSelector(state => state.user)
@@ -15,6 +17,8 @@ const Home = () => {
     const [clubDetails, setclubDetails] = useState(
         {}
     );
+
+    const user = useSelector(state => state.type_of_user)
 
     const [clubtitle, setclubtitle] = useState(' ')
 
@@ -63,6 +67,8 @@ const Home = () => {
     // http://127.0.0.1:8000/api/profile_club/Programming-Club
     
     return (
+        <>
+            { (user === 'xhuoxfn3') ? 
         <div>
                 <Navbar />
                 {/* <p> { user.first_name } </p>
@@ -82,6 +88,9 @@ const Home = () => {
                     }
                 </div>
         </div>
+        : null
+        }
+        </>
     )
 }
 

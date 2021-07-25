@@ -22,6 +22,8 @@ import TextField from '@material-ui/core/TextField';
 import CheckIn from './CheckIn';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useSelector } from 'react-redux'
+// import Error404 from '../../../Error/Error404';
 
 // const labels = {
 //   0.5: 'Useless',
@@ -46,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const EventsHome = () => {
+    const user = useSelector(state => state.type_of_user)
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -100,7 +103,7 @@ const EventsHome = () => {
         ).then(
             setTimeout(() => {
                 setisloading(false);
-            }, 400)
+            }, 800)
         )
     }
 
@@ -214,12 +217,14 @@ const EventsHome = () => {
                 
             }
         )
-        setTimeout(() => setactive('details'), 2000);
+        setTimeout(() => setactive('details'), 2500);
         // console.log(editordata)
     }
 
 
     return (
+        <>
+            { (user === 'xhuoxfn3') ? 
         <div>
         <Navbar />
         <div className='marginer'>
@@ -532,12 +537,17 @@ const EventsHome = () => {
         </div>
     
         </div>
+        :
+        // <Error404 /> 
+        null
+        }
+        </>
     )
 }
 
 export default function IntegrationNotistack() {
     return (
-      <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
         <EventsHome />
       </SnackbarProvider>
     );

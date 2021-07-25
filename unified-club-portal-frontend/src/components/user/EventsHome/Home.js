@@ -14,6 +14,8 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux'
+// import Error404 from './../../Error/Error404'
 
 const labels = {
   0.5: 'Useless',
@@ -37,7 +39,7 @@ const useStyles = makeStyles({
 });
 
 const Home = () => {
-
+    const user = useSelector(state => state.type_of_user)
     const { enqueueSnackbar } = useSnackbar();
 
     const handleClickVariant = (variant, message) => () => {
@@ -247,6 +249,8 @@ const Home = () => {
     }
 
     return (
+        <>
+        { (user === 'cmkua43qrh') ? 
         <div>
         <Navbar />
         <div className='marginer'>
@@ -367,6 +371,11 @@ const Home = () => {
             </div>
         </div>
         </div>
+        // : <Error404 />
+        :
+        null
+        }
+        </>
     )
 };
 
