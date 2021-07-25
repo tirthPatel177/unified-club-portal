@@ -81,7 +81,7 @@ const CreateAnnouncements = () => {
         let formData = new FormData();
         formData.append("token", localStorage.getItem('token'));
         formData.append('ann_description', editordata)
-        formData.append("club_name", club.split('-').join(' '))
+        formData.append("club_name", club.split('_').join(' '))
         for (const property in announcement) {
             formData.append(property, announcement[property])
             console.log(property, announcement[property], formData[property]);

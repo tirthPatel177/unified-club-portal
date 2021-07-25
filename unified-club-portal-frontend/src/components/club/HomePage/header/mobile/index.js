@@ -12,7 +12,7 @@ function Mobile({ isOpen, setIsOpen, title }) {
   const get_title = (title) => {
     // console.log(title);
     if(title){
-      return title.split(' ').join('-');
+      return title.split(' ').join('_');
     }
     else{
       

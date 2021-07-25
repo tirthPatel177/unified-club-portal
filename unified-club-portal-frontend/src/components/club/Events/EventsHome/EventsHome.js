@@ -111,7 +111,7 @@ const EventsHome = () => {
     
 
    const fetchRegistered = (title) => {
-       fetch(`http://127.0.0.1:8000/api/club/registered_users/${title.split(' ').join('-')}`, {
+       fetch(`http://127.0.0.1:8000/api/club/registered_users/${title.split(' ').join('_')}`, {
            method: 'GET'
        }).then(
            data => data.json()
