@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .models import (
     Book, Type_of_User, Club_profile, Event, Member, Register_Event, Announcement, Rating, event_view
     )
+from backendapi.settings import EMAIL_HOST_USER
 from django.shortcuts import render
 from rest_framework import status
 from django.contrib import auth
@@ -54,7 +55,7 @@ class UserViewSet(viewsets.ModelViewSet):
             email_send = EmailMessage(
                 email_subject,
                 email_body,
-                'unifiedclub2021au@gmail.com',
+                EMAIL_HOST_USER,
                 [user.email],
             )
             
@@ -92,7 +93,7 @@ class UserViewSet_club(viewsets.ModelViewSet):
             email_send = EmailMessage(
                 email_subject,
                 email_body,
-                'unifiedclub2021au@gmail.com',
+                EMAIL_HOST_USER,
                 [user.email],
             )
             
@@ -101,9 +102,9 @@ class UserViewSet_club(viewsets.ModelViewSet):
                 Club_profile.objects.create(user=user, title=request.data["title"], profile_pic=request.data["profile_image"], description=request.data["description"], tag_line = request.data["tag_line"])
             else:        
                 Club_profile.objects.create(user=user, title=request.data["title"], description=request.data["description"], tag_line = request.data["tag_line"])
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"success":"A verification code has been sent to your email id"}, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"erorr":"data is not valid"}, status=status.HTTP_400_BAD_REQUEST)
     
 class club_delete(APIView):
     def post(self, request):
@@ -548,7 +549,7 @@ class approval(APIView):
             send_mail(
                 email_subject,
                 plain_message,
-                'unifiedclub2021au@gmail.com',
+                EMAIL_HOST_USER,
                 email_list,
                 html_message=message
             )
@@ -561,7 +562,7 @@ class approval(APIView):
             send_mail(
                 email_subject,
                 plain_message,
-                'unifiedclub2021au@gmail.com',
+                EMAIL_HOST_USER,
                 email_list,
                 html_message=message
             )
@@ -948,7 +949,7 @@ class announcement(APIView):
                 send_mail(
                     email_subject,
                     plain_message,
-                    'unifiedclub2021au@gmail.com',
+                    EMAIL_HOST_USER,
                     emails_list,
                     html_message=message
                 )
@@ -960,7 +961,7 @@ class announcement(APIView):
                 send_mail(
                     email_subject,
                     plain_message,
-                    'unifiedclub2021au@gmail.com',
+                    EMAIL_HOST_USER,
                     emails_list,
                     html_message=message
                 )
