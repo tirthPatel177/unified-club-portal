@@ -9,7 +9,7 @@ const EventCard = ({event}) => {
             <img src={event.poster} alt='poster' width="100%" height="300px" className="poster_event"/>
             <div className="data_event">
                 <div className="card-event-club">
-                    <img src={event.poster} alt='poster' className="club_profile_pic"/>
+                    <img src={event.profile_pic} alt='poster' className="club_profile_pic"/>
                     <span className="club_name_event">{event.club_name}</span>
                 </div>
                 <span className="card-event-title">{event.event_title}</span>

@@ -10,6 +10,12 @@ import { useSelector } from 'react-redux'
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const theme = createTheme({
     palette: {
@@ -94,10 +100,11 @@ const EventHome = () => {
     //     }).then(data => data.json())
     //     setisreg(!isreg)
     // }
+    let history = useHistory();
 
     const [document1, setdocument1] = useState('')
     const [document2, setdocument2] = useState('')
-    const [eventStats, seteventStats] = useState({})
+    const [eventStats, seteventStats] = useState('')
 
     const fetch_event_stats = () => {
         let formData = new FormData();
@@ -109,12 +116,42 @@ const EventHome = () => {
             data => data.json()
         ).then(
             data => {
-                seteventStats(data)
+                if(data.data){
+                    seteventStats('');
+                }else{
+                    seteventStats(data)
+                }
+                
                 console.log(data)
             }
 
         )
    }
+
+
+   const handleDelete = () => {
+    let formData = new FormData();
+    formData.append('id_event', id);
+    fetch('http://127.0.0.1:8000/api/club/event_delete_id',{
+        method: "POST",
+        body: formData
+    }).then(
+        history.push('/admin/events')
+    )
+}
+
+   const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = (action) => {
+          if(action === 'Yes'){
+            handleDelete();
+          }
+            setOpen(false);
+      };
 
     useEffect(() => {
         // console.log(id);
@@ -218,7 +255,7 @@ const EventHome = () => {
                         </div> */}
 
                         {
-                            !eventStats.data ?  
+                            !eventStats ?  
                             <div>
                                 <h3 style={{'textAlign': 'center'}}>
                                     Event Stats
@@ -275,11 +312,38 @@ const EventHome = () => {
                 </form>
                 </div>
                 
-
-            
+                <div style={{'textAlign' : 'center'}}>
+                <Button 
+                // size="small" 
+                variant='contained'
+                color="secondary"
+                onClick={handleClickOpen}
+                >
+                Delete
+                </Button>
+           <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                >
+                <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete event "+ event.event_title+ '?'}</DialogTitle>
+                
+                <DialogActions>
+                <Button onClick={() => handleClose('Cancel')} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={() => handleClose('Yes')} color="primary" autoFocus>
+                    Yes
+                </Button>
+                </DialogActions>
+            </Dialog>
+            </div>
  
             </div>
+            
         </div>
+       
         </div>
         :
             null

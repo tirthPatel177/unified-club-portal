@@ -28,7 +28,7 @@ const Events = () => {
             data => data.json()
         ).then(data => {
             setEvents(data);
-            console.log(data);
+            console.log(data[0].profile_pic);
         })
     };
 

@@ -24,6 +24,12 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector } from 'react-redux'
 // import Error404 from '../../../Error/Error404';
+import { useHistory } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 // const labels = {
 //   0.5: 'Useless',
@@ -122,8 +128,33 @@ const EventsHome = () => {
        )
    }
 
-   const [eventStats, seteventStats] = useState({})
+   const [eventStats, seteventStats] = useState('')
 
+   const handleDelete = () => {
+    let formData = new FormData();
+    formData.append('id_event', id);
+    fetch('http://127.0.0.1:8000/api/club/event_delete_id',{
+        method: "POST",
+        body: formData
+    }).then(
+        history.push(`/club/${event.club_name.split(' ').join('_')}/events`)
+    )
+}
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+    setOpen(true);
+    };
+
+    const handleClose = (action) => {
+        if(action === 'Yes'){
+        handleDelete();
+        }
+        setOpen(false);
+    };
+
+    let history = useHistory();
 
    const fetch_event_stats = () => {
         let formData = new FormData();
@@ -135,7 +166,11 @@ const EventsHome = () => {
             data => data.json()
         ).then(
             data => {
-                seteventStats(data)
+                if(data.data){
+                    seteventStats('');
+                }else{
+                    seteventStats(data)
+                }
                 console.log(data)
             }
 
@@ -270,9 +305,13 @@ const EventsHome = () => {
                         </h3>
                         
                         <div style={{'textAlign': 'center'}}>
+                            { event.document1 || event.document2 ? 
                             <h3>
                                 Extra Documents
                             </h3>
+                            :
+                            null
+                            }
                         <div>
                         { event.document1 &&
                         <Button color='primary' variant="contained" >
@@ -293,7 +332,7 @@ const EventsHome = () => {
                             }
                         </div>
                         </div>
-
+                        
                         <div style={{'textAlign': 'center'}}>
                         <h3>
                             Admin Approval
@@ -310,7 +349,7 @@ const EventsHome = () => {
                         </div>
 
                         {
-                            !eventStats.data ?  
+                            !eventStats ?  
                             <div>
                                 <h3 style={{'textAlign': 'center'}}>
                                     Event Stats
@@ -336,8 +375,35 @@ const EventsHome = () => {
                             </div>
                             : null
                         }
+                        <br />
+                        <div style={{'textAlign' : 'center'}}>
+                                        <Button 
+                                        // size="small" 
+                                        variant='contained'
+                                        color="secondary"
+                                        onClick={handleClickOpen}
+                                        >
+                                        Delete
+                                        </Button>
+                                <Dialog
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="alert-dialog-title"
+                                        aria-describedby="alert-dialog-description"
+                                        >
+                                        <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete event "+ event.event_title+ '?'}</DialogTitle>
+                                        
+                                        <DialogActions>
+                                        <Button onClick={() => handleClose('Cancel')} color="primary">
+                                            Cancel
+                                        </Button>
+                                        <Button onClick={() => handleClose('Yes')} color="primary" autoFocus>
+                                            Yes
+                                        </Button>
+                                        </DialogActions>
+                                    </Dialog>
 
-                        
+                            </div>
 
                         </div>
                         :
